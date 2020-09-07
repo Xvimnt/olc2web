@@ -28,15 +28,6 @@
   margin: 0 16px;
 }
 
-.toolbar #twitter-logo {
-  height: 40px;
-  margin: 0 16px;
-}
-
-.toolbar #twitter-logo:hover {
-  opacity: 0.8;
-}
-
 .content {
   display: flex;
   margin: 82px auto 32px;
@@ -74,28 +65,4 @@
   color: white;
   padding: 0 1rem 1rem;
   margin: 0;
-}
-
-.terminalText {
-  color: white;
-}
-
-.circle-link {
-  height: 40px;
-  width: 40px;
-  border-radius: 40px;
-  margin: 8px;
-  background-color: white;
-  border: 1px solid #eeeeee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  transition: 1s ease-out;
-}
-
-.circle-link:hover {
-  transform: translateY(-0.25rem);
-  box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
 }

@@ -1,9 +1,13 @@
 import { Component } from '@angular/core';
+// Imports para el parser
 import { Instruction } from "./parser/Abstract/Instruction";
 import { Environment } from "./parser/Symbol/Environment";
 import { errores } from './parser/Errores';
 import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
+// Imports para los iconos
+import { faCoffee, faPencilRuler, faGlobe } from '@fortawesome/free-solid-svg-icons';
+
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
 // cd src/app/parser/Grammar
@@ -14,12 +18,19 @@ const parser = require('./parser/Grammar/Grammar');
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  // Variables
   title = 'olc2web';
   entrada = 'print("Hello World");';
-  salida = '';
+  salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
 
+  // Iconos
+  faCoffee = faCoffee;
+  faPencilRuler = faPencilRuler;
+  faGlobe = faGlobe;
+
+  // Metodos
   ejecutar() {
-    this.salida = '';
+    this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     try {
       const ast = parser.parse(this.entrada.toString());
       const env = new Environment(null);
