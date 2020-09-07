@@ -123,9 +123,9 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "https://xvimnt.github.io/olc2webapp/",
-            "repo": "https://github.com/Xvimnt/olc2webapp/",
-            "name": "olc2webapp",
+            "baseHref": "https://xvimnt.github.io/olc2web/",
+            "repo": "https://github.com/Xvimnt/olc2web/",
+            "name": "Compiladores2 P1",
             "email": "jvmonteros98@gmail.com"
           }
         }
