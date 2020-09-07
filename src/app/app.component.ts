@@ -15,7 +15,8 @@ const parser = require('./parser/Grammar/Grammar');
 })
 export class AppComponent {
   title = 'olc2web';
-  entrada = 'dsaf';
+  entrada = 'let java = "new string";';
+  salida = '';
 
   ejecutar() {
     try {
@@ -46,9 +47,8 @@ export class AppComponent {
       }
     }
     catch (error) {
-      console.log(error);
+      this.salida += error + "\n";
     }
-
-    console.log(errores);
+    this.salida += errores + "\n";
   }
 }

@@ -6,8 +6,8 @@
 </div>
 
 <div class="content" role="main">
-
-  <div class="col">
+  <div class="container-fluid">
+    <!-- Botones de Accion -->
     <div class="row">
       <button (click)="ejecutar()">
         Compilar
@@ -16,15 +16,24 @@
         Graficar
       </button>
     </div>
+    <!-- Cuerpo -->
     <div class="row">
-      <textarea class="area" ng-model="entrada"></textarea>
-    </div>
-    <div class="row">
-      <!-- Terminal -->
-      <div class="terminal" >
-        <p class="terminalText" id="result">
-          Here some text
-        </p>
+      <div class="col-12 col-md-6 p-4">
+        <div class="terminal">
+          <ngx-codemirror [(ngModel)]="entrada" [options]="{
+            lineNumbers: true,
+            theme: 'ayu-dark',
+            mode: 'javascript'
+          }"></ngx-codemirror>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 p-4">
+        <div class="terminal">
+          <ngx-codemirror [(ngModel)]="salida" [options]="{
+              lineNumbers: true,
+              theme: 'material'
+            }"></ngx-codemirror>
+        </div>
       </div>
     </div>
   </div>
