@@ -15,10 +15,11 @@ const parser = require('./parser/Grammar/Grammar');
 })
 export class AppComponent {
   title = 'olc2web';
-  entrada = 'let java = "new string";';
+  entrada = 'print("Hello World");';
   salida = '';
 
   ejecutar() {
+    this.salida = '';
     try {
       const ast = parser.parse(this.entrada.toString());
       const env = new Environment(null);
@@ -36,11 +37,14 @@ export class AppComponent {
         if (instr instanceof Function)
           continue;
         try {
+          env.cleanResult();
           const actual = instr.execute(env);
           // TODO Arreglar el mensaje del Break en el default
           if (actual != null || actual != undefined) {
             errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
           }
+          // Muestra el resultado en la pagina
+          this.salida += env.getResult();
         } catch (error) {
           errores.push(error);
         }
@@ -49,6 +53,6 @@ export class AppComponent {
     catch (error) {
       this.salida += error + "\n";
     }
-    this.salida += errores + "\n";
+    if(errores.length != 0 ) this.salida += errores + "\n";
   }
 }

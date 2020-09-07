@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    CodemirrorModule
+    CodemirrorModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

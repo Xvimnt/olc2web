@@ -9,6 +9,6 @@ export class Print extends Instruction{
     }
 
     public execute(environment : Environment) {
-        console.log(this.value.execute(environment).value);
+        environment.concate(this.value.execute(environment).value);
     }
 }

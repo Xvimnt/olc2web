@@ -9,16 +9,21 @@
   <div class="container-fluid">
     <!-- Botones de Accion -->
     <div class="row">
-      <button (click)="ejecutar()">
-        Compilar
-      </button>
-      <button>
-        Graficar
-      </button>
+      <div class="col-md-12">
+        <button (click)="ejecutar()" type="button" class="btn btn-dark">
+          Compilar
+        </button>
+        <button type="button" class="btn btn-dark">
+          Graficar
+        </button>
+        <button type="button" class="btn btn-dark">
+          Traducir
+        </button>
+      </div>
     </div>
     <!-- Cuerpo -->
     <div class="row">
-      <div class="col-12 col-md-6 p-4">
+      <div class="col-md-6">
         <div class="terminal">
           <ngx-codemirror [(ngModel)]="entrada" [options]="{
             lineNumbers: true,
@@ -27,10 +32,10 @@
           }"></ngx-codemirror>
         </div>
       </div>
-      <div class="col-12 col-md-6 p-4">
+      <div class="col-md-6">
         <div class="terminal">
-          <ngx-codemirror [(ngModel)]="salida" [options]="{
-              lineNumbers: true,
+          <ngx-codemirror disabled [(ngModel)]="salida" [options]="{
+              lineNumbers: false,
               theme: 'material'
             }"></ngx-codemirror>
         </div>
