@@ -5,6 +5,7 @@ import { Environment } from "./parser/Symbol/Environment";
 import { errores } from './parser/Errores';
 import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
+import { Plotter } from "./parser/Tools/plotter";
 // Imports para los iconos
 import { faCoffee, faPencilRuler, faGlobe } from '@fortawesome/free-solid-svg-icons';
 
@@ -22,6 +23,7 @@ export class AppComponent {
   title = 'olc2web';
   entrada = 'print("Hello World");';
   salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
+  ast: any;
 
   // Iconos
   faCoffee = faCoffee;
@@ -32,10 +34,10 @@ export class AppComponent {
   ejecutar() {
     this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     try {
-      const ast = parser.parse(this.entrada.toString());
+      this.ast = parser.parse(this.entrada.toString());
       const env = new Environment(null);
 
-      for (const instr of ast) {
+      for (const instr of this.ast) {
         try {
           if (instr instanceof Function)
             instr.execute(env);
@@ -44,7 +46,7 @@ export class AppComponent {
         }
       }
 
-      for (const instr of ast) {
+      for (const instr of this.ast) {
         if (instr instanceof Function)
           continue;
         try {
@@ -64,6 +66,20 @@ export class AppComponent {
     catch (error) {
       this.salida += error + "\n";
     }
-    if(errores.length != 0 ) this.salida += errores + "\n";
+    if(errores.length != 0)
+    {
+      this.salida += "Errores de compilacion:\n";
+      errores.forEach(error => {
+        this.salida += "[Error Semantico] Linea: " + error["linea"] + " Columna: " + error["columna"];
+        this.salida += " Descripcion: " + error['mensaje'] + "\n";
+      });
+    }
   }
+
+  printAst() {
+    const plotter = new Plotter();
+    const dot = plotter.makeDot(this.ast);
+    console.log(dot);
+  }
+
 }

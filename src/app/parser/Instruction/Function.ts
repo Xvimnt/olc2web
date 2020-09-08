@@ -12,22 +12,3 @@ export class Function extends Instruction{
         environment.guardarFuncion(this.id, this);
     }
 }
-
-/*
-    function fact(n : numbero){
-        if(n == 0)
-            return 1;
-        else
-            return n * fact(n - 1);
-    }
-*/
-
-
-
-/*
-
-    Lenguaje Entrada -> Traducis -> Lenguaje Salida;
-
-    Lenguaje Salida -> Intepretas -> Salida en consola | Reportes | TS;
-
-*/

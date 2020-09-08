@@ -26,10 +26,3 @@ export class Switch extends Instruction {
         }
     }
 }
-
-
-
-/*
-    PADRE <- HIJO <- IF
-    PADRE <- HIJO <- WHILE
-*/
