@@ -7,7 +7,7 @@ import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
 import { Plotter } from "./parser/Tools/plotter";
 // Imports para los iconos
-import { faCoffee, faPencilRuler, faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
@@ -29,6 +29,9 @@ export class AppComponent {
   faCoffee = faCoffee;
   faPencilRuler = faPencilRuler;
   faGlobe = faGlobe;
+  faFileAlt = faFileAlt;
+  faLanguage = faLanguage;
+  faEraser = faEraser;
 
   // Metodos
   ejecutar() {

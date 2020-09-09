@@ -15,15 +15,31 @@
           Compilar
         </button>
         &nbsp;
-        <button (click)="printAst()" type="button" class="btn btn-dark">
-          <fa-icon [icon]="faPencilRuler"></fa-icon>
-          Graficar
-        </button>
-        &nbsp;
         <button type="button" class="btn btn-dark">
           <fa-icon [icon]="faGlobe"></fa-icon>
           Traducir
         </button>
+        &nbsp;
+        <div ngbDropdown class="d-inline-block">
+          <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>
+            <fa-icon [icon]="faFileAlt"></fa-icon>
+            Reportes
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button (click)="printAst()" type="button" class="dropdown-item">
+              <fa-icon [icon]="faPencilRuler"></fa-icon>
+              Graficar
+            </button>
+            <button (click)="printAst()" type="button" class="dropdown-item">
+              <fa-icon [icon]="faLanguage"></fa-icon>
+              Tabla de Simbolos
+            </button>
+            <button (click)="printAst()" type="button" class="dropdown-item">
+              <fa-icon [icon]="faEraser"></fa-icon>
+              Tabla de Errores
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <!-- Editores -->
