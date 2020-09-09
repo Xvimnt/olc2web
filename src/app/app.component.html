@@ -54,7 +54,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="terminal">
+        <div class="terminal" id="output">
           <ngx-codemirror disabled [(ngModel)]="salida" [options]="{
               lineNumbers: false,
               theme: 'dracula'
@@ -62,7 +62,11 @@
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="col-md-12 text-center" id="graph">
+
+      </div>
+    </div>
   </div>
 </div>
-
 <router-outlet></router-outlet>

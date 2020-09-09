@@ -9,6 +9,9 @@ import { Plotter } from "./parser/Report/plotter";
 import { Table } from "./parser/Report/Table";
 // Import para las alertas
 import Swal from 'sweetalert2'
+// Import para las graficas
+import { graphviz } from 'd3-graphviz';
+import { wasmFolder } from "@hpcc-js/wasm";
 // Imports para los iconos
 import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
 
@@ -108,7 +111,8 @@ export class AppComponent {
       const plotter = new Plotter();
       const dot = plotter.makeDot(this.ast);
 
-      console.log(dot);
+      wasmFolder('https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@0.3.13/dist');
+      graphviz('#graph').renderDot(dot);
     }
   }
 
