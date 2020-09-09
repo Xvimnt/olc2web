@@ -5,7 +5,7 @@ import { Function } from "../Instruction/Function";
 
 export class Environment {
 
-    private variables: Map<string, Symbol>;
+    public variables: Map<string, Symbol>;
     public funciones: Map<string, Function>;
     private result: string;
 
