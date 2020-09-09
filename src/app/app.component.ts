@@ -27,7 +27,7 @@ export class AppComponent {
   entrada = 'print("Hello World");';
   salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
   ast: any;
-  env: any;
+  env: Environment;
   flag: boolean;
   errores: Array<Error_>;
 
@@ -39,13 +39,11 @@ export class AppComponent {
   faLanguage = faLanguage;
   faEraser = faEraser;
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.clean();
   }
   // Metodos
-  clean()
-  {
+  clean() {
     this.ast = null;
     this.env = null;
     this.errores = new Array();
@@ -106,12 +104,12 @@ export class AppComponent {
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
-      return;
-    }
-    const plotter = new Plotter();
-    const dot = plotter.makeDot(this.ast);
+    } else {
+      const plotter = new Plotter();
+      const dot = plotter.makeDot(this.ast);
 
-    console.log(dot);
+      console.log(dot);
+    }
   }
 
   tokenTable() {
@@ -123,15 +121,24 @@ export class AppComponent {
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
-      return;
     }
-
-    Swal.fire({
-      title: 'Tabla de Simbolos',
-      html: new Table().symbols(this.env),
-      confirmButtonText: 'Entendido',
-      confirmButtonColor: 'rgb(59, 59, 61)'
-    })
+    else if (this.env.variables.size == 0 && this.env.funciones.size == 0) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'No se encontro ninguna variable o funcion guardada',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+    }
+    else {
+      Swal.fire({
+        title: 'Tabla de Simbolos',
+        html: new Table().symbols(this.env),
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+    }
   }
 
   errorTable() {
@@ -158,7 +165,8 @@ export class AppComponent {
         title: 'Tabla de Errores',
         html: new Table().errors(this.errores),
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(59, 59, 61)',
+        width: 600
       })
     }
   }
