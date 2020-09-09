@@ -6,6 +6,8 @@ import { errores } from './parser/Errores';
 import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
 import { Plotter } from "./parser/Tools/plotter";
+// Import para las alertas
+import Swal from 'sweetalert2'
 // Imports para los iconos
 import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
 
@@ -69,8 +71,7 @@ export class AppComponent {
     catch (error) {
       this.salida += error + "\n";
     }
-    if(errores.length != 0)
-    {
+    if (errores.length != 0) {
       this.salida += "Errores de compilacion:\n";
       errores.forEach(error => {
         this.salida += "[Error Semantico] Linea: " + error["linea"] + " Columna: " + error["columna"];
@@ -80,9 +81,44 @@ export class AppComponent {
   }
 
   printAst() {
+    if (this.ast == null) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'No se ha analizado el codigo aun',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+      return;
+    }
     const plotter = new Plotter();
     const dot = plotter.makeDot(this.ast);
     console.log(dot);
   }
 
+  tokenTable() {
+    if (this.ast == null) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'No se ha analizado el codigo aun',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+      return;
+    }
+  }
+
+  errorTable() {
+    if (this.ast == null) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'No se ha analizado el codigo aun',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+      return;
+    }
+  }
 }
