@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 // Imports para el parser
 import { Instruction } from "./parser/Abstract/Instruction";
 import { Environment } from "./parser/Symbol/Environment";
-import { errores } from './parser/Errores';
 import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
 // Imports para los reportes
@@ -29,6 +28,8 @@ export class AppComponent {
   salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
   ast: any;
   env: any;
+  flag: boolean;
+  errores: Array<Error_>;
 
   // Iconos
   faCoffee = faCoffee;
@@ -38,8 +39,21 @@ export class AppComponent {
   faLanguage = faLanguage;
   faEraser = faEraser;
 
+  ngOnInit()
+  {
+    this.clean();
+  }
   // Metodos
+  clean()
+  {
+    this.ast = null;
+    this.env = null;
+    this.errores = new Array();
+    this.flag = true;
+  }
+
   ejecutar() {
+    this.clean();
     this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     try {
       this.ast = parser.parse(this.entrada.toString());
@@ -50,7 +64,7 @@ export class AppComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
-          errores.push(error);
+          this.errores.push(error);
         }
       }
 
@@ -62,29 +76,29 @@ export class AppComponent {
           const actual = instr.execute(this.env);
           // TODO Arreglar el mensaje del Break en el default
           if (actual != null || actual != undefined) {
-            errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
+            this.errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
           }
           // Muestra el resultado en la pagina
           this.salida += this.env.getResult();
         } catch (error) {
-          errores.push(error);
+          this.errores.push(error);
         }
       }
     }
     catch (error) {
-      this.salida += error + "\n";
+      this.errores.push(error);
     }
-    if (errores.length != 0) {
+    if (this.errores.length != 0) {
       this.salida += "Errores de compilacion:\n";
-      errores.forEach(error => {
-        this.salida += "[Error Semantico] Linea: " + error["linea"] + " Columna: " + error["columna"];
-        this.salida += " Descripcion: " + error['mensaje'] + "\n";
+      this.errores.forEach(error => {
+        this.salida += error + "\n";
       });
     }
+    this.flag = false;
   }
 
   printAst() {
-    if (this.ast == null) {
+    if (this.flag) {
       Swal.fire({
         title: 'Oops...',
         text: 'No se ha analizado el codigo aun',
@@ -101,7 +115,7 @@ export class AppComponent {
   }
 
   tokenTable() {
-    if (this.ast == null) {
+    if (this.flag) {
       Swal.fire({
         title: 'Oops...',
         text: 'No se ha analizado el codigo aun',
@@ -121,7 +135,7 @@ export class AppComponent {
   }
 
   errorTable() {
-    if (this.ast == null) {
+    if (this.flag) {
       Swal.fire({
         title: 'Oops...',
         text: 'No se ha analizado el codigo aun',
@@ -130,7 +144,7 @@ export class AppComponent {
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
     }
-    else if (errores.length == 0) {
+    else if (this.errores.length == 0) {
       Swal.fire({
         title: 'Cool!',
         text: 'No se encontraron errores en su codigo',
@@ -142,7 +156,7 @@ export class AppComponent {
     else {
       Swal.fire({
         title: 'Tabla de Errores',
-        html: new Table().errors(errores),
+        html: new Table().errors(this.errores),
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
