@@ -10,6 +10,6 @@
   ],
   "include": [
     "src/**/*.d.ts",
-    "src/app/parser/"
+    "src/app/Components/editor/parser/"
   ]
 }
