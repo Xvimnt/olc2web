@@ -7,6 +7,8 @@ import { Function } from "./parser/Instruction/Function";
 // Imports para los reportes
 import { Plotter } from "./parser/Report/plotter";
 import { Table } from "./parser/Report/Table";
+// Import para el servicio
+import { DotService } from "../../services/dot.service" 
 // Import para las alertas
 import Swal from 'sweetalert2'
 // Imports para los iconos
@@ -39,6 +41,7 @@ export class EditorComponent {
   faLanguage = faLanguage;
   faEraser = faEraser;
 
+  constructor(private dotService: DotService) { }
   ngOnInit() {
     this.clean();
   }
@@ -108,7 +111,6 @@ export class EditorComponent {
       const plotter = new Plotter();
       const dot = plotter.makeDot(this.ast);
       console.log(dot);
-      
       window.open('/ast');
       return;
     }

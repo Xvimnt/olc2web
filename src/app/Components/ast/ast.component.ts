@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 // Import para las graficas
 import { graphviz } from 'd3-graphviz';
 import { wasmFolder } from "@hpcc-js/wasm";
+// Import para el servicio
+import { DotService } from "../../services/dot.service" 
 
 @Component({
   selector: 'app-ast',
@@ -10,7 +12,7 @@ import { wasmFolder } from "@hpcc-js/wasm";
 })
 export class AstComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dotService: DotService) { }
 
   ngOnInit(): void {
     wasmFolder('https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@0.3.13/dist');
