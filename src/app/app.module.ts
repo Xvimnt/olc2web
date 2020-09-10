@@ -10,12 +10,14 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Modulos propios
 import { AstComponent } from './Components/ast/ast.component';
 import { EditorComponent } from './Components/editor/editor.component';
+import { ToolbarComponent } from './Components/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EditorComponent,
-    AstComponent
+    AstComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
