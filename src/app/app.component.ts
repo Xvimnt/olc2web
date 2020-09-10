@@ -110,7 +110,7 @@ export class AppComponent {
     } else {
       const plotter = new Plotter();
       const dot = plotter.makeDot(this.ast);
-
+      console.log(dot);
       wasmFolder('https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@0.3.13/dist');
       graphviz('#graph').renderDot(dot);
     }

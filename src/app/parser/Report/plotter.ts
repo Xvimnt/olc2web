@@ -6,7 +6,7 @@ export class Plotter {
         let count = 0;
         if (ast != null) {
             for (const instr of ast) {
-                result += "node" + count + "[label=\"Tipo:" + instr + "\"];";
+                result += "node" + count + "[label=\"Tipo:" + instr.value + "\"];";
                 count++;
                 console.log(instr);
             }

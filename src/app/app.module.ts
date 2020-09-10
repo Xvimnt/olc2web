@@ -7,10 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AstComponent } from './ast/ast.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AstComponent
   ],
   imports: [
     BrowserModule,
