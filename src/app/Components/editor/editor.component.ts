@@ -110,7 +110,8 @@ export class EditorComponent {
     } else {
       const plotter = new Plotter();
       const dot = plotter.makeDot(this.ast);
-      console.log(dot);
+      console.log('dot is',dot);
+      this.dotService.setDot(dot);
       window.open('/ast');
       return;
     }

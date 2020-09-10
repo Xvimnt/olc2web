@@ -15,6 +15,7 @@ export class AstComponent implements OnInit {
   constructor(private dotService: DotService) { }
 
   ngOnInit(): void {
+    console.log('dot was',this.dotService.getDot());
     wasmFolder('https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@0.3.13/dist');
     graphviz('#graph').renderDot('digraph {a -> b}');
   }

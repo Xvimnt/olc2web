@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 // Modulos propios
 import { AstComponent } from './Components/ast/ast.component';
 import { EditorComponent } from './Components/editor/editor.component';
