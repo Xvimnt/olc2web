@@ -108,10 +108,9 @@ export class EditorComponent {
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
     } else {
-      const plotter = new Plotter();
-      const dot = plotter.makeDot(this.ast);
-      console.log('dot is',dot);
-      this.dotService.setDot(dot);
+      //alert(new Plotter().makeDot(this.ast));
+      //return;
+      this.dotService.setDot(new Plotter().makeDot(this.ast));
       window.open('/ast');
       return;
     }
