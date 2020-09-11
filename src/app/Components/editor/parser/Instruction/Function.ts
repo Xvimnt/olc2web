@@ -5,19 +5,12 @@ import { Environment } from "../Symbol/Environment";
 export class Function extends Instruction {
 
     public plot(count: number): string {
-        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Funcion\";";
-
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Funcion:" + this.id + "\"];";
         // Hijo 1
-        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID\";";
-        // Hijo 2
-        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Statement\";";
-        // Hijo 3
-        result += "node" + count + "3[label=\"(" + this.line + "," + this.column + ") Parametros\";";
+        result += "node" + count + "1[label=\"(" + this.statment.line + "," + this.statment.column + ") Elemento\"];";
+        result += this.statment.plot(Number(count + "1"));
         // Flechas
-        result += "node" + count + " -> " + "node" + count + "1";
-        result += "node" + count + " -> " + "node" + count + "2";
-        result += "node" + count + " -> " + "node" + count + "3";
-
+        result += "node" + count + " -> " + "node" + count + "1;";
         return result;
     }
 
@@ -29,3 +22,4 @@ export class Function extends Instruction {
         environment.guardarFuncion(this.id, this);
     }
 }
+

@@ -6,9 +6,23 @@ import { Type } from "../Abstract/Retorno";
 export class If extends Instruction{
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") If\"];";
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
+        result += this.condition.plot(Number(count + "1"));
+         // Hijo 2
+         result += "node" + count + "2[label=\"(" + this.code.line + "," + this.code.column + ") Codigo\"];";
+         result += this.code.plot(Number(count + "2"));
+          // Hijo 3
+        result += "node" + count + "3[label=\"(" + this.elsSt.line + "," + this.elsSt.column + ") ElseStatement\"];";
+        result += this.elsSt.plot(Number(count + "3"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+        result += "node" + count + " -> " + "node" + count + "3;";
+        return result;
     }
-    
+
     constructor(private condition : Expression, private code : Instruction, private elsSt : Instruction | null,
         line : number, column : number){
         super(line, column);
@@ -28,10 +42,3 @@ export class If extends Instruction{
         }
     }
 }
-
-
-
-/*
-    PADRE <- HIJO <- IF
-    PADRE <- HIJO <- WHILE
-*/
