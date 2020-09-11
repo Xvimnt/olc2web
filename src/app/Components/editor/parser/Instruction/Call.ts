@@ -5,15 +5,15 @@ import { Expression } from "../Abstract/Expression";
 export class Call extends Instruction {
     public plot(count: number): string {
 
-        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\";";
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\"];";
 
         // Hijo 1
-        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID\";";
+        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID: " + this.id + "\"];";
         // Hijo 2
-        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Statement\";";
+        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Statement\"];";
         // Flechas
-        result += "node" + count + " -> " + "node" + count + "1";
-        result += "node" + count + " -> " + "node" + count + "2";
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
 
         return result;
     }

@@ -6,9 +6,28 @@ import { Type } from "../Abstract/Retorno";
 export class For extends Instruction {
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") For\"];";
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.code.line + "," + this.code.column + ") Declaracion\"];";
+        result += this.code.plot(Number(count + "1"));
+        // Hijo 2
+        result += "node" + count + "2[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
+        result += this.condition.plot(Number(count + "2"));
+        // Hijo 3
+        result += "node" + count + "3[label=\"(" + this.condition.line + "," + this.condition.column + ") Operacion\"];";
+        result += this.condition.plot(Number(count + "3"));
+        // Hijo 4
+        result += "node" + count + "4[label=\"(" + this.condition.line + "," + this.condition.column + ") Codigo\"];";
+        result += this.condition.plot(Number(count + "4"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+        result += "node" + count + " -> " + "node" + count + "3;";
+        result += "node" + count + " -> " + "node" + count + "4;";
+
+        return result;
     }
-    
+
     constructor(private declaration: Instruction, private condition: Expression,
         private operation: Instruction, private code: Instruction, line: number,
         column: number) {
@@ -18,7 +37,7 @@ export class For extends Instruction {
     public execute(env: Environment) {
         this.declaration.execute(env);
         let condition = this.condition.execute(env);
-        
+
         if (condition.type != Type.BOOLEAN) {
             throw { error: "La condicion no es booleana", linea: this.line, columna: this.column };
         }

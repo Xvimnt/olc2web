@@ -6,7 +6,18 @@ import { Type } from "../Abstract/Retorno";
 export class DoWhile extends Instruction {
     
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") DoWhile\"];";
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.code.line + "," + this.code.column + ") Codigo\"];";
+        result += this.code.plot(Number(count + "1"));
+        // Hijo 1
+        result += "node" + count + "2[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
+        result += this.condition.plot(Number(count + "2"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+
+        return result;
     }
 
     constructor(private code: Instruction, private condition: Expression, line: number, column: number) {

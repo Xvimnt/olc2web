@@ -16,18 +16,22 @@ export class Declaration extends Instruction {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Declaracion\";";
 
         // Hijo 1
-        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") Metodo\";";
+        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") Metodo\"];";
+        result += this.method.plot(Number(count + "1"));
         // Hijo 2
-        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Tipo\";";
+        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Tipo\"];";
+        result += this.method.plot(Number(count + "2"));
         // Hijo 3
-        result += "node" + count + "3[label=\"(" + this.line + "," + this.column + ") ID\";";
+        result += "node" + count + "3[label=\"(" + this.line + "," + this.column + ") ID\"];";
+        result += this.method.plot(Number(count + "3"));
         // Hijo 4
-        result += "node" + count + "4[label=\"(" + this.line + "," + this.column + ") Valor\";";
+        result += "node" + count + "4[label=\"(" + this.line + "," + this.column + ") Valor\"];";
+        result += this.method.plot(Number(count + "4"));
         // Flechas
-        result += "node" + count + " -> " + "node" + count + "1";
-        result += "node" + count + " -> " + "node" + count + "2";
-        result += "node" + count + " -> " + "node" + count + "3";
-        result += "node" + count + " -> " + "node" + count + "4";
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+        result += "node" + count + " -> " + "node" + count + "3;";
+        result += "node" + count + " -> " + "node" + count + "4;";
 
         return result;
     }
