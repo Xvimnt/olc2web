@@ -4,6 +4,10 @@ import { errores } from "../Errores";
 
 export class Statement extends Instruction{
 
+    public plot(count: number): string {
+        throw new Error("Method not implemented.");
+    }
+    
     constructor(private code : Array<Instruction>, line : number, column : number){
         super(line, column);
     }

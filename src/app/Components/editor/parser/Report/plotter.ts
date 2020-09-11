@@ -1,24 +1,18 @@
 
 export class Plotter {
-
+    count: number;
     public makeDot(ast: any) {
+        let count = 1;
         let result = "digraph AST{ node[shape=\"box\"];";
-        let count = 0;
+        result += "node" + count + "[label=\"(0,0) Inicio\"];";
         if (ast != null) {
             for (const instr of ast) {
-                result += "node" + count + "[label=\"(" + instr.line + "," + (Number(instr.column) + 1) + ") " + instr.constructor.name + "\"];";
-                result += this.traverseAst(count, instr.value);
+                result += instr.plot(Number(count + '1'));
+                // Flechas
+                result += "node" + count + " -> " + "node" + count + "1;";
+                count++;
             }
         }
         return result + "}";
-    }
-
-    private traverseAst(count: number, list: any) {
-        if (list == null) return "";
-        
-        let result = "node" + (count + 1) + "[label=\"(" + list.line + "," + (Number(list.column) + 1) + ") " + list.constructor.name + "\"];";
-        result += "node" + count + " -> node" + (count + 1) + ";";
-
-        return result;
     }
 }

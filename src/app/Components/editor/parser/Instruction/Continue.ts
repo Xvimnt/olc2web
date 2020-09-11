@@ -3,6 +3,10 @@ import { Environment } from "../Symbol/Environment";
 
 export class Continue extends Instruction{
 
+    public plot(count: number): string {
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Instruction\";";
+    }
+
     constructor(line : number, column : number){
         super(line, column);
     }

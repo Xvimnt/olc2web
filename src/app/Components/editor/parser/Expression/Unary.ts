@@ -14,6 +14,10 @@ export class Unary extends Expression {
         super(line, column);
     }
 
+    public plot(count: number): string {
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Unario\";";;
+    }
+
     public execute(environment: Environment): Retorno {
         const val = this.value.execute(environment);
 

@@ -1,4 +1,4 @@
-export enum Type{
+export enum Type {
     NUMBER = 0,
     STRING = 1,
     BOOLEAN = 2,
@@ -7,7 +7,18 @@ export enum Type{
     RESERVADA = 5
 }
 
-export type Retorno ={
-    value : any,
-    type : Type
+export type Retorno = {
+    value: any,
+    type: Type
+}
+
+export function getTypeName(tipo: Type) {
+    switch (tipo) {
+        case 0: return "Numero";
+        case 1: return "String";
+        case 2: return "Booleano";
+        case 3: return "Nulo";
+        case 4: return "Arreglo";
+        case 5: return "Reservada";
+    }
 }

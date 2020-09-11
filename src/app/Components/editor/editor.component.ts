@@ -26,7 +26,7 @@ const parser = require('./parser/Grammar/Grammar');
 export class EditorComponent {
   // Variables
   title = 'olc2web';
-  entrada = 'print("Hello World");';
+  entrada = 'print("Hello World" + "d");';
   salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
   ast: any;
   env: Environment;

@@ -5,6 +5,10 @@ import { Type } from "../Abstract/Retorno";
 
 export class If extends Instruction{
 
+    public plot(count: number): string {
+        throw new Error("Method not implemented.");
+    }
+    
     constructor(private condition : Expression, private code : Instruction, private elsSt : Instruction | null,
         line : number, column : number){
         super(line, column);

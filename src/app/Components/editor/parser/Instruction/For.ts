@@ -5,6 +5,10 @@ import { Type } from "../Abstract/Retorno";
 
 export class For extends Instruction {
 
+    public plot(count: number): string {
+        throw new Error("Method not implemented.");
+    }
+    
     constructor(private declaration: Instruction, private condition: Expression,
         private operation: Instruction, private code: Instruction, line: number,
         column: number) {

@@ -9,6 +9,10 @@ export enum LogicOption {
 }
 
 export class Logic extends Expression {
+    
+    public plot(count: number): string {
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Logica\";";;
+    }
 
     constructor(private left: Expression, private right: Expression, private type: LogicOption, line: number, column: number) {
         super(line, column);

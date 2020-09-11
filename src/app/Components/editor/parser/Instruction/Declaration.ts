@@ -11,6 +11,27 @@ export class Declaration extends Instruction {
     private type: Literal;
     private method: Literal;
 
+    public plot(count: number): string {
+
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Declaracion\";";
+
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") Metodo\";";
+        // Hijo 2
+        result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Tipo\";";
+        // Hijo 3
+        result += "node" + count + "3[label=\"(" + this.line + "," + this.column + ") ID\";";
+        // Hijo 4
+        result += "node" + count + "4[label=\"(" + this.line + "," + this.column + ") Valor\";";
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1";
+        result += "node" + count + " -> " + "node" + count + "2";
+        result += "node" + count + " -> " + "node" + count + "3";
+        result += "node" + count + " -> " + "node" + count + "4";
+
+        return result;
+    }
+
     constructor(method: Literal, type: Literal, id: string, value: Expression, line: number, column: number) {
         super(line, column);
         this.id = id;

@@ -7,6 +7,10 @@ export class Access extends Expression{
     constructor(private id: string, line : number, column: number){
         super(line, column);
     }
+    
+    public plot(count: number): string {
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Acceso\";";
+    }
 
     public execute(environment: Environment): Retorno {
         const value = environment.getVar(this.id);

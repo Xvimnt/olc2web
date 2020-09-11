@@ -4,6 +4,10 @@ import { Environment } from "../Symbol/Environment";
 
 export class Switch extends Instruction {
 
+    public plot(count: number): string {
+        throw new Error("Method not implemented.");
+    }
+    
     constructor(private condition: Expression, private stack: any, private def: any,
         line: number, column: number) {
         super(line, column);

@@ -13,6 +13,10 @@ export enum RelationalOption {
 
 export class Relational extends Expression {
 
+    public plot(count: number): string {
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Relacional\";";;
+    }
+
     constructor(private left: Expression, private right: Expression, private type: RelationalOption, line: number, column: number) {
         super(line, column);
     }
