@@ -9,7 +9,8 @@ export class Access extends Expression{
     }
     
     public plot(count: number): string {
-        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Acceso\";";
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") "+this.id+": Acceso\";";
+        return result;
     }
 
     public execute(environment: Environment): Retorno {

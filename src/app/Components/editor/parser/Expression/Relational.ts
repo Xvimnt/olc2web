@@ -12,10 +12,35 @@ export enum RelationalOption {
 }
 
 export class Relational extends Expression {
-
-    public plot(count: number): string {
-        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Relacional\";";;
+    private getTypeName() {
+        switch (this.type) {
+            case RelationalOption.EQUAL:
+                return "Igual =";
+            case RelationalOption.NOTEQUAL:
+                return "No igual !=";
+            case RelationalOption.LESS:
+                return "Menor <";
+            case RelationalOption.LESSOREQUAL:
+                return "Menor o Igual <=";
+            case RelationalOption.GREATER:
+                return "Mayor >";
+            case RelationalOption.GREATEROREQUAL:
+                return "Mayor o Igual >=";
+            default:
+                return "Error";
+        }
     }
+    public plot(count: number): string {
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Relacional: " + this.getTypeName() + "\"];";
+        result += "node" + count + "1[label=\"(" + this.left.line + "," + this.left.column + ") Izquierdo\"];";
+        result += this.left.plot(Number(count + "1"));
+        result += "node" + count + "2[label=\"(" + this.right.line + "," + this.right.column + ") Derecho\"];";
+        result += this.right.plot(Number(count + "2"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+        return result;
+     }
 
     constructor(private left: Expression, private right: Expression, private type: RelationalOption, line: number, column: number) {
         super(line, column);

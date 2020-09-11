@@ -13,10 +13,24 @@ export class Unary extends Expression {
     constructor(private value: Expression, private type: UnaryOption, line: number, column: number) {
         super(line, column);
     }
-
-    public plot(count: number): string {
-        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Unario\";";;
+    private getTypeName() {
+        switch (this.type) {
+            case UnaryOption.NEGATION:
+                return "Not !";
+            case UnaryOption.MINUS:
+                return "Negacion -";
+            default:
+                return "Error";
+        }
     }
+    public plot(count: number): string {
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Logica: " + this.getTypeName() + "\"];";
+        result += "node" + count + "1[label=\"(" + this.value.line + "," + this.value.column + ") Izquierdo\"];";
+        result += this.value.plot(Number(count + "1"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        return result;
+     }
 
     public execute(environment: Environment): Retorno {
         const val = this.value.execute(environment);
