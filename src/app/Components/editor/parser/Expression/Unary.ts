@@ -13,6 +13,7 @@ export class Unary extends Expression {
     constructor(private value: Expression, private type: UnaryOption, line: number, column: number) {
         super(line, column);
     }
+    
     private getTypeName() {
         switch (this.type) {
             case UnaryOption.NEGATION:
@@ -23,6 +24,7 @@ export class Unary extends Expression {
                 return "Error";
         }
     }
+
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Logica: " + this.getTypeName() + "\"];";
         result += "node" + count + "1[label=\"(" + this.value.line + "," + this.value.column + ") Izquierdo\"];";

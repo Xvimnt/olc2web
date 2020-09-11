@@ -9,7 +9,7 @@ export class Plotter {
             for (const instr of ast) {
                 result += instr.plot(Number(count + '1'));
                 // Flechas
-                result += "node" + count + " -> " + "node" + count + "1;";
+                result += "node1 -> " + "node" + count + "1;";
                 count++;
             }
         }

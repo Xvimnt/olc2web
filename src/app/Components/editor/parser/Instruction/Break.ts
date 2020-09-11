@@ -4,7 +4,7 @@ import { Environment } from "../Symbol/Environment";
 export class Break extends Instruction {
 
     public plot(count: number): string {
-        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Break\";";;
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Break\"];";;
     }
 
     constructor(line: number, column: number) {
