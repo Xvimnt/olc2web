@@ -94,9 +94,9 @@ export class EditorComponent {
       let temp = error.toString().split(' ');
       console.log(temp);
       if (temp[1] == 'Lexical') {
-        this.errores.push(new Error_(0, 0, 'Lexico', ''));
+        this.errores.push(new Error_(temp[5], 0, 'Lexico', ''));
       } else if (temp[1] == 'Parse') {
-        this.errores.push(new Error_(0, 0, 'Sintactico', ''));
+        this.errores.push(new Error_(temp[5].split(':')[0], 0, 'Sintactico', error.message.split(':')[1]));
       } else {
         this.errores.push(error);
       }
