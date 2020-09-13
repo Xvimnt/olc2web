@@ -8,7 +8,7 @@ import { Function } from "./parser/Instruction/Function";
 import { Plotter } from "./parser/Report/plotter";
 import { Table } from "./parser/Report/Table";
 // Import para el servicio
-import { DotService } from "../../services/dot.service" 
+import { DotService } from "../../services/dot.service"
 // Import para las alertas
 import Swal from 'sweetalert2'
 // Imports para los iconos
@@ -49,7 +49,7 @@ export class EditorComponent {
   clean() {
     this.ast = null;
     this.env = null;
-    this.errores = new Array();
+    this.errores = new Array<Error_>();
     this.flag = true;
   }
 
@@ -65,7 +65,7 @@ export class EditorComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
-          this.errores.push(error);
+          this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
         }
       }
 
@@ -82,17 +82,29 @@ export class EditorComponent {
           // Muestra el resultado en la pagina
           this.salida += this.env.getResult();
         } catch (error) {
-          this.errores.push(error);
+          console.log('agregando error en scoope 2');
+          console.log(error);
+          this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no ejecutada'));
         }
       }
     }
     catch (error) {
-      this.errores.push(error);
+      console.log('agregando error en scoope 3');
+      console.log(error);
+      let temp = error.toString().split(' ');
+      console.log(temp);
+      if (temp[1] == 'Lexical') {
+        this.errores.push(new Error_(0, 0, 'Lexico', ''));
+      } else if (temp[1] == 'Parse') {
+        this.errores.push(new Error_(0, 0, 'Sintactico', ''));
+      } else {
+        this.errores.push(error);
+      }
+
     }
     if (this.errores.length != 0) {
-      this.salida += "Errores de compilacion:\n";
       this.errores.forEach(error => {
-        this.salida += error + "\n";
+        this.salida += "Error " + error.getTipo() + " en linea " + error.getLinea() + ": " + error.getDescripcion() + "\n";
       });
     }
     this.flag = false;
@@ -103,6 +115,14 @@ export class EditorComponent {
       Swal.fire({
         title: 'Oops...',
         text: 'No se ha analizado el codigo aun',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+    } else if (this.errores.length != 0) {
+      Swal.fire({
+        title: 'Oops...!',
+        text: 'Se encontraron errores en su codigo, no puede graficar',
         icon: 'error',
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'

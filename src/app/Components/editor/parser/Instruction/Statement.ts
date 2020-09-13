@@ -5,7 +5,7 @@ import { errores } from "../Errores";
 export class Statement extends Instruction{
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Statement\"];";;
     }
     
     constructor(private code : Array<Instruction>, line : number, column : number){

@@ -4,7 +4,7 @@ import { Environment } from "../Symbol/Environment";
 export class Return extends Instruction{
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        return "node" + count + "[label=\"(" + this.line + "," + this.column + ") Return\"];";;
     }
     
     constructor(line : number, column : number){

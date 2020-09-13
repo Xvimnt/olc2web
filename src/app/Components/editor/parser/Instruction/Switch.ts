@@ -5,7 +5,14 @@ import { Environment } from "../Symbol/Environment";
 export class Switch extends Instruction {
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Switch\"];";
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
+        result += this.condition.plot(Number(count + "1"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+
+        return result;
     }
     
     constructor(private condition: Expression, private stack: any, private def: any,
