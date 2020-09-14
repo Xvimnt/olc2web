@@ -217,6 +217,9 @@ Declaration
     | Reserved Type ID {
         $$ = new Declaration($1, $2, $3, null, @1.first_line, @1.first_column);
     }
+    | Reserved ID '=' Expr {
+        $$ = new Declaration($1, $2, null, $4, @1.first_line, @1.first_column);
+    }
 ;
 
 Reserved

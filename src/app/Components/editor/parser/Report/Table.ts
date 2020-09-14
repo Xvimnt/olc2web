@@ -23,6 +23,13 @@ export class Table {
             result += '</tr>\n';
             count++;
         });
+        env.funciones.forEach(element => {
+            result += '<tr>\n';
+            result += '<th scope="row">' + count + '</th>\n';
+            result += element.htmlRow();
+            result += '</tr>\n';
+            count++;
+        });
         result += '</tbody>\n';
         return result += '</table>';
     }

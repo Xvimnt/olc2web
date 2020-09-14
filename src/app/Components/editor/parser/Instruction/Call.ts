@@ -30,7 +30,12 @@ export class Call extends Instruction {
                 const value = this.expresiones[i].execute(environment);
                 newEnv.guardar(func.parametros[i], value.value, value.type);
             }
+            console.log(newEnv);
             func.statment.execute(newEnv);
+            console.log(newEnv);
+
+            // el resultado de ejectutar el environment hijo
+            environment.concate(newEnv.getResult());
         }
     }
 }

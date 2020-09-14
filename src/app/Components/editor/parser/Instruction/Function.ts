@@ -14,8 +14,17 @@ export class Function extends Instruction {
         return result;
     }
 
+    htmlRow() {
+        let result = "";
+        result += "<td>Instrucciones</td>" + "<td>" + this.id + "</td>" + "<td>Funcion</td>";
+        return result;
+    }
+
     constructor(private id: string, public statment: Instruction, public parametros: Array<string>, line: number, column: number) {
         super(line, column);
+        this.id = id;
+        this.statment = statment;
+        this.parametros = parametros;
     }
 
     public execute(environment: Environment) {
