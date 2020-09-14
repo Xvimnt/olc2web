@@ -73,7 +73,7 @@ string2  ([\'][^\']*[\'])
 "while"                 return 'WHILE'
 "do"                    return 'DO'
 "for"                   return 'FOR'
-"print"                 return 'PRINT'
+"console.log"           return 'PRINT'
 "break"                 return 'BREAK'
 "return"                return 'RETURN'
 "continue"              return 'CONTINUE'
@@ -168,7 +168,7 @@ Instruction
         $$ = $1;
     }
     | Call ';' {
-
+        $$ = $1;
     }
 ;
 

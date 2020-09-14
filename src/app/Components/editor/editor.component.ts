@@ -65,10 +65,10 @@ export class EditorComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
+          console.log('agregando error en scoope 1');
           this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
         }
       }
-
       for (const instr of this.ast) {
         if (instr instanceof Function)
           continue;
@@ -82,9 +82,7 @@ export class EditorComponent {
           // Muestra el resultado en la pagina
           this.salida += this.env.getResult();
         } catch (error) {
-          console.log('agregando error en scoope 2');
-          console.log(error);
-          this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no ejecutada'));
+          this.errores.push(error);
         }
       }
     }
@@ -104,7 +102,7 @@ export class EditorComponent {
     }
     if (this.errores.length != 0) {
       this.errores.forEach(error => {
-        this.salida += "Error " + error.getTipo() + " en linea " + error.getLinea() + ": " + error.getDescripcion() + "\n";
+        this.salida += "Error " + error.getTipo() + " en linea " + error.getLinea() + ", columna " + error.getColumna() + ": " + error.getDescripcion() + ".  \n";
       });
     }
     this.flag = false;

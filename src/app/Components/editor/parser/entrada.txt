@@ -1,4 +1,5 @@
 hell();
+let number c = 30;
 function hell() {
-  print('inside of hell');
+  print('inside of hell ' + c);
 }

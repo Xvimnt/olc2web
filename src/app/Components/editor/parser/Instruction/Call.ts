@@ -1,6 +1,7 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
+import { Error_ } from "../Error";
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -36,6 +37,8 @@ export class Call extends Instruction {
 
             // el resultado de ejectutar el environment hijo
             environment.concate(newEnv.getResult());
+        } else {
+            throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
         }
     }
 }
