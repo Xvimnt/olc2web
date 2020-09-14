@@ -31,14 +31,14 @@ export class Call extends Instruction {
                 const value = this.expresiones[i].execute(environment);
                 newEnv.guardar(func.parametros[i], value.value, value.type);
             }
-            console.log(newEnv);
-            func.statment.execute(newEnv);
-            console.log(newEnv);
+            try {
+                func.statment.execute(newEnv);
+            } catch (e) {
+                console.log(e);
+            }
 
             // el resultado de ejectutar el environment hijo
             environment.concate(newEnv.getResult());
-        } else {
-            throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
-        }
+        } else throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
     }
 }

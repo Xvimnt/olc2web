@@ -6,8 +6,18 @@ import { Type } from "../Abstract/Retorno";
 export class While extends Instruction{
 
     public plot(count: number): string {
-        throw new Error("Method not implemented.");
-    }
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Switch\"];";
+        // Hijo 1
+        result += "node" + count + "1[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
+        result += this.condition.plot(Number(count + "1"));
+        // Hijo 2
+        result += "node" + count + "2[label=\"(" + this.code.line + "," + this.code.column + ") Condicion\"];";
+        result += this.code.plot(Number(count + "2"));
+        // Flechas
+        result += "node" + count + " -> " + "node" + count + "1;";
+        result += "node" + count + " -> " + "node" + count + "2;";
+        return result;
+      }
     
     constructor(private condition : Expression, private code : Instruction, line : number, column : number){
         super(line, column);

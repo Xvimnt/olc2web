@@ -65,7 +65,6 @@ export class EditorComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
-          console.log('agregando error en scoope 1');
           this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
         }
       }
@@ -73,7 +72,6 @@ export class EditorComponent {
         if (instr instanceof Function)
           continue;
         try {
-          this.env.cleanResult();
           const actual = instr.execute(this.env);
           // TODO Arreglar el mensaje del Break en el default
           if (actual != null || actual != undefined) {
@@ -82,11 +80,13 @@ export class EditorComponent {
           // Muestra el resultado en la pagina
           this.salida += this.env.getResult();
         } catch (error) {
+          //un error semantico
           this.errores.push(error);
         }
       }
     }
     catch (error) {
+      // un error lexico o sintactico
       console.log('agregando error en scoope 3');
       console.log(error);
       let temp = error.toString().split(' ');

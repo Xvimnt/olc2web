@@ -1,6 +1,7 @@
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { Retorno } from "../Abstract/Retorno";
+import { Error_ } from "../Error";
 
 export class Access extends Expression{
 
@@ -16,7 +17,7 @@ export class Access extends Expression{
     public execute(environment: Environment): Retorno {
         const value = environment.getVar(this.id);
         if(value == null)
-            throw new Error("La variable no existe");
+            throw new Error_(this.line, this.column, 'Semantico', 'Variable no definida');  
         return {value : value.valor, type : value.type};
     }
 }

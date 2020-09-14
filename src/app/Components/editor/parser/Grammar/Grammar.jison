@@ -42,6 +42,7 @@ string2  ([\'][^\']*[\'])
 "false"                 return 'BOOL'
 "*"                     return '*'
 "/"                     return '/'
+":"                     return ':'
 ";"                     return ';'
 ","                     return ','
 "-"                     return '-'
@@ -64,7 +65,6 @@ string2  ([\'][^\']*[\'])
 ")"                     return ')' 
 "{"                     return '{'
 "}"                     return '}'
-":"                     return ':'
 "if"                    return 'IF'
 "else"                  return 'ELSE'
 "switch"                return 'SWITCH'
@@ -201,11 +201,11 @@ FunctionSt
 ;
 
 Parametros
-    : Parametros ',' ID {
+    : Parametros ',' ID ':' Type {
         $1.push($3);
         $$ = $1;
     }
-    | ID{
+    | ID ':' Type{
         $$ = [$1];
     }
 ;

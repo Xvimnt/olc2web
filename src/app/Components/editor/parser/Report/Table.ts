@@ -22,7 +22,7 @@ export class Table {
             result += element.htmlRow();
             result += '</tr>\n';
             count++;
-        });
+        }); 
         env.funciones.forEach(element => {
             result += '<tr>\n';
             result += '<th scope="row">' + count + '</th>\n';

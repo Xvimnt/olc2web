@@ -3,6 +3,7 @@ import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
 import { Literal } from "../Expression/Literal";
 import { isNumber, isString, isBoolean } from "util";
+import { Error_ } from "../Error";
 
 export class Declaration extends Instruction {
 
@@ -49,24 +50,24 @@ export class Declaration extends Instruction {
             const val = this.value.execute(environment);
             switch (this.type.execute().value) {
                 case 'number':
-                    if (!isNumber(val.value)) throw new Error('Numero no valido');
+                    if (!isNumber(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'Numero no valido');
                     break;
                 case 'string':
-                    if (!isString(val.value)) throw new Error('String no valida');
+                    if (!isString(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'String no valida');
                     break;
                 case 'boolean':
-                    if (!isBoolean(val.value)) throw new Error('Booleano no valido');
+                    if (!isBoolean(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'Booleano no valido');
                     break;
                 case 'type': break;
                 default:
-                    console.log('usted guarda nada');
+                    console.log('no se guarda nada');
                     break;
             }
             environment.guardar(this.id, val.value, val.type);
         }
         else 
         {
-            if(this.method.execute().value == 'const') throw new Error('Constante no puede ser vacia');
+            if(this.method.execute().value == 'const') throw new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia');
             environment.guardar(this.id, 'undefined', 3);
         }
     }

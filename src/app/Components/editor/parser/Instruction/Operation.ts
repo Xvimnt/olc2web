@@ -1,5 +1,6 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
+import { Error_ } from "../Error";
 
 export enum OperationOption {
     INCREMENT,
@@ -28,7 +29,7 @@ export class Operation extends Instruction {
     public execute(environment: Environment) {
         const value = environment.getVar(this.id);
         if (value == null)
-            throw new Error("La variable no existe");
+            throw new Error_(this.line, this.column, 'Semantico', "La variable no existe");
         environment.guardar(this.id, value.valor + 1, value.type);
     }
 }
