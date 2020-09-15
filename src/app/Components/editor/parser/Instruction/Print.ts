@@ -1,6 +1,7 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
+import { _Console } from "../Util/Salida";
 
 export class Print extends Instruction{
 
@@ -21,6 +22,6 @@ export class Print extends Instruction{
     }
 
     public execute(environment : Environment) {
-       environment.getGlobal().concate(this.value.execute(environment).value);
+       _Console.salida += this.value.execute(environment).value + "\n";
     }
 }

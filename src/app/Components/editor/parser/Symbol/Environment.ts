@@ -7,25 +7,10 @@ export class Environment {
 
     public variables: Map<string, Symbol>;
     public funciones: Map<string, Function>;
-    private result: string;
 
     constructor(public anterior: Environment | null) {
         this.variables = new Map();
         this.funciones = new Map();
-        this.result = "";
-    }
-
-    public concate(value: string) {
-        if (this.result != null) this.result += value + "\n";
-        else this.result = value + "\n";
-    }
-
-    public getResult() {
-        return this.result
-    }
-
-    public cleanResult() {
-        this.result = "";
     }
 
     public guardar(id: string, valor: any, type: Type) {

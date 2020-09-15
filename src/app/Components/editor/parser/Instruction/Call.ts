@@ -36,9 +36,6 @@ export class Call extends Instruction {
             } catch (e) {
                 console.log(e);
             }
-
-            // el resultado de ejectutar el environment hijo
-            environment.concate(newEnv.getResult());
         } else throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
     }
 }

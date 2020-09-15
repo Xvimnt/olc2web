@@ -56,13 +56,3 @@ Inicio();
 }
 
 ////////////////////////////////////////////////
-inicio();
-function inicio()
-{
-  hola();
-}
-
-function hola()
-{
- console.log('hello world'); 
-}

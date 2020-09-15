@@ -4,6 +4,8 @@ import { Instruction } from "./parser/Abstract/Instruction";
 import { Environment } from "./parser/Symbol/Environment";
 import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
+import { _Console } from "./parser/Util/Salida";
+
 // Imports para los reportes
 import { Plotter } from "./parser/Report/plotter";
 import { Table } from "./parser/Report/Table";
@@ -50,12 +52,13 @@ export class EditorComponent {
     this.ast = null;
     this.env = null;
     this.errores = new Array<Error_>();
+    this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
+    _Console.salida = "";
     this.flag = true;
   }
 
   ejecutar() {
     this.clean();
-    this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     try {
       this.ast = parser.parse(this.entrada.toString());
       this.env = new Environment(null);
@@ -77,13 +80,14 @@ export class EditorComponent {
           if (actual != null || actual != undefined) {
             this.errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
           }
-          // Muestra el resultado en la pagina
-          this.salida += this.env.getResult();
+
         } catch (error) {
           //un error semantico
           this.errores.push(error);
         }
       }
+      // Muestra el resultado en la pagina
+      this.salida += _Console.salida;
     }
     catch (error) {
       // un error lexico o sintactico
