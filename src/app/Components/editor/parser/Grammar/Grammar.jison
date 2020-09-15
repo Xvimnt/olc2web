@@ -21,6 +21,7 @@
     const {Return} = require('../Instruction/Return');
     const {Call} = require('../Instruction/Call');
     const {Function} = require('../Instruction/Function');
+    const { Error_ } = require('../Error');
 %}
 
 %lex
@@ -92,7 +93,8 @@ string2  ([\'][^\']*[\'])
 "length"                 return 'LENGTH'
 
 ([a-zA-Z_])[a-zA-Z0-9_ñÑ]*	return 'ID';
-<<EOF>>		            return 'EOF'
+<<EOF>>		                return 'EOF'
+.                           throw new Error_(yylloc.first_line, yylloc.first_column, 'Lexico','Valor inesperado ' + yytext);  
 
 
 /lex
