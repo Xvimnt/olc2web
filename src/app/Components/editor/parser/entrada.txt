@@ -1,5 +1,18 @@
-hell();
-let number c = 30;
-function hell() {
-  print('inside of hell ' + c);
-}
+let let1 = 1;
+let punteo = 0;
+
+Inicio();
+
+ function  Inicio() {
+    console.log("-----------------CALIFICACION-----------------");
+    let let1 = 0;
+    //Verificar ámbitos, se toma con prioridad la letiable local ante la global.
+    if (let1 != 0)
+    {
+        console.log("No se toma con prioridad la letiable local ante la global");
+        console.log("Perdiste 5 puntos :c");
+    }
+    else{
+        punteo = punteo + 5;
+    }
+ }

@@ -102,7 +102,8 @@ export class EditorComponent {
     }
     if (this.errores.length != 0) {
       this.errores.forEach(error => {
-        this.salida += "Error " + error.getTipo() + " en linea " + error.getLinea() + ", columna " + error.getColumna() + ": " + error.getDescripcion() + ".  \n";
+        console.log(error);
+        this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
       });
     }
     this.flag = false;

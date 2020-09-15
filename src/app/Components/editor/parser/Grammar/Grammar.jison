@@ -16,6 +16,7 @@
     const {While} = require('../Instruction/While');
     const {DoWhile} = require('../Instruction/DoWhile');
     const {Declaration} = require('../Instruction/Declaration');
+    const {Assignation} = require('../Instruction/Assignation');
     const {Break} = require('../Instruction/Break');
     const {Continue} = require('../Instruction/Continue');
     const {Return} = require('../Instruction/Return');
@@ -154,6 +155,9 @@ Instruction
     | Declaration ';' {
         $$ = $1;
     } 
+    | Assignation ';' {
+        $$ = $1;
+    } 
     | Operation ';' {
         $$ = $1;
     }
@@ -220,7 +224,14 @@ Declaration
         $$ = new Declaration($1, $2, $3, null, @1.first_line, @1.first_column);
     }
     | Reserved ID '=' Expr {
-        $$ = new Declaration($1, $2, null, $4, @1.first_line, @1.first_column);
+        $$ = new Declaration($1, null, $2, $4, @1.first_line, @1.first_column);
+    }
+;
+
+
+Assignation 
+    : ID '=' Expr {
+        $$ = new Assignation($1, $3, @1.first_line, @1.first_column);
     }
 ;
 
