@@ -15,4 +15,54 @@ Inicio();
     else{
         punteo = punteo + 5;
     }
- }
+
+    //Sección de declaracion de letiables
+    Declaracion();
+  }
+
+  function  Declaracion(){
+    /*
+        SALIDA ESPERADA:
+            ========= Metodo Declaracion =========
+            Voy a ganar Compiladores 2 :D
+            ======================================
+    
+    */
+    console.log("========= Metodo Declaracion =========");
+    let n1 = 2;
+    let n2 = 2;
+    let n3 = 2;
+    let n4 = 2;
+    let str1 = "Voy a ganar Compiladore";
+    let str2 = "Voy a ganar Compiladore";
+    let str3 = "Voy a ganar Compiladore";
+    let str4 = "Voy a ganar Compiladore";
+    let db1 = 0.0;
+    let db2 = 0.0;
+    let db3 = 0.0;
+    let db4 = 0.0;
+    let chr1 = 's';
+    let chr2 = 's';
+    let chr3 = 's';
+    let chr4 = "s";
+    //if n modificar la asignación
+    if (db1 == db4){
+        console.log(str4 + chr4 +" " +n4+" :D");
+    }else {
+        console.log("Problemas en el metodo declaracion :(");
+    }
+    console.log("======================================");
+    punteo = punteo + 5;
+}
+
+////////////////////////////////////////////////
+inicio();
+function inicio()
+{
+  hola();
+}
+
+function hola()
+{
+ console.log('hello world'); 
+}

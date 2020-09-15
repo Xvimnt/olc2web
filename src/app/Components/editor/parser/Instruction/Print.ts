@@ -21,7 +21,6 @@ export class Print extends Instruction{
     }
 
     public execute(environment : Environment) {
-        if(environment.anterior != null) environment.anterior.concate(this.value.execute(environment).value);
-        else environment.concate(this.value.execute(environment).value);
+       environment.getGlobal().concate(this.value.execute(environment).value);
     }
 }
