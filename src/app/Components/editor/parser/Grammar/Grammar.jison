@@ -52,14 +52,14 @@ string2  ([\'][^\']*[\'])
 "^"                     return '^'
 "%"                     return '%'
 
-"<"                   return '<'
-">"                   return '>'
 "<="                  return '<='
 ">="                  return '>='
+"<"                   return '<'
+">"                   return '>'
 "=="                  return '=='
 "!="                  return '!='
-"OR"                  return 'OR'
-"AND"                 return 'AND'
+"||"                  return 'OR'
+"&&"                 return '&&'
 "!"                   return '!'
 "="                   return '='
 
@@ -101,7 +101,7 @@ string2  ([\'][^\']*[\'])
 /lex
 
 %left 'OR'
-%left 'AND'
+%left '&&'
 %left '==', '!='
 %left '>=', '<=', '<', '>'
 %left '+' '-'
@@ -378,18 +378,11 @@ Expr
     {
         $$ = new Arithmetic($1, $3, ArithmeticOption.MOD, @1.first_line,@1.first_column);
     }
-    | Expr '<' Expr
-    {
-        $$ = new Relational($1, $3,RelationalOption.LESS, @1.first_line, @1.first_column);
-    }
     | Expr '<=' Expr
     {
         $$ = new Relational($1, $3,RelationalOption.LESSOREQUAL ,@1.first_line, @1.first_column);
     }
-    | Expr '>' Expr
-    {
-        $$ = new Relational($1, $3,RelationalOption.GREATER ,@1.first_line, @1.first_column);
-    }
+
     | Expr '>=' Expr
     {
         $$ = new Relational($1, $3,RelationalOption.GREATEROREQUAL ,@1.first_line, @1.first_column);
@@ -402,7 +395,15 @@ Expr
     {
         $$ = new Relational($1, $3,RelationalOption.NOTEQUAL ,@1.first_line, @1.first_column);
     }
-    | Expr 'AND' Expr
+    | Expr '>' Expr
+    {
+        $$ = new Relational($1, $3,RelationalOption.GREATER ,@1.first_line, @1.first_column);
+    }
+    | Expr '<' Expr
+    {
+        $$ = new Relational($1, $3,RelationalOption.LESS, @1.first_line, @1.first_column);
+    }
+    | Expr '&&' Expr
     {
         $$ = new Logic($1, $3,LogicOption.AND ,@1.first_line, @1.first_column);
     }

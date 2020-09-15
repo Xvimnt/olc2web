@@ -20,17 +20,19 @@ export class Declaration extends Instruction {
         // Hijo 1
         result += "node" + count + "1[label=\"(" + this.method.line + "," + this.method.column + ") Metodo\"];";
         result += this.method.plot(Number(count + "1"));
-        // Hijo 2
-        result += "node" + count + "2[label=\"(" + this.type.line + "," + this.type.column + ") Tipo\"];";
-        result += this.type.plot(Number(count + "2"));
-        // Hijo 3
-        result += "node" + count + "3[label=\"(" + this.value.line + "," + this.value.column + ") Valor\"];";
-        result += this.value.plot(Number(count + "3"));
-        // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
-        result += "node" + count + " -> " + "node" + count + "2;";
-        result += "node" + count + " -> " + "node" + count + "3;";
-
+        // Hijo 2
+        if (this.type != null) {
+            result += "node" + count + "2[label=\"(" + this.type.line + "," + this.type.column + ") Tipo\"];";
+            result += this.type.plot(Number(count + "2"));
+            result += "node" + count + " -> " + "node" + count + "2;";
+        }
+        // Hijo 3
+        if (this.value != null) {
+            result += "node" + count + "3[label=\"(" + this.value.line + "," + this.value.column + ") Valor\"];";
+            result += this.value.plot(Number(count + "3"));
+            result += "node" + count + " -> " + "node" + count + "3;";
+        }
         return result;
     }
 

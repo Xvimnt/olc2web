@@ -1,58 +1,248 @@
-let let1 = 1;
-let punteo = 0;
+Relacionales();
 
-Inicio();
-
- function  Inicio() {
-    console.log("-----------------CALIFICACION-----------------");
-    let let1 = 0;
-    //Verificar ámbitos, se toma con prioridad la letiable local ante la global.
-    if (let1 != 0)
-    {
-        console.log("No se toma con prioridad la letiable local ante la global");
-        console.log("Perdiste 5 puntos :c");
-    }
-    else{
-        punteo = punteo + 5;
-    }
-
-    //Sección de declaracion de letiables
-    Declaracion();
-  }
-
-  function  Declaracion(){
-    /*
-        SALIDA ESPERADA:
-            ========= Metodo Declaracion =========
-            Voy a ganar Compiladores 2 :D
-            ======================================
+ function  Relacionales(){
+    let n0 = 34;
+    let n1 = 16;
     
-    */
-    console.log("========= Metodo Declaracion =========");
-    let n1 = 2;
-    let n2 = 2;
-    let n3 = 2;
-    let n4 = 2;
-    let str1 = "Voy a ganar Compiladore";
-    let str2 = "Voy a ganar Compiladore";
-    let str3 = "Voy a ganar Compiladore";
-    let str4 = "Voy a ganar Compiladore";
-    let db1 = 0.0;
-    let db2 = 0.0;
-    let db3 = 0.0;
-    let db4 = 0.0;
-    let chr1 = 's';
-    let chr2 = 's';
-    let chr3 = 's';
-    let chr4 = "s";
-    //if n modificar la asignación
-    if (db1 == db4){
-        console.log(str4 + chr4 +" " +n4+" :D");
-    }else {
-        console.log("Problemas en el metodo declaracion :(");
-    }
-    console.log("======================================");
-    punteo = punteo + 5;
+    relaciones1(n0);
+    relaciones2(n1);
 }
 
-////////////////////////////////////////////////
+
+ function  relaciones1(salida:number)
+{
+        console.log("==============relacionales1=============");
+        let n0 = salida + 0.0;
+        if (n0 < 34.44)
+            {
+                salida = salida+15;
+                if (salida > 44)
+                    {
+                        salida++;
+                    }
+            }
+            else {
+                salida = 1;
+            }
+        
+        if (salida != 1)
+            {
+                if (salida == 50)
+                    {
+                        console.log("salida Correcta Relacionales 1!");
+                        punteo = punteo + 5;
+                    }
+                    else {
+                        console.log("salida incorrecta!!");
+                    }
+            }
+            else {
+                console.log("salida incorrecta!!");
+            }
+        console.log("======================================");
+}
+
+ function  relaciones2(n0:number){
+            console.log("vas bien, animo :D");
+            console.log("============Relacionales2=============");
+
+            if (10-15 >= 0 && 44.44 == 44.44)
+            {
+                console.log("salida incorrecta primer if relacionales2!!");
+            }
+            else {
+                if (15+8 == 22-10+5*3-4 && 13*0>-1)
+                    {
+                        if (10.0 != 11.0-1.01 )
+                            {
+                                console.log("salida CORRECTA en relacionales2!!");
+                                punteo = punteo + 5;
+                            }
+                            else {
+                                console.log("salida incorrecta segundo if relacionales 2!!");
+                            }
+                    }
+                    else {
+                        if (1 == 1)
+                            {
+                                console.log("salida incorrecta relacionales 2 3er if !!");
+                            }
+                            else {
+                                console.log("salida incorrecta relacionales 2 Sino3er if !!");
+                            }
+                    }
+            }
+        console.log("======================================");
+        FactorialIterativo(7);
+}
+
+function  FactorialIterativo(n2:number){
+                     console.log("==============for Calificar Ciclos=============");
+
+    let numeroFactorial = n2;
+    while(numeroFactorial > -1){
+        mostrarFactorial(numeroFactorial);
+        numeroFactorial--;
+    }
+        SentenciasAnidadas();
+        console.log("======================================");
+
+}
+
+ function  mostrarFactorial(n2:number){
+    let fact = 1;
+    let str= "El factorial de: "+n2 +" = ";
+    if (n2 !=0){
+        for(let i=n2; i >0; i--){
+            fact = fact * i;
+            str = str + i;
+            if (i > 1){
+                str = str + " * ";
+
+            }else {
+                str = str + " = ";
+            }
+        }
+    }
+        str = str + fact+ ";";
+    console.log(str);
+}
+
+
+ function  figura1(n: number){
+    
+    let letFigura = "";
+    for (let i = -3*n/2; i <= n; i++) {
+        letFigura = "";
+            for (let j = -3*n/2; j <= 3*n/2; j++) {
+
+                let absolutoi = i;
+                let absolutoj = j;
+                if (i <0){
+                    absolutoi = i*-1;
+                }
+                if (j < 0){
+                    absolutoj = j*-1;
+                }
+                if ((absolutoi + absolutoj < n)
+                    || ((-n/2-i) * (-n/2-i) + ( n/2-j) * ( n/2-j) <= n*n/2)
+                    || ((-n/2-i) * (-n/2-i) + (-n/2-j) * (-n/2-j) <= n*n/2)) {
+                    letFigura = letFigura + "* ";
+                }
+                else{
+                    letFigura = letFigura + ". ";
+                }
+            }
+            console.log(letFigura);
+        }
+    console.log("if la figura es un corazon +10 <3");
+}
+
+ function  figura2(){
+    let letFigura = "";
+     let c = "* ";
+        let b = "  ";
+        let altura = 10;
+        let ancho = 1;
+        for (let i = 0; i < altura/4; i++){
+            for (let k = 0; k < altura - i; k++){
+                letFigura = letFigura+b;
+            }
+            for (let j = 0; j < i*2 + ancho; j++){
+                letFigura = letFigura + c;
+            }
+            
+            console.log(letFigura);
+            letFigura ="";
+        }
+         letFigura = "";
+         for(let i = 0; i < altura/4; i++){
+            for(let k = 0; k < (altura - i) - 2; k++){
+                letFigura = letFigura + b;
+            }
+            for(let j = 0; j < i*2 + 5; j++){
+                letFigura = letFigura + c;
+            }
+            
+            console.log(letFigura);
+            letFigura = "";
+        }
+         letFigura = "";
+        for(let i = 0; i < altura/4; i++){
+            for(let k = 0; k < (altura - i) - 4; k++){
+                letFigura = letFigura + b;
+            }
+            for(let j = 0; j < i*2 + 9; j++){
+                letFigura = letFigura +c;
+            }
+            
+            console.log(letFigura);
+            letFigura = "";
+        }
+        
+        letFigura ="";
+        for(let i = 0; i < altura/4; i++){
+            for(let k = 0; k < (altura - i) - 6; k++){
+                letFigura = letFigura + b;
+            }
+            for(let j = 0; j < i*2 + 13; j++){
+                letFigura = letFigura + c;
+            }
+            
+            console.log(letFigura);
+            letFigura = "";
+        }
+        letFigura = "";
+        for(let i = 0; i < altura/4; i++){
+            for(let k = 0; k < altura -2; k++){
+                letFigura = letFigura + b;
+            }
+            for(let j = 0; j < 5; j++){
+                letFigura = letFigura + c;
+            }
+            
+            console.log(letFigura);
+            letFigura = "";
+        }
+        
+            console.log("if la figura es un Arbol +10 <3");
+
+       }
+
+ function  SentenciasAnidadas(){
+    let numero1 = 0;
+    do{
+    switch(numero1){
+        case 0:
+            figura0(8);
+            break;
+        case 1:
+            figura1(10);
+            break;
+        case 2:
+            figura2();
+            break;
+        default:
+            console.log("Esto se va a console.log 2 veces :3");
+            
+    }
+    numero1 = numero1 + 1;
+    }while(numero1 <5);
+}
+
+ function  figura0(numero:number){
+    let i = 0;
+    while(i < numero){
+        let j = 0;
+        let numeroMostrar = 1;
+        let unaFila = "";
+        while(j <= i){
+            unaFila = unaFila + " " + numeroMostrar;
+            numeroMostrar  = numeroMostrar + 1;
+            j = j + 1;
+        }
+        console.log(unaFila);
+        i = i + 1;
+    }
+    console.log("if la figura es un triangulo de numeros + 5 :3");
+}
