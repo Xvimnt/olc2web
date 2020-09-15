@@ -30,6 +30,7 @@ export class Operation extends Instruction {
         const value = environment.getVar(this.id);
         if (value == null)
             throw new Error_(this.line, this.column, 'Semantico', "La variable no existe");
-        environment.guardar(this.id, value.valor + 1, value.type);
+            if(this.option == OperationOption.INCREMENT) environment.guardar(this.id, value.valor + 1, value.type);
+            else if(this.option == OperationOption.DECREMENT) environment.guardar(this.id, value.valor - 1, value.type);
     }
 }
