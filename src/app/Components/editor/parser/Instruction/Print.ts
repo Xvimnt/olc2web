@@ -22,6 +22,7 @@ export class Print extends Instruction{
     }
 
     public execute(environment : Environment) {
-       _Console.salida += this.value.execute(environment).value + "\n";
+        const resultado = this.value.execute(environment).value;
+       _Console.salida += resultado + "\n";
     }
 }

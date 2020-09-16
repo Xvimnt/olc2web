@@ -1,17 +1,12 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
-import { getTypeName } from "../Abstract/Retorno";
 import { Literal } from "../Expression/Literal";
+import { _Type } from "../Expression/Type";
 import { isNumber, isString, isBoolean } from "util";
 import { Error_ } from "../Error";
 
 export class Declaration extends Instruction {
-
-    private id: string;
-    private value: Expression;
-    private type: Literal;
-    private method: Literal;
 
     public plot(count: number): string {
 
@@ -36,20 +31,15 @@ export class Declaration extends Instruction {
         return result;
     }
 
-    constructor(method: Literal, type: Literal, id: string, value: Expression, line: number, column: number) {
+    constructor(private method: Literal,private type: _Type,private id: string,private value: Expression, line: number, column: number) {
         super(line, column);
-        this.id = id;
-        this.value = value;
-        this.type = type;
-        this.method = method;
     }
 
     public execute(environment: Environment) {
         if (this.value != null) {
             const val = this.value.execute(environment);
-            if (this.type == null) {
-                environment.guardar(this.id, val.value, val.type)
-            }
+            
+            if (this.type == null) environment.guardar(this.id, val.value, val.type)
             else {
                 switch (this.type.execute().value) {
                     case 'number':
@@ -63,7 +53,8 @@ export class Declaration extends Instruction {
                         break;
                     case 'type': break;
                     default:
-                        console.log('no se guarda nada', this.type.execute().value);
+                        alert('no se guarda nada ' + this.method.execute().value + " " 
+                        + this.type.execute().value + " " + this.line + " " + this.column);
                         break;
                 }
                 environment.guardar(this.id, val.value, val.type);

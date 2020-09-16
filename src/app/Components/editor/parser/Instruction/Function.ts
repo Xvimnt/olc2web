@@ -1,7 +1,6 @@
 import { Instruction } from "../Abstract/Instruction";
-import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
-import { Literal } from '../Expression/Literal';
+import { _Type } from '../Expression/Type';
 
 export class Function extends Instruction {
 
@@ -21,12 +20,8 @@ export class Function extends Instruction {
         return result;
     }
 
-    constructor(private id: string, public statment: Instruction, public parametros: Array<string>,public type: Literal, line: number, column: number) {
+    constructor(private id: string, public statment: Instruction, public parametros: Array<string>,public type: _Type, line: number, column: number) {
         super(line, column);
-        this.id = id;
-        this.statment = statment;
-        this.parametros = parametros;
-        this.type = type;
     }
 
     public execute(environment: Environment) {

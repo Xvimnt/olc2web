@@ -1,6 +1,10 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
+import { Return } from './Return';
+import { Break } from './Break';
+import { Continue } from './Continue';
+import { Error_ } from '../Error';
 
 export class Switch extends Instruction {
 
@@ -14,26 +18,28 @@ export class Switch extends Instruction {
 
         return result;
     }
-    
-    constructor(private condition: Expression, private stack: any, private def: any,
+
+    constructor(private condition: Expression, private casos: any, private def: any,
         line: number, column: number) {
         super(line, column);
     }
 
     public execute(env: Environment) {
-        if (this.stack != null) {
-            const condition = this.condition.execute(env);
-            this.stack.forEach((element: any) => {
-                const compare = element['condicion'].execute(env);
-                if(condition.value == compare.value) {
-                    element['instruccion'].forEach((element2: any) => {
-                        element2.execute(env);
-                    });
-                    //TODO Si se ejecuta el case no ejecutar el default
-                    return;
+        if (this.casos != null) {
+            const mainElement = this.condition.execute(env);
+            for (let caso of this.casos) {
+                const secondElement = caso['condicion'].execute(env);
+                if (mainElement.type != secondElement.type) throw new Error_(this.line, this.column, 'Semantico', 'El case tiene que ser de el mismo tipo que el switch');
+                if (mainElement.value == secondElement.value) {
+                    for (let instr of caso['instruccion']) {
+                        if (instr instanceof Return) return instr.execute(env);
+                        else if (instr instanceof Break) break;
+                        else if (instr instanceof Continue) continue;
+                        else instr.execute(env);
+                    }
                 }
-            });
-            if(this.def != null) return this.def.execute(env);
+            }
+            if (this.def != null) return this.def.execute(env);
         }
     }
 }

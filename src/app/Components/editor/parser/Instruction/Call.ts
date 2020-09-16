@@ -31,13 +31,15 @@ export class Call extends Instruction {
                 const value = this.expresiones[i].execute(environment);
                 newEnv.guardar(func.parametros[i], value.value, value.type);
             }
-            try {
-                let result = func.statment.execute(newEnv);
-                if (result.type == func.type.execute().type) return result;
-                else throw new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo');
-            } catch (e) {
-                console.log(e);
+            let result = func.statment.execute(newEnv);
+            // si no es Void
+            if (func.type != null) {
+                if (result != null) {
+                    if (result.type == func.type.execute().type) return result;
+                    else throw new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo, se requiere:' + func.type.execute().type + " ,se retorna: " + result.type + " " + result.value);
+                } else throw new Error_(this.line, this.column, 'Semantico', 'La funcion no retorna nada');
             }
+
         } else throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
     }
 }

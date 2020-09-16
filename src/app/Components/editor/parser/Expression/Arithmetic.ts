@@ -58,7 +58,7 @@ export class Arithmetic extends Expression {
             case ArithmeticOption.PLUS:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.STRING:
-                        return { value: (leftValue.value.toString() + rightValue.value.toString()), type: Type.NUMBER };
+                        return { value: (leftValue.value.toString() + rightValue.value.toString()), type: Type.STRING };
                     case Type.NUMBER:
                         return { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
                     default:

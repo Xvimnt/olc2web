@@ -1,4 +1,0 @@
-function regresaNumero():number{
-    return 50;
-}
-console.log('cincuenta ' + regresaNumero());

@@ -195,22 +195,22 @@ case 33: case 34:
  this.$ = new Literal($$[$0], _$[$0].first_line, _$[$0].first_column, 5); 
 break;
 case 35:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 1); 
+ this.$ = new _Type($$[$0], 1, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 36:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 0); 
+ this.$ = new _Type($$[$0], 0, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 37:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 2); 
+ this.$ = new _Type($$[$0], 2, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 38:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 3); 
+ this.$ = new _Type($$[$0], 3, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 39:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 4); 
+ this.$ = new _Type($$[$0], 4, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 40:
- this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 5); 
+ this.$ = new _Type($$[$0], 5, _$[$0-1].first_line, _$[$0-1].first_column); 
 break;
 case 41:
 
@@ -554,6 +554,7 @@ parse: function parse(input) {
     const {Unary, UnaryOption} = require('../Expression/Unary');
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
+    const {_Type} = require('../Expression/Type');
     const {Operation, OperationOption} = require('../Instruction/Operation');
     const {If} = require('../Instruction/If');
     const {Switch} = require('../Instruction/Switch');

@@ -6,6 +6,7 @@
     const {Unary, UnaryOption} = require('../Expression/Unary');
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
+    const {_Type} = require('../Expression/Type');
     const {Operation, OperationOption} = require('../Instruction/Operation');
     const {If} = require('../Instruction/If');
     const {Switch} = require('../Instruction/Switch');
@@ -247,12 +248,12 @@ Reserved
 ;
 
 Type 
-    :':' STYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 1); }
-    |':' NTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 0); }
-    |':' BTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 2); }
-    |':' VTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 3); }
-    |':' TTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 4); }
-    |':' ID { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    :':' STYPE { $$ = new _Type($2, 1, @1.first_line, @1.first_column); }
+    |':' NTYPE { $$ = new _Type($2, 0, @1.first_line, @1.first_column); }
+    |':' BTYPE { $$ = new _Type($2, 2, @1.first_line, @1.first_column); }
+    |':' VTYPE { $$ = new _Type($2, 3, @1.first_line, @1.first_column); }
+    |':' TTYPE { $$ = new _Type($2, 4, @1.first_line, @1.first_column); }
+    |':' ID    { $$ = new _Type($2, 5, @1.first_line, @1.first_column); }
 ;
 
 IfSt
