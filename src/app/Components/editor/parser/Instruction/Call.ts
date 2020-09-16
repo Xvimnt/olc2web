@@ -32,7 +32,8 @@ export class Call extends Instruction {
                 newEnv.guardar(func.parametros[i], value.value, value.type);
             }
             try {
-                func.statment.execute(newEnv);
+                let result = func.statment.execute(newEnv);
+                if(result != null) return result;
             } catch (e) {
                 console.log(e);
             }

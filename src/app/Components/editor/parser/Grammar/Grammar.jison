@@ -167,8 +167,8 @@ Instruction
     | 'CONTINUE' ';'{
         $$ = new Continue(@1.first_line, @1.first_column);
     }
-    | 'RETURN' ';'{
-        $$ = new Return(@1.first_line, @1.first_column);
+    | 'RETURN' Expr ';'{
+        $$ = new Return($2 ,@1.first_line, @1.first_column);
     }
     | FunctionSt {
         $$ = $1;
@@ -198,30 +198,36 @@ ListaExpr
 ;    
 
 FunctionSt 
-    : 'FUNCTION' ID '(' ')' Statement {
-        $$ = new Function($2, $5, [], @1.first_line, @1.first_column);
+    : 'FUNCTION' ID '(' ')' Type Statement  {
+        $$ = new Function($2, $6, [], $5, @1.first_line, @1.first_column);
     }
-    | 'FUNCTION' ID '(' Parametros ')' Statement {
-        $$ = new Function($2, $6, $4, @1.first_line, @1.first_column);
+    | 'FUNCTION' ID '(' Parametros ')' Type Statement {
+        $$ = new Function($2, $7, $4, $6, @1.first_line, @1.first_column);
+    }
+    | 'FUNCTION' ID '(' Parametros ')' Statement{
+        $$ = new Function($2, $6, $4, null, @1.first_line, @1.first_column);
+    }
+    | 'FUNCTION' ID '(' ')' Statement{
+        $$ = new Function($2, $5, [], null, @1.first_line, @1.first_column);
     }
 ;
 
 Parametros
-    : Parametros ',' ID ':' Type {
+    : Parametros ',' ID Type {
         $1.push($3);
         $$ = $1;
     }
-    | ID ':' Type{
+    | ID Type{
         $$ = [$1];
     }
 ;
 
 Declaration 
-    : Reserved Type ID '=' Expr {
-        $$ = new Declaration($1, $2, $3, $5, @1.first_line, @1.first_column);
+    : Reserved ID Type '=' Expr {
+        $$ = new Declaration($1, $3, $2, $5, @1.first_line, @1.first_column);
     }
-    | Reserved Type ID {
-        $$ = new Declaration($1, $2, $3, null, @1.first_line, @1.first_column);
+    | Reserved ID Type {
+        $$ = new Declaration($1, $3, $2, null, @1.first_line, @1.first_column);
     }
     | Reserved ID '=' Expr {
         $$ = new Declaration($1, null, $2, $4, @1.first_line, @1.first_column);
@@ -241,12 +247,12 @@ Reserved
 ;
 
 Type 
-    : STYPE { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
-    | NTYPE { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
-    | BTYPE { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
-    | VTYPE { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
-    | TTYPE { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
-    | ID { $$ = new Literal($1, @1.first_line, @1.first_column, 5); }
+    :':' STYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    |':' NTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    |':' BTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    |':' VTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    |':' TTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    |':' ID { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
 ;
 
 IfSt
@@ -462,6 +468,10 @@ F   : '(' Expr ')'
     | BOOL
     {
         $$ = new Literal($1, @1.first_line, @1.first_column, 2);
+    }
+    | Call
+    {
+        $$ = $1;
     }
     | ID
     {
