@@ -247,11 +247,11 @@ Reserved
 ;
 
 Type 
-    :':' STYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
-    |':' NTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
-    |':' BTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
-    |':' VTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
-    |':' TTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
+    :':' STYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 1); }
+    |':' NTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 0); }
+    |':' BTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 2); }
+    |':' VTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 3); }
+    |':' TTYPE { $$ = new Literal($2, @1.first_line, @1.first_column, 4); }
     |':' ID { $$ = new Literal($2, @1.first_line, @1.first_column, 5); }
 ;
 

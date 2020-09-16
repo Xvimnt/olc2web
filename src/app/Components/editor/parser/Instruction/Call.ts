@@ -33,7 +33,8 @@ export class Call extends Instruction {
             }
             try {
                 let result = func.statment.execute(newEnv);
-                if(result != null) return result;
+                if (result.type == func.type.execute().type) return result;
+                else throw new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo');
             } catch (e) {
                 console.log(e);
             }

@@ -194,7 +194,22 @@ break;
 case 33: case 34:
  this.$ = new Literal($$[$0], _$[$0].first_line, _$[$0].first_column, 5); 
 break;
-case 35: case 36: case 37: case 38: case 39: case 40:
+case 35:
+ this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 1); 
+break;
+case 36:
+ this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 0); 
+break;
+case 37:
+ this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 2); 
+break;
+case 38:
+ this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 3); 
+break;
+case 39:
+ this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 4); 
+break;
+case 40:
  this.$ = new Literal($$[$0], _$[$0-1].first_line, _$[$0-1].first_column, 5); 
 break;
 case 41:

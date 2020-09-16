@@ -1,5 +1,6 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
+import { Error_ } from "../Error";
 import { Environment } from "../Symbol/Environment";
 
 export enum RelationalOption {
@@ -49,6 +50,8 @@ export class Relational extends Expression {
     public execute(environment: Environment): Retorno {
         const leftValue = this.left.execute(environment);
         const rightValue = this.right.execute(environment);
+        if (leftValue == null || rightValue == null) throw new Error_(this.line, this.column, 'Semantico', 'Operador no definido');
+
         switch (this.type) {
             case RelationalOption.EQUAL:
                 return { value: (leftValue.value == rightValue.value), type: Type.BOOLEAN };
