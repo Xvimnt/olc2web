@@ -43,6 +43,7 @@ string2  ([\'][^\']*[\'])
 {string2}               return 'STRING'
 "true"                  return 'BOOL'
 "false"                 return 'BOOL'
+"**"                    return '^'
 "*"                     return '*'
 "/"                     return '/'
 ":"                     return ':'
@@ -50,7 +51,6 @@ string2  ([\'][^\']*[\'])
 ","                     return ','
 "-"                     return '-'
 "+"                     return '+'
-"^"                     return '^'
 "%"                     return '%'
 
 "<="                  return '<='
