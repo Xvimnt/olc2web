@@ -436,7 +436,7 @@ Operation
 ;
 
 Unary
-    : '!' F
+    : '!' Unary
     {
         $$ = new Unary($2, UnaryOption.NEGATION, @1.first_line, @1.first_column,0);
     }

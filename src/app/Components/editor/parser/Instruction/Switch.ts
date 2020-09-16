@@ -33,8 +33,8 @@ export class Switch extends Instruction {
                 if (mainElement.value == secondElement.value) {
                     for (let instr of caso['instruccion']) {
                         if (instr instanceof Return) return instr.execute(env);
-                        else if (instr instanceof Break) break;
-                        else if (instr instanceof Continue) continue;
+                        else if (instr instanceof Break) return;
+                        else if (instr instanceof Continue) break;
                         else instr.execute(env);
                     }
                 }

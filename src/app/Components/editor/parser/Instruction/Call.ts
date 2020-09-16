@@ -31,7 +31,7 @@ export class Call extends Instruction {
                 const value = this.expresiones[i].execute(environment);
                 newEnv.guardar(func.parametros[i], value.value, value.type);
             }
-            let result = func.statment.execute(newEnv);
+            const result = func.statment.execute(newEnv);
             // si no es Void
             if (func.type != null) {
                 if (result != null) {

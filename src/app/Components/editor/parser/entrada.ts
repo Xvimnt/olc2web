@@ -87,19 +87,3 @@ function potencia(base: number, exp: number): number {
     }
 }
 console.log(potencia(30, 5)); //24300000
-
-
-function prueba(n: number): number {
-	console.log('se switchea ' + n);
-    switch (n) {
-        case 0:
-        	console.log('entra a 0');
-            return 1;
-        case 1:
-            return -100;
-        default:
-            return n;
-
-    }
-}
-console.log(prueba(0)); //6227020800
