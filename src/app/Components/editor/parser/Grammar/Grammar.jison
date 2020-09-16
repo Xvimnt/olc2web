@@ -32,6 +32,7 @@ number  [0-9]+
 decimal [0-9]+("."[0-9]+)?
 string  ([\"][^"]*[\"])
 string2  ([\'][^\']*[\'])
+template [`]([^`])*[`]
 %%
 \s+                   /* skip whitespace */
 "//".*                                /* IGNORE */
@@ -41,6 +42,7 @@ string2  ([\'][^\']*[\'])
 {number}                return 'NUMBER'
 {string}                return 'STRING'
 {string2}               return 'STRING'
+{template}              return 'TEMPLATE'
 "true"                  return 'BOOL'
 "false"                 return 'BOOL'
 "**"                    return '^'
@@ -465,6 +467,10 @@ F   : '(' Expr ')'
     | STRING
     {
         $$ = new Literal($1, @1.first_line, @1.first_column, 1);
+    }
+    | TEMPLATE
+    {
+        $$ = new Literal($1, @1.first_line, @1.first_column, 6);
     }
     | BOOL
     {

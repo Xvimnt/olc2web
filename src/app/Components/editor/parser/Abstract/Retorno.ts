@@ -4,7 +4,8 @@ export enum Type {
     BOOLEAN = 2,
     NULL = 3,
     ARRAY = 4,
-    RESERVADA = 5
+    RESERVADA = 5,
+    TEMPLATE = 6
 }
 
 export type Retorno = {
@@ -20,5 +21,6 @@ export function getTypeName(tipo: Type) {
         case 3: return "Nulo";
         case 4: return "Arreglo";
         case 5: return "Reservada";
+        case 6: return "Plantilla de Texto";
     }
 }

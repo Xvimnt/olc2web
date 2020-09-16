@@ -53,15 +53,14 @@ export class Declaration extends Instruction {
                         break;
                     case 'type': break;
                     default:
-                        alert('no se guarda nada ' + this.method.execute().value + " " 
-                        + this.type.execute().value + " " + this.line + " " + this.column);
+                        console.log('no se guarda nada');
                         break;
                 }
                 environment.guardar(this.id, val.value, val.type);
             }
         }
         else {
-            if (this.method.execute().value == 'const') throw new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia');
+            if (this.method.execute(environment).value == 'const') throw new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia');
             environment.guardar(this.id, 'undefined', 3);
         }
     }
