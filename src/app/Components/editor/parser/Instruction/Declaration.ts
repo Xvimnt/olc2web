@@ -3,7 +3,7 @@ import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
 import { Literal } from "../Expression/Literal";
 import { _Type } from "../Expression/Type";
-import { isNumber, isString, isBoolean } from "util";
+import { isNumber, isString, isBoolean, isArray } from "util";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 
@@ -32,27 +32,29 @@ export class Declaration extends Instruction {
         return result;
     }
 
-    constructor(private method: Literal,private type: _Type,private id: string,private value: Expression, line: number, column: number) {
+    constructor(private method: Literal, private type: _Type, private id: string, private value: Expression, line: number, column: number) {
         super(line, column);
     }
 
     public execute(environment: Environment) {
-        if (this.value != null) {
+        // Si es un struct
+        if (isArray(this.value)) environment.guardar(this.id, this.value, 7);
+        // Se declara una variable normal
+        else if (this.value != null) {
             const val = this.value.execute(environment);
-            
+
             if (this.type == null) environment.guardar(this.id, val.value, val.type)
             else {
                 switch (this.type.execute().value) {
                     case 'number':
-                        if (!isNumber(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'Numero no valido'));
+                        if (!isNumber(val.value)) errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero no valido'));
                         break;
                     case 'string':
-                        if (!isString(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'String no valida'));
+                        if (!isString(val.value)) errores.push(new Error_(this.line, this.column, 'Semantico', 'String no valida'));
                         break;
                     case 'boolean':
-                        if (!isBoolean(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'Booleano no valido'));
+                        if (!isBoolean(val.value)) errores.push(new Error_(this.line, this.column, 'Semantico', 'Booleano no valido'));
                         break;
-                    case 'type': break;
                     default:
                         console.log('no se guarda nada');
                         break;
@@ -61,7 +63,7 @@ export class Declaration extends Instruction {
             }
         }
         else {
-            if (this.method.execute(environment).value == 'const') errores.push( new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia'));
+            if (this.method.execute(environment).value == 'const') errores.push(new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia'));
             environment.guardar(this.id, 'undefined', 3);
         }
     }

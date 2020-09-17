@@ -1,10 +1,15 @@
+type AVLNode = {
+    left: AVLNode,
+    right: AVLNode,
+    height: number,
+    value: number
+};
 
-function modulo(n : number, p : number) : number{
-    return n < p ? n : modulo(n - p, p);
-}
+let node : AVLNode = {
+    left: null,
+    right: null,
+    height: null,
+    value: null,
+};
 
-function mcd(a : number, b : number) : number{
-    return b == 0 ? a : mcd(b, modulo(a, b));
-}
-
-console.log(mcd(240,506)); //2
+console.log(node.height);

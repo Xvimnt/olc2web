@@ -1,10 +1,7 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
-import { getTypeName } from "../Abstract/Retorno";
-import { Literal } from "../Expression/Literal";
-import { isNumber, isString, isBoolean } from "util";
-import { Error_ } from "../Error";
+import { isArray } from 'util';
 
 export class Assignation extends Instruction {
 
@@ -31,7 +28,16 @@ export class Assignation extends Instruction {
     }
 
     public execute(environment: Environment) {
-        if (this.value != null) {
+        if (isArray(this.value)) {
+            //Asignarle valor a todos los nodos
+            console.log('asignando a ' + this.id + ' ' + this.value);
+            //environment.guardar(this.id, this.value, 7);
+        }
+        else if (isArray(this.id)) {
+            //Asignarle valor a una propiedad
+            console.log('id y propiedad:', this.id);
+        }
+        else if (this.value != null) {
             const val = this.value.execute(environment);
             // TODO Comprobar tipos en la asignacion
             environment.guardar(this.id, val.value, val.type);

@@ -5,6 +5,7 @@
     const {Logic, LogicOption} = require('../Expression/Logic');
     const {Unary, UnaryOption} = require('../Expression/Unary');
     const {Access} = require('../Expression/Access');
+    const {Property} = require('../Expression/Property');
     const {Literal} = require('../Expression/Literal');
     const {Ternary} = require('../Expression/Ternary');
     const {_Type} = require('../Expression/Type');
@@ -54,6 +55,7 @@ template [`]([^`])*[`]
 ":"                     return ':'
 ";"                     return ';'
 ","                     return ','
+"."                     return '.'
 "-"                     return '-'
 "+"                     return '+'
 "%"                     return '%'
@@ -95,10 +97,6 @@ template [`]([^`])*[`]
 "type"                 return 'TTYPE'
 "let"                   return 'LET'
 "const"                 return 'CONST'
-
-"push"                   return 'PUSH'
-"pop"                    return 'POP'
-"length"                 return 'LENGTH'
 
 ([a-zA-Z_])[a-zA-Z0-9_ñÑ]*	return 'ID';
 <<EOF>>		                return 'EOF'
@@ -231,7 +229,10 @@ Parametros
 ;
 
 Declaration 
-    : Reserved ID Type '=' Expr {
+    : Reserved ID Type '=' '{' StructAssign '}' {
+        $$ = new Declaration($1, $3, $2, $6, @1.first_line, @1.first_column);
+    }
+    | Reserved ID Type '=' Expr {
         $$ = new Declaration($1, $3, $2, $5, @1.first_line, @1.first_column);
     }
     | Reserved ID Type {
@@ -240,12 +241,41 @@ Declaration
     | Reserved ID '=' Expr {
         $$ = new Declaration($1, null, $2, $4, @1.first_line, @1.first_column);
     }
+    | TTYPE ID '=' '{' Struct '}' {
+        $$ = new Declaration(null, $1, $2, $5, @1.first_line, @1.first_column);
+    }
+;
+
+Struct
+    : Struct ',' ID Type {
+        $1.push({id:$3,type:$4});
+        $$ = $1;
+    }
+    | ID Type {
+        $$ = [{id:$1,type:$2}]
+    }
 ;
 
 
 Assignation 
     : ID '=' Expr {
         $$ = new Assignation($1, $3, @1.first_line, @1.first_column);
+    }
+    | ID '=' '{' StructAssign '}' {
+        $$ = new Assignation($1, $3, @1.first_line, @1.first_column);
+    }
+    | ID '.' ID '=' Expr {
+        $$ = new Assignation([$1,$3], $5, @1.first_line, @1.first_column);
+    }
+;
+
+StructAssign
+    : StructAssign ',' ID ':' Expr {
+        $1.push({id:$3,value:$5});
+        $$ = $1;
+    }
+    | ID ':' Expr {
+        $$ = [{id:$1,value:$3}]
     }
 ;
 
@@ -259,7 +289,6 @@ Type
     |':' NTYPE { $$ = new _Type($2, 0, @1.first_line, @1.first_column); }
     |':' BTYPE { $$ = new _Type($2, 2, @1.first_line, @1.first_column); }
     |':' VTYPE { $$ = new _Type($2, 3, @1.first_line, @1.first_column); }
-    |':' TTYPE { $$ = new _Type($2, 4, @1.first_line, @1.first_column); }
     |':' ID    { $$ = new _Type($2, 5, @1.first_line, @1.first_column); }
 ;
 
@@ -487,6 +516,15 @@ F   : '(' Expr ')'
     | Call
     {
         $$ = $1;
+    }
+    | Access { 
+        $$ = $1;
+    }
+;
+
+Access 
+    : Access '.' ID {
+        $$ = new Property($1, $3, @1.first_line, @1.first_column);
     }
     | ID
     {

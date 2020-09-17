@@ -22,5 +22,6 @@ export function getTypeName(tipo: Type) {
         case 4: return "Arreglo";
         case 5: return "Reservada";
         case 6: return "Plantilla de Texto";
+        case 7: return "Struct";
     }
 }
