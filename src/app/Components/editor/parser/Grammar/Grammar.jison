@@ -6,6 +6,7 @@
     const {Unary, UnaryOption} = require('../Expression/Unary');
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
+    const {Ternary} = require('../Expression/Ternary');
     const {_Type} = require('../Expression/Type');
     const {Operation, OperationOption} = require('../Instruction/Operation');
     const {If} = require('../Instruction/If');
@@ -56,6 +57,7 @@ template [`]([^`])*[`]
 "-"                     return '-'
 "+"                     return '+'
 "%"                     return '%'
+"?"                     return '?'
 
 "<="                  return '<='
 ">="                  return '>='
@@ -105,6 +107,7 @@ template [`]([^`])*[`]
 
 /lex
 
+%left '?'
 %left 'OR'
 %left '&&'
 %left '==', '!='
@@ -393,7 +396,6 @@ Expr
     {
         $$ = new Relational($1, $3,RelationalOption.LESSOREQUAL ,@1.first_line, @1.first_column);
     }
-
     | Expr '>=' Expr
     {
         $$ = new Relational($1, $3,RelationalOption.GREATEROREQUAL ,@1.first_line, @1.first_column);
@@ -421,6 +423,10 @@ Expr
     | Expr 'OR' Expr
     {
         $$ = new Logic($1, $3,LogicOption.OR ,@1.first_line, @1.first_column);
+    }
+    | Expr '?' Expr ':' Expr
+    {
+        $$ = new Ternary($1, $3, $5, @1.first_line, @1.first_column);
     }
     | Unary
     {
