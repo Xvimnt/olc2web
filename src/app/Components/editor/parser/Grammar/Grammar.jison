@@ -24,6 +24,8 @@
     const {Call} = require('../Instruction/Call');
     const {Function} = require('../Instruction/Function');
     const { Error_ } = require('../Error');
+    const { errores } = require('../Errores');
+
 %}
 
 %lex
@@ -98,7 +100,7 @@ template [`]([^`])*[`]
 
 ([a-zA-Z_])[a-zA-Z0-9_ñÑ]*	return 'ID';
 <<EOF>>		                return 'EOF'
-.                           throw new Error_(yylloc.first_line, yylloc.first_column, 'Lexico','Valor inesperado ' + yytext);  
+.                           errores.push(new Error_(yylloc.first_line, yylloc.first_column, 'Lexico','Valor inesperado ' + yytext));  
 
 
 /lex

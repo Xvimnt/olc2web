@@ -76,7 +76,6 @@ export class EditorComponent {
           continue;
         try {
           const actual = instr.execute(this.env);
-          // TODO Arreglar el mensaje del Break en el default
           if (actual != null || actual != undefined) {
             this.errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
           }
