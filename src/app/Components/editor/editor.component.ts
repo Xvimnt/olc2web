@@ -15,6 +15,7 @@ import { DotService } from "../../services/dot.service"
 import Swal from 'sweetalert2'
 // Imports para los iconos
 import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
+import { errores } from './parser/Errores';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
@@ -33,7 +34,6 @@ export class EditorComponent {
   ast: any;
   env: Environment;
   flag: boolean;
-  errores: Array<Error_>;
 
   // Iconos
   faCoffee = faCoffee;
@@ -51,9 +51,9 @@ export class EditorComponent {
   clean() {
     this.ast = null;
     this.env = null;
-    this.errores = new Array<Error_>();
     this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     _Console.salida = "";
+    errores.length = 0;
     this.flag = true;
   }
 
@@ -68,7 +68,7 @@ export class EditorComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
-          this.errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
+          errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
         }
       }
       for (const instr of this.ast) {
@@ -77,37 +77,28 @@ export class EditorComponent {
         try {
           const actual = instr.execute(this.env);
           if (actual != null || actual != undefined) {
-            this.errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
+            errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
           }
 
         } catch (error) {
           //un error semantico
-          this.errores.push(error);
+          errores.push(error);
         }
       }
-      // Muestra el resultado en la pagina
-      this.salida += _Console.salida;
+      if (errores.length == 0) {
+        // Muestra el resultado en la pagina
+        this.salida += _Console.salida;
+      } else {
+        errores.forEach(error => {
+          console.log(error);
+          this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
+        });
+      }
     }
     catch (error) {
       // un error lexico o sintactico
       console.log('agregando error en scoope 3');
       console.log(error);
-      let temp = error.toString().split(' ');
-      console.log(temp);
-      if (temp[1] == 'Lexical') {
-        this.errores.push(new Error_(temp[5], 0, 'Lexico', ''));
-      } else if (temp[1] == 'Parse') {
-        this.errores.push(new Error_(temp[5].split(':')[0], 0, 'Sintactico', error.message.split(':')[1]));
-      } else {
-        this.errores.push(error);
-      }
-
-    }
-    if (this.errores.length != 0) {
-      this.errores.forEach(error => {
-        console.log(error);
-        this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
-      });
     }
     this.flag = false;
   }
@@ -121,7 +112,7 @@ export class EditorComponent {
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
-    } else if (this.errores.length != 0) {
+    } else if (errores.length != 0) {
       Swal.fire({
         title: 'Oops...!',
         text: 'Se encontraron errores en su codigo, no puede graficar',
@@ -177,7 +168,7 @@ export class EditorComponent {
         confirmButtonColor: 'rgb(59, 59, 61)'
       })
     }
-    else if (this.errores.length == 0) {
+    else if (errores.length == 0) {
       Swal.fire({
         title: 'Cool!',
         text: 'No se encontraron errores en su codigo',
@@ -189,7 +180,7 @@ export class EditorComponent {
     else {
       Swal.fire({
         title: 'Tabla de Errores',
-        html: new Table().errors(this.errores),
+        html: new Table().errors(errores),
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)',
         width: 600

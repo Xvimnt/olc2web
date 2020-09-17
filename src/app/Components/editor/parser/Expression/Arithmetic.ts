@@ -4,6 +4,7 @@ import { Environment } from "../Symbol/Environment";
 import { env } from "process";
 import { Error_ } from "../Error";
 import { Return } from '../Instruction/Return';
+import { errores } from '../Errores';
 
 export enum ArithmeticOption {
     PLUS,
@@ -53,7 +54,7 @@ export class Arithmetic extends Expression {
     public execute(environment: Environment): Retorno {
         const leftValue = this.left.execute(environment);
         const rightValue = this.right.execute(environment);
-        if (leftValue == null || rightValue == null) throw new Error_(this.line, this.column, 'Semantico', 'Operador no definido');
+        if (leftValue == null || rightValue == null) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
         switch (this.type) {
             case ArithmeticOption.PLUS:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
@@ -62,46 +63,46 @@ export class Arithmetic extends Expression {
                     case Type.NUMBER:
                         return { value: (leftValue.value + rightValue.value), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
             case ArithmeticOption.MINUS:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.STRING:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                     case Type.NUMBER:
                         return { value: (leftValue.value - rightValue.value), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
             case ArithmeticOption.TIMES:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.NUMBER:
                         return { value: (leftValue.value * rightValue.value), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
             case ArithmeticOption.POWER:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.NUMBER:
                         return { value: (Math.pow(leftValue.value, rightValue.value)), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
             case ArithmeticOption.MOD:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.NUMBER:
                         return { value: (leftValue.value % rightValue.value), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
             default:
                 switch (this.tipoDominante(leftValue.type, rightValue.type)) {
                     case Type.NUMBER:
                         if (rightValue.value == 0)
-                            throw new Error_(this.line, this.column, "Semantico", "No se puede dividir entre 0");
+                        errores.push( new Error_(this.line, this.column, "Semantico", "No se puede dividir entre 0"));
                         return { value: (leftValue.value / rightValue.value), type: Type.NUMBER };
                     default:
-                        throw new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type);
+                        errores.push( new Error_(this.line, this.column, 'Semantico', 'No se puede operar: ' + leftValue.type + ' _ ' + rightValue.type));
                 }
         }
     }

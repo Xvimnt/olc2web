@@ -2,6 +2,7 @@ import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -36,10 +37,10 @@ export class Call extends Instruction {
             if (func.type != null) {
                 if (result != null) {
                     if (result.type == func.type.execute().type) return result;
-                    else throw new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo, se requiere:' + func.type.execute().type + " ,se retorna: " + result.type + " " + result.value);
-                } else throw new Error_(this.line, this.column, 'Semantico', 'La funcion no retorna nada');
+                    else errores.push( new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo, se requiere:' + func.type.execute().type + " ,se retorna: " + result.type + " " + result.value));
+                } else errores.push( new Error_(this.line, this.column, 'Semantico', 'La funcion no retorna nada'));
             }
 
-        } else throw new Error_(this.line, this.column, 'Semantico', 'Funcion no definida');
+        } else errores.push( new Error_(this.line, this.column, 'Semantico', 'Funcion no definida'));
     }
 }

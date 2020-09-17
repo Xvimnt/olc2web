@@ -2,6 +2,7 @@ import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export enum UnaryOption {
     NEGATION,
@@ -41,11 +42,11 @@ export class Unary extends Expression {
             case UnaryOption.NEGATION:
                 if (val.type == Type.BOOLEAN)
                     return { value: (!Boolean(val.value)), type: Type.BOOLEAN };
-                else throw new Error_(this.line, this.column, "Semantico", "No se puede negar");
+                else errores.push( new Error_(this.line, this.column, "Semantico", "No se puede negar"));
             default:
                 if (val.type == Type.NUMBER)
                     return { value: (Number(val.value) * -1), type: Type.NUMBER };
-                else throw new Error_(this.line, this.column, "Semantico", "No se puede negar");
+                else errores.push( new Error_(this.line, this.column, "Semantico", "No se puede negar"));
         }
     }
 }

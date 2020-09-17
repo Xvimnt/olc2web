@@ -2,6 +2,7 @@ import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export enum LogicOption {
     AND,
@@ -41,7 +42,7 @@ export class Logic extends Expression {
     public execute(environment: Environment): Retorno {
         const leftValue = this.left.execute(environment);
         const rightValue = this.right.execute(environment);
-        if (leftValue == null || rightValue == null) throw new Error_(this.line, this.column, 'Semantico', 'Operador no definido');
+        if (leftValue == null || rightValue == null) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
         switch (this.type) {
             case LogicOption.AND:
                 return { value: (leftValue.value && rightValue.value), type: Type.BOOLEAN };

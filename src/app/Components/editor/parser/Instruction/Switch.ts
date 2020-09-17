@@ -5,6 +5,7 @@ import { Return } from './Return';
 import { Break } from './Break';
 import { Continue } from './Continue';
 import { Error_ } from '../Error';
+import { errores } from '../Errores';
 
 export class Switch extends Instruction {
 
@@ -29,7 +30,7 @@ export class Switch extends Instruction {
             const mainElement = this.condition.execute(env);
             for (let caso of this.casos) {
                 const secondElement = caso['condicion'].execute(env);
-                if (mainElement.type != secondElement.type) throw new Error_(this.line, this.column, 'Semantico', 'El case tiene que ser de el mismo tipo que el switch');
+                if (mainElement.type != secondElement.type) errores.push(new Error_(this.line, this.column, 'Semantico', 'El case tiene que ser de el mismo tipo que el switch'));
                 if (mainElement.value == secondElement.value) {
                     for (let instr of caso['instruccion']) {
                         if (instr instanceof Return) return instr.execute(env);

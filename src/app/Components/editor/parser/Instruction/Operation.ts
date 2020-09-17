@@ -1,6 +1,7 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export enum OperationOption {
     INCREMENT,
@@ -29,8 +30,8 @@ export class Operation extends Instruction {
     public execute(environment: Environment) {
         const value = environment.getVar(this.id);
         if (value == null)
-            throw new Error_(this.line, this.column, 'Semantico', "La variable no existe");
-            if(this.option == OperationOption.INCREMENT) environment.guardar(this.id, value.valor + 1, value.type);
-            else if(this.option == OperationOption.DECREMENT) environment.guardar(this.id, value.valor - 1, value.type);
+            errores.push(new Error_(this.line, this.column, 'Semantico', "La variable no existe"));
+        if (this.option == OperationOption.INCREMENT) environment.guardar(this.id, value.valor + 1, value.type);
+        else if (this.option == OperationOption.DECREMENT) environment.guardar(this.id, value.valor - 1, value.type);
     }
 }

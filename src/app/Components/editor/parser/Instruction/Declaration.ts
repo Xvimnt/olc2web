@@ -5,6 +5,7 @@ import { Literal } from "../Expression/Literal";
 import { _Type } from "../Expression/Type";
 import { isNumber, isString, isBoolean } from "util";
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export class Declaration extends Instruction {
 
@@ -43,13 +44,13 @@ export class Declaration extends Instruction {
             else {
                 switch (this.type.execute().value) {
                     case 'number':
-                        if (!isNumber(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'Numero no valido');
+                        if (!isNumber(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'Numero no valido'));
                         break;
                     case 'string':
-                        if (!isString(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'String no valida');
+                        if (!isString(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'String no valida'));
                         break;
                     case 'boolean':
-                        if (!isBoolean(val.value)) throw new Error_(this.line, this.column, 'Semantico', 'Booleano no valido');
+                        if (!isBoolean(val.value)) errores.push( new Error_(this.line, this.column, 'Semantico', 'Booleano no valido'));
                         break;
                     case 'type': break;
                     default:
@@ -60,7 +61,7 @@ export class Declaration extends Instruction {
             }
         }
         else {
-            if (this.method.execute(environment).value == 'const') throw new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia');
+            if (this.method.execute(environment).value == 'const') errores.push( new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia'));
             environment.guardar(this.id, 'undefined', 3);
         }
     }

@@ -3,6 +3,7 @@ import { Retorno, Type, getTypeName } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { environment } from 'src/environments/environment';
 import { Error_ } from "../Error";
+import { errores } from '../Errores';
 
 export class Literal extends Expression {
 
@@ -29,7 +30,7 @@ export class Literal extends Expression {
         let text = expression.replace(templateMatcher, (substring, value, index) => {
             value = environment.getVar(value);
             if (value == null)
-                throw new Error_(this.line, this.column, 'Semantico', 'Variable no definida');
+            errores.push( new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
             return value.valor;
         });
         return text.replace(/`/g, "");
