@@ -19,6 +19,6 @@ export class Access extends Expression{
         const value = environment.getVar(this.id);
         if(value == null)
             errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));  
-        return {value : value.valor, type : value.type};
+        else return {value : value.valor, type : value.type};
     }
 }

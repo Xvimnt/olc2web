@@ -27,7 +27,7 @@ export class Statement extends Instruction {
                 if (element != undefined || element != null)
                     return element;
             } catch (error) {
-                errores.push(error);
+                console.log(error);
             }
         }
     }

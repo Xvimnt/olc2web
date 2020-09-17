@@ -28,9 +28,16 @@ export class Ternary extends Expression {
 
     public execute(environment: Environment): Retorno {
         const condition = this.condition.execute(environment);
-        const isTrue = this.isTrue.execute(environment);
-        const isFalse = this.isFalse.execute(environment);
-        if (condition.value == true) return { type: isTrue.type, value: isTrue.value }
-        else return { type: isFalse.type, value: isFalse.value }
+
+        if (condition.value == true) {
+            const isTrue = this.isTrue.execute(environment);
+            if (isTrue != null) return { type: isTrue.type, value: isTrue.value }
+            else return { type: 3, value: 'undefined' }
+        }
+        else {
+            const isFalse = this.isFalse.execute(environment);
+            if (isFalse != null) return { type: isFalse.type, value: isFalse.value }
+            else return { type: 3, value: 'undefined' }
+        }
     }
 }

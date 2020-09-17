@@ -21,6 +21,8 @@ export class Return extends Instruction {
 
     public execute(environment: Environment) {
         const result = this.value.execute(environment);
-        return { line: this.line, column: this.column, type: result.type, value: result.value };
+
+        if (result != null) return { line: this.line, column: this.column, type: result.type, value: result.value };
+        else return { type: 3, value: 'undefined' }
     }
 }

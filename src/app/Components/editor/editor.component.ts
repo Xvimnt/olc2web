@@ -68,7 +68,7 @@ export class EditorComponent {
           if (instr instanceof Function)
             instr.execute(this.env);
         } catch (error) {
-          errores.push(new Error_(instr.line, instr.column, 'Semantico', 'Instruccion no definida'));
+          console.log(error);
         }
       }
       for (const instr of this.ast) {
@@ -81,23 +81,21 @@ export class EditorComponent {
           }
 
         } catch (error) {
-          //un error semantico
-          errores.push(error);
+          console.log(error);
         }
       }
       if (errores.length == 0) {
         // Muestra el resultado en la pagina
         this.salida += _Console.salida;
       } else {
-        errores.forEach(error => {
-          console.log(error);
-          this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
-        });
+        if (errores.length != 0) {
+          errores.forEach(error => {
+            this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
+          });
+        }
       }
     }
     catch (error) {
-      // un error lexico o sintactico
-      console.log('agregando error en scoope 3');
       console.log(error);
     }
     this.flag = false;

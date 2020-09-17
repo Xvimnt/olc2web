@@ -2,6 +2,8 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { _Console } from "../Util/Salida";
+import { errores } from '../Errores';
+import { Error_ } from '../Error';
 
 export class Print extends Instruction{
 
@@ -22,7 +24,9 @@ export class Print extends Instruction{
     }
 
     public execute(environment : Environment) {
-        const resultado = this.value.execute(environment).value;
-       _Console.salida += resultado + "\n";
+        if(this.value.execute(environment) != undefined) {
+            const resultado = this.value.execute(environment).value;
+            _Console.salida += resultado + "\n";
+        } else _Console.salida += "";
     }
 }

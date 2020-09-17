@@ -37,10 +37,10 @@ export class Call extends Instruction {
             if (func.type != null) {
                 if (result != null) {
                     if (result.type == func.type.execute().type) return result;
-                    else errores.push( new Error_(this.line, this.column, 'Semantico', 'Return y funcion de diferente tipo, se requiere:' + func.type.execute().type + " ,se retorna: " + result.type + " " + result.value));
-                } else errores.push( new Error_(this.line, this.column, 'Semantico', 'La funcion no retorna nada'));
+                    else return { type: 3, value: 'undefined' }
+                }
             }
 
-        } else errores.push( new Error_(this.line, this.column, 'Semantico', 'Funcion no definida'));
+        } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Funcion no definida'));
     }
 }
