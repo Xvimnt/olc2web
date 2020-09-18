@@ -68,9 +68,10 @@ template [`]([^`])*[`]
 "=="                  return '=='
 "!="                  return '!='
 "||"                  return 'OR'
-"&&"                 return '&&'
+"&&"                  return '&&'
 "!"                   return '!'
 "="                   return '='
+"null"                return 'NULL'
 
 "("                     return '('
 ")"                     return ')' 
@@ -258,14 +259,11 @@ Struct
 
 
 Assignation 
-    : ID '=' Expr {
+    : Access '=' Expr {
         $$ = new Assignation($1, $3, @1.first_line, @1.first_column);
     }
-    | ID '=' '{' StructAssign '}' {
-        $$ = new Assignation($1, $3, @1.first_line, @1.first_column);
-    }
-    | ID '.' ID '=' Expr {
-        $$ = new Assignation([$1,$3], $5, @1.first_line, @1.first_column);
+    | Access '=' '{' StructAssign '}' {
+        $$ = new Assignation($1, $4, @1.first_line, @1.first_column);
     }
 ;
 
@@ -460,6 +458,10 @@ Expr
     | Unary
     {
         $$ = $1;
+    }
+    | 'NULL'
+    {
+        $$ = null;
     }
 ;
 

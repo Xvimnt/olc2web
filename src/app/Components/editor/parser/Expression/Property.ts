@@ -4,11 +4,12 @@ import { Retorno } from "../Abstract/Retorno";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { Symbol } from "../Symbol/Symbol";
+import { Access } from './Access';
 
 
 export class Property extends Expression {
 
-    constructor(private id: string, private property: string, line: number, column: number) {
+    constructor(private id: any, private property: string, line: number, column: number) {
         super(line, column);
     }
 
@@ -22,12 +23,17 @@ export class Property extends Expression {
     }
 
     public execute(environment: Environment): Retorno {
-        const value = environment.getVar(this.id);
-        if (value == null)
-            errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
-        else{
-            let result = this.getTypeProperty(value,this.property);
-            return null;
+        if (this.id instanceof Access) {
+            const val = this.id.execute(environment);
+            for (let index in val.value) {
+                if (val.value[index].id == this.property) {
+                    if (val.value[index].value != null) {
+                        let result = val.value[index].value.execute();
+                        return { value: result.value, type: result.type }
+                    }
+                }
+            }
         }
+        return { value: null, type: 3 }
     }
 }

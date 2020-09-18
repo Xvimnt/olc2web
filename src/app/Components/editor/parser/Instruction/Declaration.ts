@@ -6,6 +6,7 @@ import { _Type } from "../Expression/Type";
 import { isNumber, isString, isBoolean, isArray } from "util";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
+import { Key } from 'protractor';
 
 export class Declaration extends Instruction {
 
@@ -38,12 +39,37 @@ export class Declaration extends Instruction {
 
     public execute(environment: Environment) {
         // Si es un struct
-        if (isArray(this.value)) environment.guardar(this.id, this.value, 7);
+        if (isArray(this.value)) {
+            // Se declara el struct
+            if (this.type.toString() == 'type') {
+                environment.guardar(this.id, this.value, 7);
+            }
+            // Se declara una variable tipo struct
+            else {
+                // Obtener el struct para validarlo
+                const struct = environment.getVar(this.type.execute().value);
+                if (this.value.length == struct.valor.length) {
+                    // Verificar que cada valor de la asignacion pertenezca al struct
+                    this.value.forEach(element => {
+                        let pointer = struct.valor.length;
+                        struct.valor.forEach(key => {
+                            if (element.id == key.id) {
+                                if (element.value != null && element.value.execute().type != key.type.execute().type) errores.push(new Error_(element.value.line, element.value.column, 'Semantico', 'Atributo de tipo no valido en la declaracion del type: ' + element.value.execute().value));
+                                return; // se sale del foreach
+                            }
+                            pointer--;
+                        });
+                        if (pointer == 0) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no valido en la declaracion del type: ' + element.id));
+                    });
+                } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos no validos en el type'));
+                environment.guardar(this.id, this.value, 7);
+            }
+        }
         // Se declara una variable normal
         else if (this.value != null) {
             const val = this.value.execute(environment);
 
-            if (this.type == null) environment.guardar(this.id, val.value, val.type)
+            if (this.type == null) environment.guardar(this.id, val.value, val.type);
             else {
                 switch (this.type.execute().value) {
                     case 'number':

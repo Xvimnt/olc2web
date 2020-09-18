@@ -9,6 +9,8 @@ export class Access extends Expression{
     constructor(private id: string, line : number, column: number){
         super(line, column);
     }
+
+    public getID() { return this.id }
     
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") "+this.id+": Acceso\";";
