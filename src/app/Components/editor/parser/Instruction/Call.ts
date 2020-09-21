@@ -36,8 +36,15 @@ export class Call extends Instruction {
             // si no es Void
             if (func.type != null) {
                 if (result != null) {
+                    // Si es un struct
+                    if(func.type.execute().type == 5) {
+                            // debe retornar un array
+                            if(result.type == 7) return result;
+                    }
+                    // el tipo es nativo
                     if (result.type == func.type.execute().type) return result;
                     else return { type: 3, value: 'undefined' }
+                    
                 }
             }
 

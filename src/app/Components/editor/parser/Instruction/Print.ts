@@ -2,10 +2,8 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { _Console } from "../Util/Salida";
-import { errores } from '../Errores';
-import { Error_ } from '../Error';
 
-export class Print extends Instruction{
+export class Print extends Instruction {
 
     public plot(count: number): string {
 
@@ -18,15 +16,23 @@ export class Print extends Instruction{
 
         return result;
     }
-    
-    constructor(private value : Expression, line : number, column : number){
+
+    constructor(private value: Expression, line: number, column: number) {
         super(line, column);
     }
 
-    public execute(environment : Environment) {
-        if(this.value.execute(environment) != undefined) {
+    public execute(environment: Environment) {
+        if (this.value.execute(environment) != undefined) {
             const resultado = this.value.execute(environment).value;
-            _Console.salida += resultado + "\n";
+            // si es un struct
+            if (resultado instanceof Array) {
+                _Console.salida += "[\n";
+                resultado.forEach(element => {
+                    _Console.salida += "  " + element.id + ": " + element.value + "\n";
+                });
+                _Console.salida += "]\n";
+            }
+            else _Console.salida += resultado + "\n";
         } else _Console.salida += "";
     }
 }

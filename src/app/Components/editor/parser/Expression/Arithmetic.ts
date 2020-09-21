@@ -52,8 +52,9 @@ export class Arithmetic extends Expression {
     }
 
     public execute(environment: Environment): Retorno {
-        const leftValue = this.left.execute(environment);
-        const rightValue = this.right.execute(environment);
+        const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
+        const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
+        
         if (leftValue == null || rightValue == null) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
         switch (this.type) {
             case ArithmeticOption.PLUS:

@@ -2,7 +2,6 @@ import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Error_ } from "../Error";
 import { Environment } from "../Symbol/Environment";
-import { errores } from '../Errores';
 
 export enum RelationalOption {
     EQUAL,
@@ -42,16 +41,16 @@ export class Relational extends Expression {
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";
         return result;
-     }
+    }
 
     constructor(private left: Expression, private right: Expression, private type: RelationalOption, line: number, column: number) {
         super(line, column);
     }
 
     public execute(environment: Environment): Retorno {
-        const leftValue = this.left.execute(environment);
-        const rightValue = this.right.execute(environment);
-        if (leftValue == null || rightValue == null) errores.push( new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
+
+        const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
+        const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
 
         switch (this.type) {
             case RelationalOption.EQUAL:

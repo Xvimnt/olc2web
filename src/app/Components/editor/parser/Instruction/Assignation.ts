@@ -3,6 +3,8 @@ import { Environment } from "../Symbol/Environment";
 import { Expression } from "../Abstract/Expression";
 import { isArray } from 'util';
 import { Access } from '../Expression/Access';
+import { Property } from '../Expression/Property';
+import { env } from 'process';
 
 export class Assignation extends Instruction {
 
@@ -24,13 +26,25 @@ export class Assignation extends Instruction {
 
     public execute(environment: Environment) {
         if (isArray(this.value)) {
-            if(this.id instanceof Access) {
-                environment.guardar(this.id.getID(),this.value,7);
+            if (this.id instanceof Access) {
+                // Arreglar los Accesos
+                for(let index in this.value) this.value[index].value = (this.value[index].value == null) ? null : this.value[index].value.execute(environment).value;
+                environment.guardar(this.id.getID(), this.value, 7);
             }
         }
-        else if (isArray(this.id)) {
-            //Asignarle valor a una propiedad
-            console.log('id y propiedad:', this.id);
+        else if (this.id instanceof Property) {
+            // Obtener el struct para validarlo
+            const struct = environment.getVar(this.id.getObject());
+            //Asignarle valor a una propiedad del struct
+            const result = this.value.execute(environment);
+
+            // Buscar la propiedad que se asignara
+            for (let index in struct.valor) {
+                if (struct.valor[index].id == this.id.getProperty()) {
+                    // Se sobrescribe el valor
+                    struct.valor[index].value = (result.value == null) ? null : result.value;
+                }
+            }
         }
         else if (this.value != null) {
             const val = this.value.execute(environment);
