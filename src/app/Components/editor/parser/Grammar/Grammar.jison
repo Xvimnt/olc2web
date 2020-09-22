@@ -8,7 +8,10 @@
     const {Property} = require('../Expression/Property');
     const {Literal} = require('../Expression/Literal');
     const {Ternary} = require('../Expression/Ternary');
-    const {_Type} = require('../Expression/Type');
+    // Tipos de Objetos
+    const {ArrayType} = require('../Types/Array');
+    const {_Type} = require('../Types/Type');
+    // Instrucciones
     const {Operation, OperationOption} = require('../Instruction/Operation');
     const {If} = require('../Instruction/If');
     const {Switch} = require('../Instruction/Switch');
@@ -25,6 +28,7 @@
     const {Return} = require('../Instruction/Return');
     const {Call} = require('../Instruction/Call');
     const {Function} = require('../Instruction/Function');
+    const {_Array} = require('../Object/Array');
     const { Error_ } = require('../Error');
     const { errores } = require('../Errores');
 
@@ -77,6 +81,8 @@ template [`]([^`])*[`]
 ")"                     return ')' 
 "{"                     return '{'
 "}"                     return '}'
+"["                     return '['
+"]"                     return ']'
 "if"                    return 'IF'
 "else"                  return 'ELSE'
 "switch"                return 'SWITCH'
@@ -283,6 +289,16 @@ Reserved
 ;
 
 Type 
+    : NativeType ArrayDimensions { $$ = new ArrayType($1, $2, @1.first_line, @1.first_column) }
+    | NativeType { $$ = $1; }
+;
+
+ArrayDimensions
+    : ArrayDimensions '[' ']' { $1++; $$ = $1; }
+    | '[' ']' { $$ = 1 }
+;
+
+NativeType 
     :':' STYPE { $$ = new _Type($2, 1, @1.first_line, @1.first_column); }
     |':' NTYPE { $$ = new _Type($2, 0, @1.first_line, @1.first_column); }
     |':' BTYPE { $$ = new _Type($2, 2, @1.first_line, @1.first_column); }
@@ -389,9 +405,14 @@ Statement
 ;
 
 PrintSt 
-    : 'PRINT' '(' Expr ')' ';' {
+    : 'PRINT' '(' ExprList ')' ';' {
         $$ = new Print($3, @1.first_line, @1.first_column);
     }
+;
+
+ExprList
+    : ExprList ',' Expr {$1.push($3); $$ = $1;}
+    | Expr { $$ = [$1] }
 ;
 
 Expr
@@ -463,6 +484,14 @@ Expr
     {
         $$ = null;
     }
+    | '[' ']'
+    {
+        $$ = null;
+    }
+    | '[' ExprList ']'
+    {
+        $$ = $2;
+    }
 ;
 
 Operation 
@@ -524,11 +553,23 @@ F   : '(' Expr ')'
     }
 ;
 
+ArrayAccess
+    : ArrayAccess '[' Expr ']' { $1.push($3); $$ = $1; }
+    | '[' Expr ']' { $$ = [$2] }
+;
+
 Access 
     : Access '.' ID {
         $$ = new Property($1, $3, @1.first_line, @1.first_column);
     }
+    | Access '.' ID ArrayAccess {
+        $$ = new Property($1, $3, @1.first_line, @1.first_column);
+    }
     | ID
+    {
+        $$ = new Access($1, @1.first_line, @1.first_column);
+    }
+    | ID ArrayAccess
     {
         $$ = new Access($1, @1.first_line, @1.first_column);
     }

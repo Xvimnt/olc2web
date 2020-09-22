@@ -1,7 +1,6 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type, getTypeName } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
-import { environment } from 'src/environments/environment';
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 
@@ -12,10 +11,6 @@ export class Literal extends Expression {
     }
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Literal\"];";
-        result += "node" + count + "1[label=\"(" + this.line + ","
-            + this.column + ") " + this.value + ": " + getTypeName(this.type) + "\"];";
-        // Flechas
-        result += "node" + count + " -> " + "node" + count + "1;";
         return result;
     }
 

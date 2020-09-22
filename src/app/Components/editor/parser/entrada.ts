@@ -1,40 +1,31 @@
-    type AVLNode = {
-        left: AVLNode,
-        right: AVLNode,
-        height: number,
-        value: number
-    };
+let matrixA : number [][] = [];
+let matrixB : number [][] = [];
+let matrixR : number [][] = [];
+const min = 0;
+const max = 4;
 
-    type AVLTree = {
-        root: AVLNode
-    };
-
-    function height(n: AVLNode): number {
-        if (n == null) {
-            return 0;
+function llenado(matrix1 : number[][], matrix2 : number[][], matrix3 : number[][]) : void{
+    for(let i = min; i < max; i++){
+        matrix1[i] = [];
+        matrix2[i] = [];
+        matrix3[i] = [];
+        for(let j = min; j < max; j++){
+            matrix1[i][j] = j * 3 + i;
+            matrix2[i][j] = i ** 3 - j ** 2;
+            matrix3[i][j] = 0;
         }
-        return n.height;
     }
+}
 
-    function insert(node: AVLNode, value: number) :AVLNode {
-        /* 1.  Perform the normal BST rotation */
-        if (node == null) {
-            node = {
-                left: null,
-                right: null,
-                height: 0,
-                value: value
-            };
-            return node;
+function print(matrix : number[][]) : void{
+    for(let i = 0; i < matrix.length; i++){
+        let salida = '';
+        for(let j = 0; j < matrix[i].length; j++){
+            salida = salida + "\t|\t" + matrix[i][j];
         }
-
-        /* return the (unchanged) node pointegerer */
-        return node;
+        console.log(salida);
     }
+}
 
-    let tree : AVLTree = {
-        root: null
-    };
-
-    tree.root = insert(tree.root, 19);
-    console.log(tree.root.value);
+llenado(matrixA,matrixB, matrixR);
+print(matrixA);

@@ -1,6 +1,6 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
-import { _Type } from '../Expression/Type';
+import { _Type } from '../Types/Type';
 
 export class Function extends Instruction {
 
