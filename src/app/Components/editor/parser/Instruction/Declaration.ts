@@ -48,9 +48,9 @@ export class Declaration extends Instruction {
             // Ver el metodo
             if (this.value != null) {
                 //TODO Validar que las dimensiones sean exactas y validar que cada elemento sea de su tipo
-                let valores = new Array();
+                let valores = [];
                 for (let i in this.value) {
-                    valores.push(this.value[i].execute(environment).value);
+                    valores[i.toString()] = this.value[i].execute(environment);
                 }
                 if (this.type instanceof ArrayType) {
                     let arrObject = new _Array(this.type.dimensions, valores, this.type.type);

@@ -3,20 +3,20 @@ import { Retorno } from '../Abstract/Retorno';
 
 export class _Array {
 
-    constructor(private dimensions: number, private content: Array<any>, public tipo: _Type) { }
+    constructor(public dimensions: number, private content: Array<any>, public tipo: _Type) { }
 
-    public getAtributo(id: string) {
-        return this.content[id];
+    public getAtributo(index: string) {
+        return this.content[index];
     }
 
-    public setAtributo(index: number, value: any) {
+    public setAtributo(index: string, value: any) {
         this.content[index] = value;
     }
 
     public print() {
         let result = "[ ";
         this.content.forEach(element => {
-            result += element + ", ";
+            result += element.value + ", ";
         });
         if(result.length > 2) result = result.substring(0, result.length - 2);
         return result += " ]";

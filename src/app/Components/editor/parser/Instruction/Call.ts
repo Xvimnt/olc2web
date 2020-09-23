@@ -62,7 +62,7 @@ export class Call extends Instruction {
                 case 'push':
                     if (obj.valor instanceof _Array) {
                         if (this.expresiones.length == 1) {
-                            obj.valor.push(this.expresiones[0].execute(environment).value);
+                            obj.valor.push(this.expresiones[0].execute(environment));
                         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de parametros incorrecto'));
                     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Propiedad no definida para el objeto'));
                     break;
@@ -70,7 +70,7 @@ export class Call extends Instruction {
                     if (obj.valor instanceof _Array) {
                         if (this.expresiones.length == 0) {
                             const retorno = obj.valor.pop();
-                            return { value: retorno, type: obj.valor.tipo.execute().type }
+                            return { value: retorno.value, type: retorno.type }
                         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de parametros incorrecto'));
                     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Propiedad no definida para el objeto'));
                     break;

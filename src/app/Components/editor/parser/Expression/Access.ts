@@ -27,7 +27,8 @@ export class Access extends Expression {
             const value = environment.getVar(this.id[0]);
             if (value.valor instanceof _Array) {
                 for (const key in this.id[1]) {
-                    const retorno = value.valor.getAtributo(this.id[1][key].value);
+                    let index: string = this.id[1][key].value;
+                    const retorno = value.valor.getAtributo(index);
                     if (retorno != undefined) return { value: retorno.value, type: retorno.type }
                 }
             }
