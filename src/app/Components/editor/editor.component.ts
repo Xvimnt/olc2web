@@ -75,11 +75,8 @@ export class EditorComponent {
         if (instr instanceof Function)
           continue;
         try {
-          const actual = instr.execute(this.env);
-          if (actual != null || actual != undefined) {
-            errores.push(new Error_(actual.line, actual.column, 'Semantico', actual.type + ' fuera de un ciclo'));
-          }
-
+          instr.execute(this.env);
+          // TODO validar return break continue fuera de ciclos
         } catch (error) {
           console.log(error);
         }

@@ -9,7 +9,7 @@ import { Access } from './Access';
 
 export class Property extends Expression {
 
-    constructor(private id: any, private property: string, line: number, column: number) {
+    constructor(public id: any, private property: string, line: number, column: number) {
         super(line, column);
     }
 

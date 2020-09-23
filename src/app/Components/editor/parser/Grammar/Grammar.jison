@@ -192,10 +192,10 @@ Instruction
 ;
 
 Call
-    : ID '(' ')' {
+    : Access '(' ')' {
         $$ = new Call($1, [], @1.first_line, @1.first_column);
     }
-    | ID '(' ListaExpr ')' {
+    | Access '(' ListaExpr ')' {
         $$ = new Call($1, $3, @1.first_line, @1.first_column);
     }
 ;

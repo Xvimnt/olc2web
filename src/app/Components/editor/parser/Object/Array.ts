@@ -18,12 +18,20 @@ export class _Array {
         this.content.forEach(element => {
             result += element + ", ";
         });
-        result = result.substring(0, result.length - 2);
+        if(result.length > 2) result = result.substring(0, result.length - 2);
         return result += " ]";
     }
 
     public pop() {
         return this.content.pop();
+    }
+
+    public length() {
+        return this.content.length;
+    }
+
+    public push(val: any){
+        this.content.push(val);
     }
 
 
