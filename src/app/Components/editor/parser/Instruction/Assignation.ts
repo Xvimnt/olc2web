@@ -35,9 +35,13 @@ export class Assignation extends Instruction {
             // Si es un array
             const value = environment.getVar(this.id.id[0]);
             if (value.valor instanceof _Array) {
-                for (const key in this.id.id[1]) {
-                    value.valor.setAtributo(this.id.id[1][key].value,this.value.execute(environment));
-                }
+                this.id.id[1].forEach(element => {
+                    if (element instanceof Access) {
+                        let newElement = element.execute(environment);
+                        value.valor.setAtributo(newElement.value, this.value.execute(environment));
+                    }
+                    else value.valor.setAtributo(element.value, this.value.execute(environment));
+                });
             }
         }
         else if (this.id instanceof Property) {
@@ -57,7 +61,7 @@ export class Assignation extends Instruction {
         else if (this.value != null) {
             const val = this.value.execute(environment);
             // TODO Comprobar tipos en la asignacion
-            if(this.id instanceof Access) environment.guardar(this.id.getID(), val.value, val.type);
+            if (this.id instanceof Access) environment.guardar(this.id.getID(), val.value, val.type);
             else environment.guardar(this.id, val.value, val.type);
         }
     }
