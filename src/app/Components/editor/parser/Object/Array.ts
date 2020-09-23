@@ -16,7 +16,8 @@ export class _Array {
     public print() {
         let result = "[ ";
         this.content.forEach(element => {
-            result += element.value + ", ";
+            if(element instanceof _Array) result += element.print() + ", ";
+            else result += element.value + ", ";
         });
         if(result.length > 2) result = result.substring(0, result.length - 2);
         return result += " ]";

@@ -263,7 +263,7 @@ case 51:
         this.$ = new If($$[$0-3], $$[$0-1], $$[$0], _$[$0-5].first_line, _$[$0-5].first_column);
     
 break;
-case 54: case 62: case 63: case 90: case 91:
+case 54: case 62: case 63: case 90:
 
         this.$ = null;
     
@@ -407,6 +407,11 @@ break;
 case 88:
 
         this.$ = new Ternary($$[$0-4], $$[$0-2], $$[$0], _$[$0-4].first_line, _$[$0-4].first_column);
+    
+break;
+case 91:
+
+        this.$ = [];
     
 break;
 case 93:
