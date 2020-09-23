@@ -50,7 +50,7 @@ export class Declaration extends Instruction {
                 //TODO Validar que las dimensiones sean exactas y validar que cada elemento sea de su tipo
                 let valores = new Array();
                 for (let i in this.value) {
-                    valores.push(this.value[i]);
+                    valores.push(this.value[i].execute(environment).value);
                 }
                 if (this.type instanceof ArrayType) {
                     let arrObject = new _Array(this.type.dimensions, valores, this.type.type);
@@ -63,33 +63,35 @@ export class Declaration extends Instruction {
             }
         }
         else {
-            // // Si es un struct
-            // if (isArray(this.value)) {
-            //     // Se declara el struct
-            //     if (this.type.toString() == 'type') {
-            //         environment.guardar(this.id, this.value, 7);
-            //     }
-            //     // Se declara una variable tipo struct
-            //     else {
-            //         // Obtener el struct para validarlo
-            //         const struct = environment.getVar(this.type.execute().value);
-            //         if (this.value.length == struct.valor.length) {
-            //             // Verificar que cada valor de la asignacion pertenezca al struct
-            //             this.value.forEach(element => {
-            //                 let pointer = struct.valor.length;
-            //                 struct.valor.forEach(key => {
-            //                     if (element.id == key.id) {
-            //                         if (element.value != null && element.value.execute().type != key.type.execute().type) errores.push(new Error_(element.value.line, element.value.column, 'Semantico', 'Atributo de tipo no valido en la declaracion del type: ' + element.value.execute().value));
-            //                         return; // se sale del foreach
-            //                     }
-            //                     pointer--;
-            //                 });
-            //                 if (pointer == 0) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no valido en la declaracion del type: ' + element.id));
-            //             });
-            //         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos no validos en el type'));
-            //         environment.guardar(this.id, this.value, 7);
-            //     }
-            // }
+            // Si es un struct
+            if (isArray(this.value)) {
+                // Se declara el struct
+                if (this.type.toString() == 'type') {
+                    environment.guardar(this.id, this.value, 7);
+                }
+                // Se declara una variable tipo struct
+                else {
+                    // Obtener el struct para validarlo
+                    const struct = environment.getVar(this.type.execute().value);
+                    // if (isArray(this.value)) {
+                    //     if (this.value.length == struct.valor.length) {
+                    //         // Verificar que cada valor de la asignacion pertenezca al struct
+                    //         this.value.forEach(element => {
+                    //             let pointer = struct.valor.length;
+                    //             struct.valor.forEach(key => {
+                    //                 if (element.id == key.id) {
+                    //                     if (element.value != null && element.value.execute().type != key.type.execute().type) errores.push(new Error_(element.value.line, element.value.column, 'Semantico', 'Atributo de tipo no valido en la declaracion del type: ' + element.value.execute().value));
+                    //                     return; // se sale del foreach
+                    //                 }
+                    //                 pointer--;
+                    //             });
+                    //             if (pointer == 0) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no valido en la declaracion del type: ' + element.id));
+                    //         });
+                    //     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos no validos en el type'));
+                    //     environment.guardar(this.id, this.value, 7);
+                    // }
+                }
+            }
             // Se declara una variable normal
             if (this.value != null) {
                 const val = this.value.execute(environment);

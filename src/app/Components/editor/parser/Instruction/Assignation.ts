@@ -32,11 +32,13 @@ export class Assignation extends Instruction {
             }
         }
         else if (isArray(this.id.id)) {
-            const varArry = environment.getVar(this.id.id[0]);
-            this.id.id[1].forEach(element => {
-                let index = element.execute(environment);
-                console.log('se encuentra el index',index.valor);
-            });
+            // Si es un array
+            const value = environment.getVar(this.id.id[0]);
+            if (value.valor instanceof _Array) {
+                for (const key in this.id.id[1]) {
+                    value.valor.setAtributo(this.id.id[1][key].value,this.value.execute(environment).value);
+                }
+            }
         }
         else if (this.id instanceof Property) {
             // Obtener el struct para validarlo

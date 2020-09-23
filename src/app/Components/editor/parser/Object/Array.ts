@@ -13,6 +13,15 @@ export class _Array {
         this.content[index] = value;
     }
 
+    public print() {
+        let result = "[ ";
+        this.content.forEach(element => {
+            result += element + ", ";
+        });
+        result = result.substring(0, result.length - 2);
+        return result += " ]";
+    }
+
     public pop() {
         return this.content.pop();
     }
