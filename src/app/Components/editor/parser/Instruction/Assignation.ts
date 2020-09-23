@@ -5,18 +5,17 @@ import { isArray } from 'util';
 import { Access } from '../Expression/Access';
 import { Property } from '../Expression/Property';
 import { env } from 'process';
+import { _Array } from '../Object/Array';
 
 export class Assignation extends Instruction {
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Assignacion " + this.id + "\";";
-
         // Hijo 1
         result += "node" + count + "1[label=\"(" + this.value.line + "," + this.value.column + ") Valor\"];";
         result += this.value.plot(Number(count + "1"));
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
-
         return result;
     }
 
@@ -28,9 +27,16 @@ export class Assignation extends Instruction {
         if (isArray(this.value)) {
             if (this.id instanceof Access) {
                 // Arreglar los Accesos
-                for(let index in this.value) this.value[index].value = (this.value[index].value == null) ? null : this.value[index].value.execute(environment).value;
+                for (let index in this.value) this.value[index].value = (this.value[index].value == null) ? null : this.value[index].value.execute(environment).value;
                 environment.guardar(this.id.getID(), this.value, 7);
             }
+        }
+        else if (isArray(this.id.id)) {
+            const varArry = environment.getVar(this.id.id[0]);
+            this.id.id[1].forEach(element => {
+                let index = element.execute(environment);
+                console.log('se encuentra el index',index.valor);
+            });
         }
         else if (this.id instanceof Property) {
             // Obtener el struct para validarlo
@@ -52,5 +58,4 @@ export class Assignation extends Instruction {
             environment.guardar(this.id, val.value, val.type);
         }
     }
-
 }

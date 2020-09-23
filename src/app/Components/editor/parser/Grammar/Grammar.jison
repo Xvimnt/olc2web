@@ -571,6 +571,6 @@ Access
     }
     | ID ArrayAccess
     {
-        $$ = new Access($1, @1.first_line, @1.first_column);
+        $$ = new Access([$1,$2], @1.first_line, @1.first_column);
     }
 ;

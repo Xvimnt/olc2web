@@ -52,14 +52,13 @@ export class Declaration extends Instruction {
                 for (let i in this.value) {
                     valores.push(this.value[i]);
                 }
-                let arrObject;
                 if (this.type instanceof ArrayType) {
-                    arrObject = new _Array(this.type.dimensions, valores, this.type.type);
+                    let arrObject = new _Array(this.type.dimensions, valores, this.type.type);
                     if (this.validacionRecursiva()) environment.guardar(this.id, arrObject, 4);
                 }
             } else {
                 if (this.method.execute(environment).value == 'const') errores.push(new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia'));
-                let arrObject = new _Array(this.type.dimensions, null, this.type.type);
+                let arrObject = new _Array(this.type.dimensions, new Array(), this.type.type);
                 environment.guardar(this.id, arrObject, 4);
             }
         }

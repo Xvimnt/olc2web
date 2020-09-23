@@ -482,7 +482,7 @@ case 110:
 break;
 case 111:
 
-        this.$ = new Access($$[$0-1], _$[$0-1].first_line, _$[$0-1].first_column);
+        this.$ = new Access([$$[$0-1],$$[$0]], _$[$0-1].first_line, _$[$0-1].first_column);
     
 break;
 }
