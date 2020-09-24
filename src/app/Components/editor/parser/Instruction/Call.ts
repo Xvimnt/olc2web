@@ -59,19 +59,16 @@ export class Call extends Instruction {
                     }
                 }
                 const result = func.statment.execute(newEnv);
-                // si no es Void
-                if (func.type != null) {
-                    if (result != null) {
-                        // Si es un struct
-                        if (func.type.execute().type == 5) {
-                            // debe retornar un array
-                            if (result.type == 7) return result;
-                        }
-                        // el tipo es nativo
-                        if (result.type == func.type.execute().type) return result;
-                        else return { type: 3, value: 'undefined' }
-                    }
+                console.log('se obtiene ',result);
+                console.log('en funcion',func);
+                // Para el void
+                if(func.type == null || func.type.execute().type == 3) return result;
+                // Para Otras funciones
+                if (result != null) {
+                    if (result.type == func.type.execute().type) return result;
+                    else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos '));
                 }
+                else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos'));
 
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Funcion no definida'));
         }

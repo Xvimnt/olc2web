@@ -71,60 +71,25 @@ function selectionSort(array: number[]): void {
     }
 }
 
+function merge(array: number[], l: number, m: number, r: number): void {
+    console.log('entrando aca');
+  	
+}
 function mergeSort(array: number[], l: number, r: number): void {
     if (l >= r) {
         return;
     }
-
     let m = getPivot((l + r) / 2);
+	console.log('aca');
     mergeSort(array, l, m);
+	console.log('aca');
     mergeSort(array, m + 1, r);
+	console.log('antes de merge');
     merge(array, l, m, r);
+	console.log('luego de merge');
+
 }
 
-function merge(array: number[], l: number, m: number, r: number): void {
-    let n1 = m - l + 1;
-    let n2 = r - m;
-
-    let L: number[] = [];
-    let R: number[] = [];
-
-    for (let i = 0; i < n1; i++) {
-        L[i] = array[l + i];
-    }
-
-    for (let j = 0; j < n2; j++) {
-        R[j] = array[m + 1 + j];
-    }
-
-    let i = 0;
-    let j = 0;
-    let k = l;
-
-    while (i < n1 && j < n2) {
-        if (L[i] <= R[j]) {
-            array[k] = L[i];
-            i++;
-        }
-        else {
-            array[k] = R[j];
-            j++;
-        }
-        k++;
-    }
-
-    while (i < n1) {
-        array[k] = L[i];
-        i++;
-        k++;
-    }
-
-    while (j < n2) {
-        array[k] = R[j];
-        j++;
-        k++;
-    }
-}
 
 let array: number[] = [32, 21, 7];
 //bubbleSort(array);
@@ -140,4 +105,4 @@ let array: number[] = [32, 21, 7];
 // console.log('SelectionSort', array);
 
 mergeSort(array, 0, array.length - 1);
-console.log('MergeSort: ', array);
+//console.log('MergeSort: ', array);
