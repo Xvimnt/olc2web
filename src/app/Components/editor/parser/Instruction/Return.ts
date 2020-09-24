@@ -2,6 +2,7 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { env } from 'process';
+import { isString } from 'util';
 
 export class Return extends Instruction {
 
@@ -20,6 +21,7 @@ export class Return extends Instruction {
     }
 
     public execute(environment: Environment) {
+        if(isString(this.value)) return { line: this.line, column: this.column, type: 'Return' };
         const result = this.value.execute(environment);
 
         if (result != null) return { line: this.line, column: this.column, type: result.type, value: result.value };

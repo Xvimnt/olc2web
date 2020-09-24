@@ -189,6 +189,9 @@ Instruction
     | 'RETURN' Expr ';'{
         $$ = new Return($2 ,@1.first_line, @1.first_column);
     }
+    | 'RETURN' ';'{
+        $$ = new Return($1 ,@1.first_line, @1.first_column);
+    }
     | FunctionSt {
         $$ = $1;
     }
