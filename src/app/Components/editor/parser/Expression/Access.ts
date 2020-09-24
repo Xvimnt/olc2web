@@ -3,8 +3,9 @@ import { Environment } from "../Symbol/Environment";
 import { Retorno } from "../Abstract/Retorno";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
-import { isArray } from 'util';
+import { isArray, isNumber } from 'util';
 import { _Array } from '../Object/Array';
+import { Call } from '../Instruction/Call';
 
 export class Access extends Expression {
 
@@ -20,7 +21,6 @@ export class Access extends Expression {
     }
 
     public execute(environment: Environment): Retorno {
-       
         if (isArray(this.id)) {
             // Si es un array
             const value = environment.getVar(this.id[0]);
@@ -29,18 +29,19 @@ export class Access extends Expression {
                 if (value.valor.dimensions < indexArray.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Index invalido'));
                 // Valores iniciales
                 let count = 0;
-                let index: Retorno = (indexArray[0] instanceof Access) ? indexArray[0].execute(environment) : indexArray[0];
+                let index: Retorno = (indexArray[0].value == undefined) ? indexArray[0].execute(environment) : indexArray[0];
                 let newValue: _Array = value.valor;
                 while (count < indexArray.length - 1) {
                     // Obteniendo el index
-                    index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
+                    index = (indexArray[count].value == undefined) ? indexArray[count].execute(environment) : indexArray[count];
                     // Obtiene el array
                     if (newValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
                     else newValue = newValue.getAtributo(index.value);
                     count++;
                 }
-                index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
-                return newValue.getAtributo(index.value);
+                index = (indexArray[count].value == undefined) ? indexArray[count].execute(environment) : indexArray[count];
+                if (isNumber(index.value)) index.value = index.value.toFixed();
+                return (newValue.getAtributo(index.value) == null) ? { value: null, type: 3 } : newValue.getAtributo(index.value);
             }
         }
         else {
