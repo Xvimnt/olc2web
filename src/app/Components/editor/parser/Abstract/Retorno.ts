@@ -5,7 +5,8 @@ export enum Type {
     NULL = 3,
     ARRAY = 4,
     RESERVADA = 5,
-    TEMPLATE = 6
+    TEMPLATE = 6,
+    STRUCT = 7
 }
 
 export type Retorno = {

@@ -8,6 +8,8 @@ import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Array } from '../Object/Array';
 import { ArrayType } from '../Types/Array';
+import { _Struct } from '../Object/Struct';
+import { strict } from 'assert';
 
 export class Declaration extends Instruction {
 
@@ -67,33 +69,38 @@ export class Declaration extends Instruction {
             if (isArray(this.value)) {
                 // Se declara el struct
                 if (this.type.toString() == 'type') {
-                    environment.guardar(this.id, this.value, 7);
+                    environment.guardar(this.id, new _Struct(this.value), 7);
                 }
                 // Se declara una variable tipo struct
                 else {
                     // Obtener el struct para validarlo
-                    const struct = environment.getVar(this.type.execute().value);
-                    // if (isArray(this.value)) {
-                    //     if (this.value.length == struct.valor.length) {
-                    //         // Verificar que cada valor de la asignacion pertenezca al struct
-                    //         this.value.forEach(element => {
-                    //             let pointer = struct.valor.length;
-                    //             struct.valor.forEach(key => {
-                    //                 if (element.id == key.id) {
-                    //                     if (element.value != null && element.value.execute().type != key.type.execute().type) errores.push(new Error_(element.value.line, element.value.column, 'Semantico', 'Atributo de tipo no valido en la declaracion del type: ' + element.value.execute().value));
-                    //                     return; // se sale del foreach
-                    //                 }
-                    //                 pointer--;
-                    //             });
-                    //             if (pointer == 0) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no valido en la declaracion del type: ' + element.id));
-                    //         });
-                    //     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos no validos en el type'));
-                    //     environment.guardar(this.id, this.value, 7);
-                    // }
+                    const struct = environment.getVar(this.type.execute().value).valor;
+                    if (struct instanceof _Struct) {
+                        // Validar que los indices esten correctos
+                        // Primero se valida el numero de parametros
+                        if (struct.getContent().length != this.value.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos invalidos en type'));
+                        // Luego se valida que cada parametro exista y sea del tipo correcto
+                        for (let i in this.value) {
+                            const att = struct.getAtribute(this.value[i].id);
+                            if (att == null || att == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en type: ' + this.value[i].id));
+                            else if (this.value[i].value != null) {
+                                // Comprobar que el tipo sea correcto
+                                if (this.value[i].value instanceof Expression) {
+                                    // console.log('comprobando a', this.value[i].value.execute());
+                                    if (this.value[i].value.execute() != att.type)
+                                        errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
+                                }
+                            }
+                        }
+                        // Si todo esta bien se guarda
+                        environment.guardar(this.id, new _Struct(this.value), this.type.execute().value);
+
+                    }
                 }
             }
             // Se declara una variable normal
-            if (this.value != null) {
+            else if (this.value != null) {
+                console.log('declarando', this);
                 const val = this.value.execute(environment);
 
                 if (this.type == null) environment.guardar(this.id, val.value, val.type);

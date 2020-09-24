@@ -6,6 +6,7 @@ import { errores } from '../Errores';
 import { isArray, isNumber } from 'util';
 import { _Array } from '../Object/Array';
 import { Call } from '../Instruction/Call';
+import { _Struct } from '../Object/Struct';
 
 export class Access extends Expression {
 
@@ -50,6 +51,9 @@ export class Access extends Expression {
                 errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
             else if (value.valor instanceof _Array) {
                 return { value: value.valor.print(), type: 4 }
+            }
+            else if (value.valor instanceof _Struct) {
+                return { value: value.valor.print(), type: 7 }
             }
             else return { value: value.valor, type: value.type };
         }

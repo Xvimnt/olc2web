@@ -1,23 +1,45 @@
 import { _Type } from '../Types/Type';
-import { Type } from '@angular/core';
 
 export class _Struct {
 
-    constructor(private content: Type<any>, public tipo: _Type) { }
+    constructor(private content: any[]) { }
 
-    public getAtributo(index: string) {
-        return this.content[index];
+    public getContent() {
+        return this.content;
     }
 
-    public setAtributo(index: string, value: any) {
-        this.content[index] = value;
+    public setContent(content: any[]) {
+        this.content = content;
+    }
+
+    public getAtribute(id: string) {
+        let result;
+        for (let i in this.content) {
+            if (this.content[i].id == id) return this.content[i];
+        }
+        return result;
+    }
+
+    public hasAtribute(id:string): boolean{
+        for (let i in this.content) {
+            if (this.content[i].id == id) return true;
+        }
+        return false;
+    }
+
+    public setAtribute(id: string, value: any) {
+        // Value tiene que tener id y type: _Type
+        for (let i in this.content) {
+            if (this.content[i].id == id) return this.content[i] = value;
+        }
     }
 
     public print() {
-        let result = "[ ";
-        console.log('imprimiendo ',this.content)
-        if(result.length > 2) result = result.substring(0, result.length - 2);
-        return result += " ]";
+        let result = "{\n";
+        for(let i in this.content) {
+            result += "\t" + this.content[i].id +": " + this.content[i].value + "\n";
+        }
+        return result += "}";
     }
 
 }

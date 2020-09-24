@@ -26,15 +26,7 @@ export class Print extends Instruction {
         this.value.forEach(element => {
             if (element.execute(environment) != undefined) {
                 const resultado = element.execute(environment).value;
-                // si es un struct
-                if (resultado instanceof Array) {
-                    _Console.salida += "[\n";
-                    resultado.forEach(element => {
-                        _Console.salida += "  " + element.id + ": " + element.value + "\n";
-                    });
-                    _Console.salida += "]\n";
-                }
-                else _Console.salida += resultado + " ";
+                _Console.salida += resultado + " ";
             } else _Console.salida += "";
         });
         _Console.salida += "\n";
