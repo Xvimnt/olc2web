@@ -5,6 +5,8 @@ import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { Symbol } from "../Symbol/Symbol";
 import { Access } from './Access';
+import { _Array } from '../Object/Array';
+import { isArray } from 'util';
 
 
 export class Property extends Expression {
@@ -23,20 +25,15 @@ export class Property extends Expression {
 
     public execute(environment: Environment): Retorno {
         if (this.id instanceof Access) {
-            const val = this.id.execute(environment);
-            for (let index in val.value) {
-                if (val.value[index].id == this.property) {
-                    if (val.value[index].value != null) {
-                        // Si la propiedad es un struct
-                        if (val.value[index].value instanceof Array) {
-                            return { value: val.value[index].value, type: 7 }
-                        }
-                        // La propiedad es un nativo
-                        else {
-                            return { value: val.value[index].value, type: 0 }
-                        }
-                    }
-                }
+            // Obtener el objeto
+            let val: Symbol = new Symbol(null, null, null);
+            if (isArray(this.id.getID())) {
+                val.valor = this.id.execute(environment);
+            }
+            else val = environment.getVar(this.id.getID());
+            // Obtener la propiedad
+            if (this.property == 'length') {
+                if (val.valor instanceof _Array) return { value: val.valor.length(), type: 0 }
             }
         }
         else if (this.id instanceof Property) {
