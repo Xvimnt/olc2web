@@ -5,6 +5,7 @@ import { env } from "process";
 import { Error_ } from "../Error";
 import { Return } from '../Instruction/Return';
 import { errores } from '../Errores';
+import { isArray } from 'util';
 
 export enum ArithmeticOption {
     PLUS,

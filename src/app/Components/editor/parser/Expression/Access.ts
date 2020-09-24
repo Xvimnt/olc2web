@@ -20,15 +20,27 @@ export class Access extends Expression {
     }
 
     public execute(environment: Environment): Retorno {
+       
         if (isArray(this.id)) {
             // Si es un array
             const value = environment.getVar(this.id[0]);
             if (value.valor instanceof _Array) {
-                for (const key in this.id[1]) {
-                    let index: string = this.id[1][key].value;
-                    const retorno = value.valor.getAtributo(index);
-                    if (retorno != undefined) return { value: retorno.value, type: retorno.type }
+                let indexArray = this.id[1];
+                if (value.valor.dimensions < indexArray.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Index invalido'));
+                // Valores iniciales
+                let count = 0;
+                let index: Retorno = (indexArray[0] instanceof Access) ? indexArray[0].execute(environment) : indexArray[0];
+                let newValue: _Array = value.valor;
+                while (count < indexArray.length - 1) {
+                    // Obteniendo el index
+                    index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
+                    // Obtiene el array
+                    if (newValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
+                    else newValue = newValue.getAtributo(index.value);
+                    count++;
                 }
+                index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
+                return newValue.getAtributo(index.value);
             }
         }
         else {
