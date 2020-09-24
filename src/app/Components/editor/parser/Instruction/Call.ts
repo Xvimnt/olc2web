@@ -1,5 +1,6 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
+import { Symbol } from "../Symbol/Symbol";
 import { Expression } from "../Abstract/Expression";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
@@ -9,6 +10,7 @@ import { _Array } from '../Object/Array';
 import { _Type } from '../Types/Type';
 import { error } from 'protractor';
 import { ArrayType } from '../Types/Array';
+import { isArray } from 'util';
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -75,8 +77,14 @@ export class Call extends Instruction {
         }
         else if (this.id instanceof Property) {
             // Obtener el objeto
-            // console.log('propiedad', this);
-            const obj = environment.getVar(this.id.id.getID());
+            // console.log('propiedad', this);)
+            let obj: Symbol = new Symbol(null, null, null);
+            if (isArray(this.id.id.id)) {
+                obj.valor = this.id.id.execute(environment);
+            }
+            else {
+                obj = environment.getVar(this.id.id.getID());
+            }
             // funciones nativas
             switch (this.id.getProperty()) {
                 case 'push':

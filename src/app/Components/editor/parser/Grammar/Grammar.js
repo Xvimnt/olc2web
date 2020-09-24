@@ -88,9 +88,9 @@ case 1:
         return $$[$0-1];
     
 break;
-case 2: case 20:
+case 2:
 
-        errores.push(new Error_( _$[$0-1].first_line, _$[$0-1].first_column, 'Sintactico', 'Valor no esperado: "' + $$[$0-1] + '"'));
+        errores.push(new Error_( _$[$0-1].first_line, _$[$0-1].first_column, 'Sintactico', 'Valor no esperado: "' + yytext + '"'));
     
 break;
 case 3: case 59:
@@ -127,6 +127,11 @@ break;
 case 17:
 
         this.$ = new Return($$[$0-1] ,_$[$0-2].first_line, _$[$0-2].first_column);
+    
+break;
+case 20:
+
+        errores.push(new Error_( _$[$0-1].first_line, _$[$0-1].first_column, 'Sintactico', yytext));
     
 break;
 case 21:

@@ -134,7 +134,7 @@ Init
     } 
     | error EOF 
     {
-        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + $1 + '"'));
+        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + yytext + '"'));
     }
 ;
 
@@ -196,7 +196,7 @@ Instruction
         $$ = $1;
     }
     | error ';' {
-        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + $1 + '"'));
+        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', yytext));
     }
 ;
 
