@@ -9,6 +9,7 @@ import { _Array } from '../Object/Array';
 import { errores } from '../Errores';
 import { Error_ } from '../Error';
 import { Retorno } from '../Abstract/Retorno';
+import { newArray } from '@angular/compiler/src/util';
 
 export class Assignation extends Instruction {
 
@@ -34,29 +35,24 @@ export class Assignation extends Instruction {
             if (value.valor instanceof _Array) {
                 let indexArray = this.id.id[1];
                 if (value.valor.dimensions < indexArray.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Index invalido'));
-
-                let count = 0, index: Retorno;
+                // Valores iniciales
+                let count = 0;
+                let index: Retorno = (indexArray[0] instanceof Access) ? indexArray[0].execute(environment) : indexArray[0];
                 let newValue: _Array = value.valor;
-                do {
+                while (count < indexArray.length - 1) {
                     // Obteniendo el index
                     index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
                     // Obtiene el array
                     if (newValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
                     else newValue = newValue.getAtributo(index.value);
                     count++;
-                } while (count < indexArray.length);
+                }
+                index = (indexArray[count] instanceof Access) ? indexArray[count].execute(environment) : indexArray[count];
                 if (this.value != null) {
-                    if (indexArray.length == 1) {
-                        if (isArray(this.value)) {
-                            value.valor.setAtributo(index.value, new _Array(value.valor.dimensions - count, new Array(), value.valor.tipo));
-                        }
-                        else value.valor.setAtributo(index.value, this.value.execute(environment));
+                    if (isArray(this.value)) {
+                        newValue.setAtributo(index.value, new _Array(value.valor.dimensions - count - 1, new Array(), value.valor.tipo));
                     }
-                    else {
-                        if (newValue != undefined)
-                            newValue.setAtributo(index.value, this.value.execute(environment));
-                        errores.push(new Error_(this.line, this.column, 'Semantico', 'Valor no asignable'));
-                    }
+                    else newValue.setAtributo(index.value, this.value.execute(environment));
                 }
             }
         }
