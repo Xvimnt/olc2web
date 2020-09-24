@@ -132,6 +132,10 @@ Init
     {
         return $1;
     } 
+    | error EOF 
+    {
+        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + $1 + '"'));
+    }
 ;
 
 Instructions
@@ -181,6 +185,7 @@ Instruction
     | 'CONTINUE' ';'{
         $$ = new Continue(@1.first_line, @1.first_column);
     }
+    // TODO Agregar return vacio
     | 'RETURN' Expr ';'{
         $$ = new Return($2 ,@1.first_line, @1.first_column);
     }
@@ -189,6 +194,9 @@ Instruction
     }
     | Call ';' {
         $$ = $1;
+    }
+    | error ';' {
+        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + $1 + '"'));
     }
 ;
 

@@ -16,6 +16,7 @@ import Swal from 'sweetalert2'
 // Imports para los iconos
 import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
 import { errores } from './parser/Errores';
+import { isString } from 'util';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
@@ -72,7 +73,7 @@ export class EditorComponent {
         }
       }
       for (const instr of this.ast) {
-        if (instr instanceof Function)
+        if (instr instanceof Function || isString(instr))
           continue;
         try {
           instr.execute(this.env);
@@ -138,6 +139,14 @@ export class EditorComponent {
       Swal.fire({
         title: 'Oops...',
         text: 'No se encontro ninguna variable o funcion guardada',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(59, 59, 61)'
+      })
+    } else if (errores.length != 0) {
+      Swal.fire({
+        title: 'Oops...!',
+        text: 'Se encontraron errores en su codigo, no puede mostrar tabla de variables',
         icon: 'error',
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(59, 59, 61)'
