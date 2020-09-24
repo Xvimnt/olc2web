@@ -162,13 +162,13 @@ case 26:
 break;
 case 27:
 
-        $$[$0-3].push($$[$0-1]);
+        $$[$0-3].push(new Param($$[$0-1],$$[$0], _$[$0-3].first_line, _$[$0-3].first_column) );
         this.$ = $$[$0-3];
     
 break;
 case 28:
 
-        this.$ = [$$[$0-1]];
+        this.$ = [ new Param($$[$0-1],$$[$0], _$[$0-1].first_line, _$[$0-1].first_column) ];
     
 break;
 case 29:
@@ -649,6 +649,7 @@ parse: function parse(input) {
     const {Property} = require('../Expression/Property');
     const {Literal} = require('../Expression/Literal');
     const {Ternary} = require('../Expression/Ternary');
+    const {Param} = require('../Expression/Param');
     // Tipos de Objetos
     const {ArrayType} = require('../Types/Array');
     const {_Type} = require('../Types/Type');

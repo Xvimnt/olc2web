@@ -8,6 +8,7 @@
     const {Property} = require('../Expression/Property');
     const {Literal} = require('../Expression/Literal');
     const {Ternary} = require('../Expression/Ternary');
+    const {Param} = require('../Expression/Param');
     // Tipos de Objetos
     const {ArrayType} = require('../Types/Array');
     const {_Type} = require('../Types/Type');
@@ -227,11 +228,11 @@ FunctionSt
 
 Parametros
     : Parametros ',' ID Type {
-        $1.push($3);
+        $1.push(new Param($3,$4, @1.first_line, @1.first_column) );
         $$ = $1;
     }
     | ID Type{
-        $$ = [$1];
+        $$ = [ new Param($1,$2, @1.first_line, @1.first_column) ];
     }
 ;
 

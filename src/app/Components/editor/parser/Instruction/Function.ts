@@ -1,6 +1,7 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { _Type } from '../Types/Type';
+import { Param } from '../Expression/Param';
 
 export class Function extends Instruction {
 
@@ -20,7 +21,7 @@ export class Function extends Instruction {
         return result;
     }
 
-    constructor(private id: string, public statment: Instruction, public parametros: Array<string>,public type: _Type, line: number, column: number) {
+    constructor(private id: string, public statment: Instruction, public parametros: Array<Param>,public type: _Type, line: number, column: number) {
         super(line, column);
     }
 

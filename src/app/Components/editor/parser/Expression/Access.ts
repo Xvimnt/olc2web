@@ -5,8 +5,6 @@ import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { isArray } from 'util';
 import { _Array } from '../Object/Array';
-import { Literal } from './Literal';
-import { element } from 'protractor';
 
 export class Access extends Expression {
 

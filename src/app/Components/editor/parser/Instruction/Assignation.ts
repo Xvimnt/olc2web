@@ -28,11 +28,12 @@ export class Assignation extends Instruction {
     }
 
     public execute(environment: Environment) {
-
         if (isArray(this.id.id)) {
             // Si es un array
             const value = environment.getVar(this.id.id[0]);
+
             if (value.valor instanceof _Array) {
+
                 let indexArray = this.id.id[1];
                 if (value.valor.dimensions < indexArray.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Index invalido'));
                 // Valores iniciales

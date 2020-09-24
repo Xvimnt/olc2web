@@ -6,6 +6,9 @@ import { errores } from '../Errores';
 import { Access } from '../Expression/Access';
 import { Property } from '../Expression/Property';
 import { _Array } from '../Object/Array';
+import { _Type } from '../Types/Type';
+import { error } from 'protractor';
+import { ArrayType } from '../Types/Array';
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -23,7 +26,7 @@ export class Call extends Instruction {
         return result;
     }
 
-    constructor(private id: Access | Property, private expresiones: Array<Expression>, line: number, column: number) {
+    constructor(private id: Access | Property, private expresiones: Array<any>, line: number, column: number) {
         super(line, column);
     }
 
@@ -33,8 +36,25 @@ export class Call extends Instruction {
             if (func != undefined) {
                 const newEnv = new Environment(environment.getGlobal());
                 for (let i = 0; i < this.expresiones.length; i++) {
-                    const value = this.expresiones[i].execute(environment);
-                    newEnv.guardar(func.parametros[i], value.value, value.type);
+                    const param = func.parametros[i];
+                    if (param.type instanceof _Type) {
+                        const value = this.expresiones[i].execute(environment);
+                        if (param.execute().type == value.type)
+                            newEnv.guardar(param.execute().value, value.value, value.type);
+                        else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
+                    } else {
+                        // Obtener array
+                        if (this.expresiones[i] instanceof Access) {
+                            const arr = environment.getVar(this.expresiones[i].getID());
+                            // Comprobar Dimensiones
+                            let tipo: ArrayType = param.type;
+                            if (tipo.dimensions != arr.valor.dimensions) errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro con dimensiones no validas'));
+                            // Comprobar Tipo
+                            if (tipo.type.execute().type != arr.valor.tipo.execute().type) errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
+                            // No hubo error 
+                            newEnv.guardar(param.execute().value, arr.valor, 4);
+                        }
+                    }
                 }
                 const result = func.statment.execute(newEnv);
                 // si no es Void
