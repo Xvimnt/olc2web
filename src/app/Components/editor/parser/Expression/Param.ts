@@ -15,6 +15,7 @@ export class Param extends Expression {
     }
 
     public execute(): Retorno {
+        if (this.type.execute().type == 5) return { value: this.id, type: this.type.execute().value }
         return { value: this.id, type: this.type.execute().type }
     }
 }

@@ -10,7 +10,8 @@ import { _Array } from '../Object/Array';
 import { _Type } from '../Types/Type';
 import { error } from 'protractor';
 import { ArrayType } from '../Types/Array';
-import { isArray } from 'util';
+import { isArray, isString } from 'util';
+import { Validators } from '@angular/forms';
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -40,9 +41,19 @@ export class Call extends Instruction {
                 for (let i = 0; i < this.expresiones.length; i++) {
                     const param = func.parametros[i];
                     if (param.type instanceof _Type) {
+                        let newType = param.execute();
                         const value = this.expresiones[i].execute(environment);
-                        if (param.execute().type == value.type)
-                            newEnv.guardar(param.execute().value, value.value, value.type);
+
+                        // Sino son del mismo tipo
+                        if (newType.type == value.type)
+                            newEnv.guardar(newType.value, value.value, value.type);
+                        // es un struct
+                        else if (isString(newType.type)) {
+                            //obtener struct
+                            let variable = environment.getVar(this.expresiones[i].id);
+                            if (newType.type == variable.type) newEnv.guardar(newType.value, variable.valor, variable.type);
+                            else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
+                        }
                         else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
                     } else {
                         // Obtener array
@@ -59,10 +70,8 @@ export class Call extends Instruction {
                     }
                 }
                 const result = func.statment.execute(newEnv);
-                console.log('se obtiene ',result);
-                console.log('en funcion',func);
                 // Para el void
-                if(func.type == null || func.type.execute().type == 3) return result;
+                if (func.type == null || func.type.execute().type == 3) return result;
                 // Para Otras funciones
                 if (result != null) {
                     if (result.type == func.type.execute().type) return result;

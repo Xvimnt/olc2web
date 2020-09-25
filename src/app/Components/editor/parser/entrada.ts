@@ -11,11 +11,15 @@ type AVLTree = {
 
 let vari = 32;
 
-let node : AVLNode = {
-            left: null,
-            right: null,
-            height: 0,
-            value: vari
+let node: AVLNode = {
+    left: null,
+    right: null,
+    height: 0,
+    value: vari
 };
 
-console.log(node.value);
+function printStr(nod: AVLNode) {
+    console.log(nod);
+}
+
+printStr(node);
