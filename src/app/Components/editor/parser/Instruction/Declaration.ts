@@ -11,6 +11,8 @@ import { ArrayType } from '../Types/Array';
 import { _Struct } from '../Object/Struct';
 import { strict } from 'assert';
 import { Access } from '../Expression/Access';
+import { env } from 'process';
+import { Retorno } from '../Abstract/Retorno';
 
 export class Declaration extends Instruction {
 
@@ -83,31 +85,24 @@ export class Declaration extends Instruction {
                         // Luego se valida que cada parametro exista y sea del tipo correcto
                         for (let i in this.value) {
                             const att = struct.getAtribute(this.value[i].id);
+                            let object = this.value[i].value;
+                            // Existe el atributo?
                             if (att == null || att == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en type: ' + this.value[i].id));
-
-                            else if (this.value[i].value != null) {
-                                // Comprobar que el tipo sea correcto
-                                if (this.value[i].value instanceof Expression) {
-                                    if (att.type instanceof _Type) {
-                                        if (this.value[i].value.execute().type != att.type.type)
-                                            errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
-                                    }
-                                    else if (this.value[i].value.execute() != att.type)
-                                        errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
-                                    // Arreglar Valor
-                                    this.value[i].value = this.value[i].value.execute().value;
-                                }
+                            // Si el objeto no es nulo entonces ejecutarlo
+                            else if (object != null) {
+                                let retorno = object.execute(environment);
+                                if (retorno.type != att.type.execute().type) errores.push(new Error_(object.line, object.column, 'Semantico', 'Atributo de tipo invalido'));
+                                // Arreglar Valor
+                                this.value[i].value = retorno.value;
                             }
                         }
-                        // Si todo esta bien se guarda
-                        environment.guardar(this.id, new _Struct(this.value), this.type.execute().value);
-
                     }
+                    // Si todo esta bien se guarda
+                    environment.guardar(this.id, new _Struct(this.value), this.type.execute().value);
                 }
             }
             // Se declara una variable normal
             else if (this.value != null) {
-                console.log('declarando', this);
                 const val = this.value.execute(environment);
 
                 if (this.type == null) environment.guardar(this.id, val.value, val.type);
