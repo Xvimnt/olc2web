@@ -53,15 +53,15 @@ export class Call extends Instruction {
                             let variable;
                             if (this.expresiones[i] instanceof Property) {
                                 // Obtener el struct para validarlo
-                                const struct = environment.getVar(this.expresiones[i].getObject()).valor;
+                                let struct = this.expresiones[i].getObject(environment).value;
                                 // Buscar la propiedad que se asignara
                                 if (struct instanceof _Struct) {
                                     // TODO comprobar tipos para la asignacion
                                     if (struct.hasAtribute(this.expresiones[i].getProperty())) {
                                         variable = struct.getAtribute(this.expresiones[i].getProperty());
-                                        // console.log('guardar struct newType', newType);
-                                        // console.log('guardar struct var', variable);
-                                        if (variable.value == null) newEnv.guardar(newType.value, new _Struct(null), newType.type);
+                                        // console.log('newT',newType);
+                                        // console.log('variable',variable);
+                                        if (variable.value == null) newEnv.guardar(newType.value, null, newType.type);
                                         else newEnv.guardar(newType.value, variable.valor, variable.type);
                                     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
                                 }

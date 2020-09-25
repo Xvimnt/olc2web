@@ -47,6 +47,7 @@ export class Access extends Expression {
         }
         else {
             const value = environment.getVar(this.id);
+            
             if (value == null)
                 errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
             else if (value.valor instanceof _Array) {
