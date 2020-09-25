@@ -37,7 +37,7 @@ export class Property extends Expression {
             // Viendo que tipo es
             if (val.valor instanceof _Struct) {
                 if (val.valor.hasAtribute(this.property)) {
-                    return val.valor.getAtribute(this.property).value;
+                    return val.valor.getAtribute(this.property);
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
             }
             else if (val.valor instanceof _Array) {

@@ -10,6 +10,7 @@ import { _Array } from '../Object/Array';
 import { ArrayType } from '../Types/Array';
 import { _Struct } from '../Object/Struct';
 import { strict } from 'assert';
+import { Access } from '../Expression/Access';
 
 export class Declaration extends Instruction {
 
@@ -83,6 +84,7 @@ export class Declaration extends Instruction {
                         for (let i in this.value) {
                             const att = struct.getAtribute(this.value[i].id);
                             if (att == null || att == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en type: ' + this.value[i].id));
+
                             else if (this.value[i].value != null) {
                                 // Comprobar que el tipo sea correcto
                                 if (this.value[i].value instanceof Expression) {
@@ -92,6 +94,8 @@ export class Declaration extends Instruction {
                                     }
                                     else if (this.value[i].value.execute() != att.type)
                                         errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
+                                    // Arreglar Valor
+                                    this.value[i].value = this.value[i].value.execute().value;
                                 }
                             }
                         }

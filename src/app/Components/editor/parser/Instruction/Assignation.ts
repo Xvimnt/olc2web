@@ -10,6 +10,8 @@ import { errores } from '../Errores';
 import { Error_ } from '../Error';
 import { Retorno } from '../Abstract/Retorno';
 import { newArray } from '@angular/compiler/src/util';
+import { isGeneratedFile } from '@angular/compiler/src/aot/util';
+import { _Struct } from '../Object/Struct';
 
 export class Assignation extends Instruction {
 
@@ -63,18 +65,16 @@ export class Assignation extends Instruction {
             }
         }
         else if (this.id instanceof Property) {
-            console.log('assignando propiedad',this);
             // Obtener el struct para validarlo
-            const struct = environment.getVar(this.id.getObject());
+            const struct = environment.getVar(this.id.getObject()).valor;
             //Asignarle valor a una propiedad del struct
             const result = this.value.execute(environment);
-
             // Buscar la propiedad que se asignara
-            for (let index in struct.valor) {
-                if (struct.valor[index].id == this.id.getProperty()) {
-                    // Se sobrescribe el valor
-                    struct.valor[index].value = (result.value == null) ? null : result.value;
-                }
+            if (struct instanceof _Struct) {
+                // TODO comprobar tipos para la asignacion
+                if (struct.hasAtribute(this.id.getProperty())) {
+                    struct.setAtribute(this.id.getProperty(), { id: this.id.getProperty(), value: result.value });
+                } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
             }
         }
         else if (this.value != null) {
