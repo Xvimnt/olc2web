@@ -93,7 +93,9 @@ export class Call extends Instruction {
                 if (func.type == null || func.type.execute().type == 3) return result;
                 // Para Otras funciones
                 if (result != null) {
-                    if (result.type == func.type.execute().type) return result;
+                    console.log('ret', result);
+                    console.log('fun', func.type.execute());
+                    if (result.type == func.type.execute().type || result.type == func.type.execute().value) return result;
                     else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos '));
                 }
                 else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos'));

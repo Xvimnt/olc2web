@@ -53,9 +53,6 @@ export class Access extends Expression {
             else if (value.valor instanceof _Array) {
                 return { value: value.valor.print(), type: 4 }
             }
-            else if (value.valor instanceof _Struct) {
-                return { value: value.valor, type: 7 }
-            }
             else return { value: value.valor, type: value.type };
         }
     }

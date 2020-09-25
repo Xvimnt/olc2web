@@ -60,8 +60,9 @@ export class Assignation extends Instruction {
         else if (isArray(this.value)) {
             if (this.id instanceof Access) {
                 // Arreglar los Accesos
+                let symbol = environment.getVar(this.id.getID());
                 for (let index in this.value) this.value[index].value = (this.value[index].value == null) ? null : this.value[index].value.execute(environment).value;
-                environment.guardar(this.id.getID(), this.value, 7);
+                environment.guardar(symbol.id, new _Struct(this.value), symbol.type);
             }
         }
         else if (this.id instanceof Property) {
@@ -73,13 +74,15 @@ export class Assignation extends Instruction {
             if (symbol.value instanceof _Struct) {
                 // TODO comprobar tipos para la asignacion
                 if (symbol.value.hasAtribute(this.id.getProperty())) {
+                    console.log('asignando', this);
+                    console.log('guadnado', result);
                     symbol.value.setAtribute(this.id.getProperty(), { id: this.id.getProperty(), value: result.value });
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
             }
         }
         else if (this.value != null) {
             const val = this.value.execute(environment);
-            // TODO Comprobar tipos en la asignacionf
+            // TODO Comprobar tipos en la asignacion
             if (this.id instanceof Access) environment.guardar(this.id.getID(), val.value, val.type);
             else environment.guardar(this.id, val.value, val.type);
         }
