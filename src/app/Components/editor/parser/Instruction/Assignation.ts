@@ -63,6 +63,7 @@ export class Assignation extends Instruction {
             }
         }
         else if (this.id instanceof Property) {
+            console.log('assignando propiedad',this);
             // Obtener el struct para validarlo
             const struct = environment.getVar(this.id.getObject());
             //Asignarle valor a una propiedad del struct

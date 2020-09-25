@@ -86,8 +86,11 @@ export class Declaration extends Instruction {
                             else if (this.value[i].value != null) {
                                 // Comprobar que el tipo sea correcto
                                 if (this.value[i].value instanceof Expression) {
-                                    // console.log('comprobando a', this.value[i].value.execute());
-                                    if (this.value[i].value.execute() != att.type)
+                                    if (att.type instanceof _Type) {
+                                        if (this.value[i].value.execute().type != att.type.type)
+                                            errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
+                                    }
+                                    else if (this.value[i].value.execute() != att.type)
                                         errores.push(new Error_(this.value[i].value.line, this.value[i].value.column, 'Semantico', 'Atributo de tipo invalido'));
                                 }
                             }
