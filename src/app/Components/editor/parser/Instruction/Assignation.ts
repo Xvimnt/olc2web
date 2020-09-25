@@ -65,15 +65,15 @@ export class Assignation extends Instruction {
             }
         }
         else if (this.id instanceof Property) {
-            // Obtener el struct para validarlo
-            const struct = environment.getVar(this.id.getObject()).valor;
-            //Asignarle valor a una propiedad del struct
+            // Obtener el objeto para validarlo
+            const symbol = this.id.getObject(environment);
+            //Asignarle valor a una propiedad del symbol
             const result = this.value.execute(environment);
             // Buscar la propiedad que se asignara
-            if (struct instanceof _Struct) {
+            if (symbol.value instanceof _Struct) {
                 // TODO comprobar tipos para la asignacion
-                if (struct.hasAtribute(this.id.getProperty())) {
-                    struct.setAtribute(this.id.getProperty(), { id: this.id.getProperty(), value: result.value });
+                if (symbol.value.hasAtribute(this.id.getProperty())) {
+                    symbol.value.setAtribute(this.id.getProperty(), { id: this.id.getProperty(), value: result.value });
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
             }
         }

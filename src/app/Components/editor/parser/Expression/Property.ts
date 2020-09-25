@@ -21,7 +21,10 @@ export class Property extends Expression {
         return result;
     }
 
-    public getObject(): string { if (this.id instanceof Access) return this.id.getID(); }
+    public getObject(environment: Environment) {
+        return this.id.execute(environment);
+    }
+
     public getProperty(): string { return this.property; }
 
     public execute(environment: Environment): Retorno {
