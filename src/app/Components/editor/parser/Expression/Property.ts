@@ -48,11 +48,16 @@ export class Property extends Expression {
         // Si es un struct
         else if (this.id instanceof Property) {
             // Acceder al elemento para ver el valor
-            const element = this.id.execute(environment);
-            for (let index in element.value) {
-                if (element.value[index].id == this.property) {
-                    // Acceder al struct para ver el tipo
-                    return { value: element.value[index].value, type: 3 }
+            const element = this.id.execute(environment).value;
+            if (element instanceof _Struct) {
+                return element.getAtribute(this.property);
+            }
+            else {
+                for (let index in element) {
+                    if (element[index].id == this.property) {
+                        // Acceder al struct para ver el tipo
+                        return { value: element[index].value, type: 3 }
+                    }
                 }
             }
             return { value: null, type: 3 }

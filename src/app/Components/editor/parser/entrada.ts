@@ -1,3 +1,4 @@
+
 type AVLNode = {
     left: AVLNode,
     right: AVLNode,
@@ -9,17 +10,16 @@ type AVLTree = {
     root: AVLNode
 };
 
-let vari = 32;
 
-let node: AVLNode = {
-    left: null,
-    right: null,
-    height: 0,
-    value: vari
+let tree : AVLTree = {
+    root: null
 };
 
-function printStr(nod: AVLNode) {
-    console.log(nod);
-}
-
-printStr(node);
+let node: AVLNode = {
+            left: null,
+            right: null,
+            height: 0,
+            value: 5
+        };
+tree.root = node;
+console.log(tree);

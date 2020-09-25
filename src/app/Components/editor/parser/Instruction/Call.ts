@@ -12,6 +12,7 @@ import { error } from 'protractor';
 import { ArrayType } from '../Types/Array';
 import { isArray, isString } from 'util';
 import { Validators } from '@angular/forms';
+import { _Struct } from '../Object/Struct';
 
 export class Call extends Instruction {
     public plot(count: number): string {
@@ -49,10 +50,28 @@ export class Call extends Instruction {
                             newEnv.guardar(newType.value, value.value, value.type);
                         // es un struct
                         else if (isString(newType.type)) {
-                            //obtener struct
-                            let variable = environment.getVar(this.expresiones[i].id);
-                            if (newType.type == variable.type) newEnv.guardar(newType.value, variable.valor, variable.type);
-                            else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
+                            let variable;
+                            if (this.expresiones[i] instanceof Property) {
+                                // Obtener el struct para validarlo
+                                const struct = environment.getVar(this.expresiones[i].getObject()).valor;
+                                // Buscar la propiedad que se asignara
+                                if (struct instanceof _Struct) {
+                                    // TODO comprobar tipos para la asignacion
+                                    if (struct.hasAtribute(this.expresiones[i].getProperty())) {
+                                        variable = struct.getAtribute(this.expresiones[i].getProperty());
+                                        // console.log('guardar struct newType', newType);
+                                        // console.log('guardar struct var', variable);
+                                        if (variable.value == null) newEnv.guardar(newType.value, new _Struct(null), newType.type);
+                                        else newEnv.guardar(newType.value, variable.valor, variable.type);
+                                    } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
+                                }
+                            }
+                            else {
+                                // No es una propiedad
+                                variable = environment.getVar(this.expresiones[i].id);
+                                if (newType.type == variable.type) newEnv.guardar(newType.value, variable.valor, variable.type);
+                                else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
+                            }
                         }
                         else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
                     } else {

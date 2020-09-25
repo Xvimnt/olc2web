@@ -20,7 +20,7 @@ export class _Struct {
         return result;
     }
 
-    public hasAtribute(id:string): boolean{
+    public hasAtribute(id: string): boolean {
         for (let i in this.content) {
             if (this.content[i].id == id) return true;
         }
@@ -36,8 +36,9 @@ export class _Struct {
 
     public print() {
         let result = "{\n";
-        for(let i in this.content) {
-            result += "\t" + this.content[i].id +": " + this.content[i].value + "\n";
+        for (let i in this.content) {
+            if (this.content[i].value instanceof _Struct) result += this.content[i].value.print() + "\n";
+            else result += "\t" + this.content[i].id + ": " + this.content[i].value + "\n";
         }
         return result += "}";
     }
