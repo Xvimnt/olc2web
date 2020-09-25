@@ -79,7 +79,7 @@ export class Assignation extends Instruction {
         }
         else if (this.value != null) {
             const val = this.value.execute(environment);
-            // TODO Comprobar tipos en la asignacion
+            // TODO Comprobar tipos en la asignacionf
             if (this.id instanceof Access) environment.guardar(this.id.getID(), val.value, val.type);
             else environment.guardar(this.id, val.value, val.type);
         }
