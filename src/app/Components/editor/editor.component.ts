@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 // Imports para el parser
 import { Instruction } from "./parser/Abstract/Instruction";
 import { Environment } from "./parser/Symbol/Environment";
@@ -25,7 +25,8 @@ const parser = require('./parser/Grammar/Grammar');
 @Component({
   selector: 'editor-root',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.css']
+  styleUrls: ['./editor.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EditorComponent {
   // Variables
@@ -99,6 +100,11 @@ export class EditorComponent {
     this.flag = false;
   }
 
+  translate() {
+    
+  }
+
+
   printAst() {
     if (this.flag) {
       Swal.fire({
@@ -120,7 +126,7 @@ export class EditorComponent {
       //alert(new Plotter().makeDot(this.ast));
       //return;
       this.dotService.setDot(new Plotter().makeDot(this.ast));
-      window.open('/olc2web/ast');
+      window.open('/ast');
       return;
     }
   }

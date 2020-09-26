@@ -1,27 +1,25 @@
-<!-- Toolbar -->
-<app-toolbar></app-toolbar>
 <!-- Body -->
 <div class="content" role="main">
     <div class="container-fluid">
         <!-- Botones de Accion -->
         <div class="row">
             <div class="col-md-12">
-                <button (click)="ejecutar()" type="button" class="btn btn-dark">
+                <button (click)="ejecutar()" type="button" class="btn btn-dark" style="background-color: rgb(8, 101, 104);">
                     <fa-icon [icon]="faCoffee"></fa-icon>
                     Compilar
                 </button>
                 &nbsp;
-                <button type="button" class="btn btn-dark">
+                <button type="button" class="btn btn-dark" style="background-color: rgb(8, 101, 104)">
                     <fa-icon [icon]="faGlobe"></fa-icon>
                     Traducir
                 </button>
                 &nbsp;
                 <div ngbDropdown class="d-inline-block">
-                    <button class="btn btn-dark" id="dropdownBasic1" ngbDropdownToggle>
+                    <button class="btn btn-dark" style="background-color: rgb(8, 101, 104)" id="dropdownBasic1" ngbDropdownToggle>
                         <fa-icon [icon]="faFileAlt"></fa-icon>
                         Reportes
                     </button>
-                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" style="background-color: rgb(8, 101, 104)" class="btn btn-info dropdown-toggle" >
                         <button (click)="printAst()" type="button" class="dropdown-item">
                             <fa-icon [icon]="faPencilRuler"></fa-icon>
                             Graficar
@@ -44,7 +42,7 @@
                 <div class="terminal" >
                     <ngx-codemirror [(ngModel)]="entrada" [options]="{
               lineNumbers: true,
-              theme: 'ayu-dark',
+              theme: 'material-ocean',
               mode: 'javascript'
             }"></ngx-codemirror>
                 </div>
@@ -53,7 +51,7 @@
                 <div class="terminal" id="output">
                     <ngx-codemirror disabled [(ngModel)]="salida" [options]="{
                 lineNumbers: false,
-                theme: 'dracula'
+                theme: 'blackboard'
               }"></ngx-codemirror>
                 </div>
             </div>
