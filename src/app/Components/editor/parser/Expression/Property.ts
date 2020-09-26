@@ -17,7 +17,7 @@ export class Property extends Expression {
     }
 
     public plot(count: number): string {
-        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") " + this.id + ": Acceso\";";
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Propiedad\"];";
         return result;
     }
 

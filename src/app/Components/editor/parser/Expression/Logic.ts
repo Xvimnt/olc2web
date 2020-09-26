@@ -26,9 +26,12 @@ export class Logic extends Expression {
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Logica: " + this.getTypeName() + "\"];";
         result += "node" + count + "1[label=\"(" + this.left.line + "," + this.left.column + ") Izquierdo\"];";
-        result += this.left.plot(Number(count + "1"));
+        result += this.left.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
+
         result += "node" + count + "2[label=\"(" + this.right.line + "," + this.right.column + ") Derecho\"];";
-        result += this.right.plot(Number(count + "2"));
+        result += this.right.plot(Number(count + "21"));
+        result += "node" + count + "2 -> " + "node" + count + "21;";
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";
@@ -41,7 +44,7 @@ export class Logic extends Expression {
 
     public execute(environment: Environment): Retorno {
         const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
-        
+
         const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
         if (leftValue == null || rightValue == null) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
         switch (this.type) {

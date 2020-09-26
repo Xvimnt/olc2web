@@ -10,11 +10,14 @@ export class Ternary extends Expression {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Ternaria\"];";
         // Hijos
         result += "node" + count + "1[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
-        result += this.condition.plot(Number(count + "1"));
+        result += this.condition.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
         result += "node" + count + "2[label=\"(" + this.isTrue.line + "," + this.isTrue.column + ") Valor Verdadero\"];";
-        result += this.isTrue.plot(Number(count + "2"));
+        result += this.isTrue.plot(Number(count + "21"));
+        result += "node" + count + "2 -> " + "node" + count + "21;";
         result += "node" + count + "3[label=\"(" + this.isFalse.line + "," + this.isFalse.column + ") Valor Verdadero\"];";
-        result += this.isFalse.plot(Number(count + "3"));
+        result += this.isTrue.plot(Number(count + "31"));
+        result += "node" + count + "2 -> " + "node" + count + "31;";
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";

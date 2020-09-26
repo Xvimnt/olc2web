@@ -14,7 +14,7 @@ export class Unary extends Expression {
     constructor(private value: Expression, private type: UnaryOption, line: number, column: number) {
         super(line, column);
     }
-    
+
     private getTypeName() {
         switch (this.type) {
             case UnaryOption.NEGATION:
@@ -29,11 +29,12 @@ export class Unary extends Expression {
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Logica: " + this.getTypeName() + "\"];";
         result += "node" + count + "1[label=\"(" + this.value.line + "," + this.value.column + ") Izquierdo\"];";
-        result += this.value.plot(Number(count + "1"));
+        result += this.value.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         return result;
-     }
+    }
 
     public execute(environment: Environment): Retorno {
         const val = this.value.execute(environment);
@@ -42,11 +43,11 @@ export class Unary extends Expression {
             case UnaryOption.NEGATION:
                 if (val.type == Type.BOOLEAN)
                     return { value: (!Boolean(val.value)), type: Type.BOOLEAN };
-                else errores.push( new Error_(this.line, this.column, "Semantico", "No se puede negar"));
+                else errores.push(new Error_(this.line, this.column, "Semantico", "No se puede negar"));
             default:
                 if (val.type == Type.NUMBER)
                     return { value: (Number(val.value) * -1), type: Type.NUMBER };
-                else errores.push( new Error_(this.line, this.column, "Semantico", "No se puede negar"));
+                else errores.push(new Error_(this.line, this.column, "Semantico", "No se puede negar"));
         }
     }
 }
