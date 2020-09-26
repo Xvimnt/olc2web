@@ -9,19 +9,25 @@ export class If extends Instruction {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") If\"];";
         // Hijo 1
         result += "node" + count + "1[label=\"(" + this.condition.line + "," + this.condition.column + ") Condicion\"];";
-        result += this.condition.plot(Number(count + "1"));
+        result += this.condition.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
+        // Flecha
+        result += "node" + count + " -> " + "node" + count + "1;";
         // Hijo 2
         result += "node" + count + "2[label=\"(" + this.code.line + "," + this.code.column + ") Codigo\"];";
-        result += this.code.plot(Number(count + "2"));
+        result += this.code.plot(Number(count + "21"));
+        result += "node" + count + "2 -> " + "node" + count + "21;";
+        // Flecha
+        result += "node" + count + " -> " + "node" + count + "2;";
+
         // Hijo 3
         if (this.elsSt != null) {
             result += "node" + count + "3[label=\"(" + this.elsSt.line + "," + this.elsSt.column + ") ElseStatement\"];";
-            result += this.elsSt.plot(Number(count + "3"));
+            result += this.elsSt.plot(Number(count + "31"));
+            result += "node" + count + "3 -> " + "node" + count + "31;";
+            // Flecha
             result += "node" + count + " -> " + "node" + count + "3;";
         }
-        // Flechas
-        result += "node" + count + " -> " + "node" + count + "1;";
-        result += "node" + count + " -> " + "node" + count + "2;";
         return result;
     }
 

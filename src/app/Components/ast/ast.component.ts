@@ -15,8 +15,10 @@ export class AstComponent implements OnInit {
   constructor(private dotService: DotService) { }
 
   ngOnInit(): void {
+    let dotRes = this.dotService.getDot();
+    alert(dotRes);
     wasmFolder('https://cdn.jsdelivr.net/npm/@hpcc-js/wasm@0.3.13/dist');
-    graphviz('#graph').renderDot(this.dotService.getDot());
+    graphviz('#graph').renderDot(dotRes);
   }
 
 }

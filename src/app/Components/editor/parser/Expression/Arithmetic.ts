@@ -43,9 +43,13 @@ export class Arithmetic extends Expression {
 
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Aritmetica: " + this.getTypeName() + "\"];";
         result += "node" + count + "1[label=\"(" + this.left.line + "," + this.left.column + ") Izquierdo\"];";
-        result += this.left.plot(Number(count + "1"));
+        result += this.left.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
+
         result += "node" + count + "2[label=\"(" + this.right.line + "," + this.right.column + ") Derecho\"];";
-        result += this.right.plot(Number(count + "2"));
+        result += this.right.plot(Number(count + "21"));
+        result += "node" + count + "2 -> " + "node" + count + "21;";
+
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";

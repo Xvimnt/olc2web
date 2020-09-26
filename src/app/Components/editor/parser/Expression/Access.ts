@@ -17,7 +17,7 @@ export class Access extends Expression {
     public getID() { return this.id }
 
     public plot(count: number): string {
-        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") " + this.id + ": Acceso\";";
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") " + this.id + ": Acceso\"];";
         return result;
     }
 
@@ -47,7 +47,6 @@ export class Access extends Expression {
         }
         else {
             const value = environment.getVar(this.id);
-            
             if (value == null)
                 errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
             else if (value.valor instanceof _Array) {

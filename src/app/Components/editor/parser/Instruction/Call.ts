@@ -20,7 +20,7 @@ export class Call extends Instruction {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\"];";
 
         // Hijo 1
-        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID: " + this.id + "\"];";
+        result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID\"];";
         // Hijo 2
         result += "node" + count + "2[label=\"(" + this.line + "," + this.column + ") Statement\"];";
         // Flechas
@@ -93,8 +93,8 @@ export class Call extends Instruction {
                 if (func.type == null || func.type.execute().type == 3) return result;
                 // Para Otras funciones
                 if (result != null) {
-                    console.log('ret', result);
-                    console.log('fun', func.type.execute());
+                    console.log('return',result);
+                    console.log('tipo',func.type.execute());
                     if (result.type == func.type.execute().type || result.type == func.type.execute().value) return result;
                     else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos '));
                 }

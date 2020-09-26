@@ -12,14 +12,16 @@ import { Retorno } from '../Abstract/Retorno';
 import { newArray } from '@angular/compiler/src/util';
 import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 import { _Struct } from '../Object/Struct';
+import { Literal } from '../Expression/Literal';
 
 export class Assignation extends Instruction {
 
     public plot(count: number): string {
-        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Assignacion " + this.id + "\";";
+        let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Assignacion \"];";
         // Hijo 1
         result += "node" + count + "1[label=\"(" + this.value.line + "," + this.value.column + ") Valor\"];";
-        result += this.value.plot(Number(count + "1"));
+        result += this.value.plot(Number(count + "11"));
+        result += "node" + count + "1 -> " + "node" + count + "11;";
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         return result;
@@ -58,10 +60,15 @@ export class Assignation extends Instruction {
             }
         }
         else if (isArray(this.value)) {
+            // Es un array
             if (this.id instanceof Access) {
                 // Arreglar los Accesos
+                for (let index in this.value) {
+                    let element = this.value[index];
+                    if(element.value == null) this.value[index].value = null;
+                    else if( element.value instanceof Literal || element .value instanceof Access) this.value[index].value = element.value.execute(environment).value
+                }
                 let symbol = environment.getVar(this.id.getID());
-                for (let index in this.value) this.value[index].value = (this.value[index].value == null) ? null : this.value[index].value.execute(environment).value;
                 environment.guardar(symbol.id, new _Struct(this.value), symbol.type);
             }
         }
@@ -74,8 +81,6 @@ export class Assignation extends Instruction {
             if (symbol.value instanceof _Struct) {
                 // TODO comprobar tipos para la asignacion
                 if (symbol.value.hasAtribute(this.id.getProperty())) {
-                    console.log('asignando', this);
-                    console.log('guadnado', result);
                     symbol.value.setAtribute(this.id.getProperty(), { id: this.id.getProperty(), value: result.value });
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
             }
