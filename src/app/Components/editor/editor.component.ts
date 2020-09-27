@@ -112,7 +112,8 @@ export class EditorComponent {
         text: 'No se ha analizado el codigo aun',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     } else if (errores.length != 0) {
       Swal.fire({
@@ -120,7 +121,8 @@ export class EditorComponent {
         text: 'Se encontraron errores en su codigo, no puede graficar',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     } else {
       //alert(new Plotter().makeDot(this.ast));
@@ -138,7 +140,8 @@ export class EditorComponent {
         text: 'No se ha analizado el codigo aun',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     }
     else if (this.env.variables.size == 0 && this.env.funciones.size == 0) {
@@ -147,7 +150,8 @@ export class EditorComponent {
         text: 'No se encontro ninguna variable o funcion guardada',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     } else if (errores.length != 0) {
       Swal.fire({
@@ -155,15 +159,18 @@ export class EditorComponent {
         text: 'Se encontraron errores en su codigo, no puede mostrar tabla de variables',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     }
     else {
       Swal.fire({
         title: 'Tabla de Simbolos',
-        html: new Table().symbols(this.env),
+        html: new Table().symbols(_Console.symbols),
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black',
+        width: 800
       })
     }
   }
@@ -175,7 +182,8 @@ export class EditorComponent {
         text: 'No se ha analizado el codigo aun',
         icon: 'error',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     }
     else if (errores.length == 0) {
@@ -184,7 +192,8 @@ export class EditorComponent {
         text: 'No se encontraron errores en su codigo',
         icon: 'success',
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)'
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
       })
     }
     else {
@@ -192,8 +201,9 @@ export class EditorComponent {
         title: 'Tabla de Errores',
         html: new Table().errors(errores),
         confirmButtonText: 'Entendido',
-        confirmButtonColor: 'rgb(59, 59, 61)',
-        width: 600
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black',
+        width: 800
       })
     }
   }

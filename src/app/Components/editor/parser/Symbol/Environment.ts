@@ -2,6 +2,10 @@ import { env } from "process"
 import { Symbol } from "./Symbol";
 import { Type } from "../Abstract/Retorno";
 import { Function } from "../Instruction/Function";
+import { isRegExp } from 'util';
+import { errores } from '../Errores';
+import { Error_ } from '../Error';
+import { _Console } from '../Util/Salida';
 
 export class Environment {
 
@@ -17,6 +21,8 @@ export class Environment {
         let env: Environment | null = this;
         while (env != null) {
             if (env.variables.has(id)) {
+                if (env.anterior == null) _Console.symbols.set(id, new Symbol(valor, id, type, 'Global'));
+                else _Console.symbols.set(id, new Symbol(valor, id, type, 'Local'));
                 env.variables.set(id, new Symbol(valor, id, type));
                 return;
             }
@@ -26,8 +32,11 @@ export class Environment {
     }
 
     public guardarFuncion(id: string, funcion: Function) {
-        //TODO ver si la funcion ya existe, reportar error
-        this.funciones.set(id, funcion);
+        if (this.funciones.has(id)) errores.push(new Error_(funcion.line, funcion.column, "Semantico", "Funcion ya definida"));
+        else {
+            _Console.symbols.set(id, new Symbol('Instrucciones', id, 8, 'Global'));
+            this.funciones.set(id, funcion);
+        }
     }
 
     public getVar(id: string): Symbol | undefined | null {

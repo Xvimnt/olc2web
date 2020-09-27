@@ -6,7 +6,8 @@ export enum Type {
     ARRAY = 4,
     RESERVADA = 5,
     TEMPLATE = 6,
-    STRUCT = 7
+    STRUCT = 7,
+    FUNCION = 8
 }
 
 export type Retorno = {
@@ -24,5 +25,6 @@ export function getTypeName(tipo: Type) {
         case 5: return "Reservada";
         case 6: return "Plantilla de Texto";
         case 7: return "Struct";
+        case 8: return "Funcion";
     }
 }

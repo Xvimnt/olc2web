@@ -6,11 +6,13 @@ export class Symbol {
     public valor: any;
     public id: string;
     public type: Type;
+    public ambito: string;
 
-    constructor(valor: any, id: string, type: Type) {
+    constructor(valor: any, id: string, type: Type, ambito: string = "") {
         this.valor = valor;
         this.id = id;
         this.type = type;
+        this.ambito = ambito;
     }
 
     private getTypeName() {
@@ -23,6 +25,7 @@ export class Symbol {
             case 5: return "Reservada";
             case 6: return "Template";
             case 7: return "Type";
+            case 8: return "Funcion";
             default: return this.type;
         }
     }
@@ -30,7 +33,7 @@ export class Symbol {
     htmlRow() {
         let result = "";
         if (this.valor instanceof _Array || this.valor instanceof _Struct) result += "<td>" + this.valor.print() + "</td>" + "<td>" + this.id + "</td>" + "<td>" + this.getTypeName() + "</td>";
-        else result += "<td>" + this.valor + "</td>" + "<td>" + this.id + "</td>" + "<td>" + this.getTypeName() + "</td>";
+        else result += "<td>" + this.valor + "</td>" + "<td>" + this.id + "</td>" + "<td>" + this.getTypeName() + "</td>" + "<td>" + this.ambito + "</td>";
         return result;
     }
 }
