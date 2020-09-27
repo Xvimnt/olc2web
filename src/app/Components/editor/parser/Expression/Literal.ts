@@ -15,9 +15,14 @@ export class Literal extends Expression {
     }
 
     private fixString(str: String) {
-        if (str.endsWith('"')) return str.replace(/\"/g, "");
-        if (str.endsWith("'")) return str.replace(/\'/g, "");
-        return str;
+        let result = str;
+        if (str.endsWith('"')) result = str.replace(/\"/g, "");
+        if (str.endsWith("'")) result = str.replace(/\'/g, "");
+        result = result.replace(/\\t/g,'  ');
+        result = result.replace(/\\n/g,'\n');
+        result = result.replace(/\\r/g,'\n');
+
+        return result;
     }
 
     private stringTemplateParser(expression: string, environment: Environment) {
@@ -25,10 +30,14 @@ export class Literal extends Expression {
         let text = expression.replace(templateMatcher, (substring, value, index) => {
             value = environment.getVar(value);
             if (value == null)
-            errores.push( new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
+                errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no definida'));
             return value.valor;
         });
-        return text.replace(/`/g, "");
+        let result = text.replace(/`/g, "");
+        result = result.replace(/\\t/g,'  ');
+        result = result.replace(/\\n/g,'\n');
+        result = result.replace(/\\r/g,'\n');
+        return result;
     }
 
     public execute(environment: Environment): Retorno {
@@ -40,7 +49,7 @@ export class Literal extends Expression {
             case 2:
                 return { value: (this.value == 'false') ? false : true, type: Type.BOOLEAN };
             case 6:
-                return { value: this.stringTemplateParser(this.value,environment), type: Type.STRING };
+                return { value: this.stringTemplateParser(this.value, environment), type: Type.STRING };
             default:
                 return { value: this.value, type: Type.STRING };
         }
