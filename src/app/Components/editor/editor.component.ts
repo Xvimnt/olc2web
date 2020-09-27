@@ -128,7 +128,7 @@ export class EditorComponent {
       //alert(new Plotter().makeDot(this.ast));
       //return;
       this.dotService.setDot(new Plotter().makeDot(this.ast));
-      window.open('/ast');
+      window.open('/olc2web/ast');
       return;
     }
   }

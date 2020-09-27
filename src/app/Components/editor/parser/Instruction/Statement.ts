@@ -20,10 +20,10 @@ export class Statement extends Instruction {
     }
 
     public execute(env: Environment) {
-        const newEnv = new Environment(env);
+        // const newEnv = new Environment(env);
         for (const instr of this.code) {
             try {
-                const element = instr.execute(newEnv);
+                const element = instr.execute(env);
                 if (element != undefined || element != null)
                     return element;
             } catch (error) {

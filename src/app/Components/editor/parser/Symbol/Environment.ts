@@ -13,22 +13,29 @@ export class Environment {
     public funciones: Map<string, Function>;
 
     constructor(public anterior: Environment | null) {
-        this.variables = new Map();
-        this.funciones = new Map();
+        this.variables = new Map<string,Symbol>();
+        this.funciones = new Map<string, Function>();
     }
 
-    public guardar(id: string, valor: any, type: Type) {
+    public guardar(id: string, valor: any, type: Type, skip = false) {
         let env: Environment | null = this;
-        while (env != null) {
-            if (env.variables.has(id)) {
-                if (env.anterior == null) _Console.symbols.set(id, new Symbol(valor, id, type, 'Global'));
-                else _Console.symbols.set(id, new Symbol(valor, id, type, 'Local'));
-                env.variables.set(id, new Symbol(valor, id, type));
-                return;
-            }
-            env = env.anterior;
+        if (skip) {
+            if (env.variables.has(id)) env.variables.delete(id);
+            this.variables.set(id, new Symbol(valor, id, type));
         }
-        this.variables.set(id, new Symbol(valor, id, type));
+        else {
+            while (env != null) {
+                if (env.variables.has(id)) {
+                    if (env.anterior == null) _Console.symbols.set(id, new Symbol(valor, id, type, 'Global'));
+                    else _Console.symbols.set(id, new Symbol(valor, id, type, 'Local'));
+
+                    env.variables.set(id, new Symbol(valor, id, type));
+                    return;
+                }
+                env = env.anterior;
+            }
+            this.variables.set(id, new Symbol(valor, id, type));
+        }
     }
 
     public guardarFuncion(id: string, funcion: Function) {

@@ -13,6 +13,7 @@ import { newArray } from '@angular/compiler/src/util';
 import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 import { _Struct } from '../Object/Struct';
 import { Literal } from '../Expression/Literal';
+import { EMLINK } from 'constants';
 
 export class Assignation extends Instruction {
 
@@ -60,15 +61,16 @@ export class Assignation extends Instruction {
             }
         }
         else if (isArray(this.value)) {
-            // Es un array
+            // Es un struct
             if (this.id instanceof Access) {
                 // Arreglar los Accesos
                 for (let index in this.value) {
                     let element = this.value[index];
-                    if(element.value == null) this.value[index].value = null;
-                    else if( element.value instanceof Literal || element .value instanceof Access) this.value[index].value = element.value.execute(environment).value
+                    if (element.value == null) this.value[index].value = null;
+                    else if (element.value instanceof Literal || element.value instanceof Access) this.value[index].value = element.value.execute(environment).value
                 }
                 let symbol = environment.getVar(this.id.getID());
+                console.log('se guarda struct', symbol, this.value);
                 environment.guardar(symbol.id, new _Struct(this.value), symbol.type);
             }
         }

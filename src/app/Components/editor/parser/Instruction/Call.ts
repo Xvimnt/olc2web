@@ -35,10 +35,14 @@ export class Call extends Instruction {
     }
 
     public execute(environment: Environment) {
+        console.log('llamando', this);
+
         if (this.id instanceof Access) {
             const func = environment.getFuncion(this.id.getID());
             if (func != undefined) {
-                const newEnv = new Environment(environment.getGlobal());
+                console.log('antes de crear el newEnv', environment);
+                const newEnv = (environment.anterior == null) ? new Environment(environment.getGlobal()) : new Environment(environment);
+                console.log('se crea', newEnv);
                 for (let i = 0; i < this.expresiones.length; i++) {
                     const param = func.parametros[i];
                     if (param.type instanceof _Type) {
@@ -46,8 +50,12 @@ export class Call extends Instruction {
                         const value = this.expresiones[i].execute(environment);
 
                         // Sino son del mismo tipo
-                        if (newType.type == value.type)
-                            newEnv.guardar(newType.value, value.value, value.type);
+                        if (newType.type == value.type) {
+                            console.log('newT', newType);
+                            console.log('variable', value);
+                            // Se usa true para crear la variable
+                            newEnv.guardar(newType.value, value.value, value.type, true);
+                        }
                         // es un struct
                         else if (isString(newType.type)) {
                             let variable;
@@ -59,17 +67,17 @@ export class Call extends Instruction {
                                     // TODO comprobar tipos para la asignacion
                                     if (struct.hasAtribute(this.expresiones[i].getProperty())) {
                                         variable = struct.getAtribute(this.expresiones[i].getProperty());
-                                        // console.log('newT',newType);
-                                        // console.log('variable',variable);
-                                        if (variable.value == null) newEnv.guardar(newType.value, null, newType.type);
-                                        else newEnv.guardar(newType.value, variable.valor, variable.type);
+                                        console.log('newT', newType);
+                                        console.log('variable', variable);
+                                        if (variable.value == null) newEnv.guardar(newType.value, null, newType.type, true);
+                                        else newEnv.guardar(newType.value, variable.value, newType.type, true);
                                     } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Atributo no existente en el type'));
                                 }
                             }
                             else {
                                 // No es una propiedad
                                 variable = environment.getVar(this.expresiones[i].id);
-                                if (newType.type == variable.type) newEnv.guardar(newType.value, variable.valor, variable.type);
+                                if (newType.type == variable.type) newEnv.guardar(newType.value, variable.valor, variable.type, true);
                                 else errores.push(new Error_(this.line, this.column, 'Semantico', 'Parametro de tipo invalido'));
                             }
                         }
@@ -88,13 +96,14 @@ export class Call extends Instruction {
                         }
                     }
                 }
+                console.log('antes de ejecutar newEnv', newEnv);
                 const result = func.statment.execute(newEnv);
                 // Para el void
                 if (func.type == null || func.type.execute().type == 3) return result;
                 // Para Otras funciones
                 if (result != null) {
-                    console.log('return',result);
-                    console.log('tipo',func.type.execute());
+                    console.log('return', result);
+                    console.log('tipo', func.type.execute());
                     if (result.type == func.type.execute().type || result.type == func.type.execute().value) return result;
                     else errores.push(new Error_(this.line, this.column, 'Semantico', 'Return y funcion de tipos distintos '));
                 }
