@@ -6,6 +6,14 @@ import { faOtter } from '@fortawesome/free-solid-svg-icons';
 import { _Struct } from '../Object/Struct';
 
 export class Print extends Instruction {
+    public translate(environment: Environment): String {
+        let result = "";
+        this.value.forEach(element => {
+            result += element.translate(environment);
+        });
+        result += 'printf("%c", t' + (_Console.count - 1) + ')\n';
+        return result;
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Print\"];";

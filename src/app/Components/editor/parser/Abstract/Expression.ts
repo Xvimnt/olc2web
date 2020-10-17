@@ -1,6 +1,7 @@
 import { Retorno, Type } from "./Retorno";
 import { Environment } from "../Symbol/Environment";
 import { tipos } from "../Util/TablaTipos";
+import { strict } from 'assert';
 
 export abstract class Expression {
 
@@ -13,6 +14,7 @@ export abstract class Expression {
     }
 
     public abstract execute(environment: Environment) : Retorno;
+    public abstract translate(environment: Environment) : String;
     public abstract plot(count: number) : string;
 
     public tipoDominante(tipo1 : Type, tipo2 : Type) : Type{

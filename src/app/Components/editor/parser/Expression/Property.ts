@@ -11,6 +11,9 @@ import { _Struct } from '../Object/Struct';
 
 
 export class Property extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     constructor(public id: any, private property: string, line: number, column: number) {
         super(line, column);

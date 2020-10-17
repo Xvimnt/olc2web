@@ -4,6 +4,11 @@ import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
 
 export class If extends Instruction {
+    public translate(environment: Environment): String {
+        let result = "";
+        
+        return result;
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") If\"];";

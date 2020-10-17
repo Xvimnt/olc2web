@@ -4,18 +4,21 @@ import { Expression } from "../Abstract/Expression";
 import { isArray } from 'util';
 import { Access } from '../Expression/Access';
 import { Property } from '../Expression/Property';
-import { env } from 'process';
 import { _Array } from '../Object/Array';
 import { errores } from '../Errores';
 import { Error_ } from '../Error';
 import { Retorno } from '../Abstract/Retorno';
-import { newArray } from '@angular/compiler/src/util';
-import { isGeneratedFile } from '@angular/compiler/src/aot/util';
 import { _Struct } from '../Object/Struct';
 import { Literal } from '../Expression/Literal';
-import { EMLINK } from 'constants';
+import { _Console } from '../Util/Salida';
 
 export class Assignation extends Instruction {
+
+    public translate(environment: Environment): String {
+        let result = this.value.translate(environment);
+        result += this.id + " = t" + (_Console.count - 1);
+        return result;
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Assignacion \"];";
@@ -70,7 +73,6 @@ export class Assignation extends Instruction {
                     else if (element.value instanceof Literal || element.value instanceof Access) this.value[index].value = element.value.execute(environment).value
                 }
                 let symbol = environment.getVar(this.id.getID());
-                console.log('se guarda struct', symbol, this.value);
                 environment.guardar(symbol.id, new _Struct(this.value), symbol.type);
             }
         }

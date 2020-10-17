@@ -44,4 +44,4 @@ let tree : AVLTree = {
 
 tree.root = insert(tree.root, 19);
 tree.root = insert(tree.root, 29);
-console.log(tree.root);
+// console.log(tree.root);

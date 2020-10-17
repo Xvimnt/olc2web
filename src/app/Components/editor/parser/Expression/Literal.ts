@@ -3,8 +3,15 @@ import { Retorno, Type, getTypeName } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
+import { _Console } from '../Util/Salida';
 
 export class Literal extends Expression {
+
+    public translate(environment: Environment): String {
+        let result = "t" + _Console.count + " = " + this.value + "\n";
+        _Console.count++;
+        return result;
+    }
 
     constructor(private value: any, line: number, column: number, private type: number) {
         super(line, column);
@@ -18,9 +25,9 @@ export class Literal extends Expression {
         let result = str;
         if (str.endsWith('"')) result = str.replace(/\"/g, "");
         if (str.endsWith("'")) result = str.replace(/\'/g, "");
-        result = result.replace(/\\t/g,'  ');
-        result = result.replace(/\\n/g,'\n');
-        result = result.replace(/\\r/g,'\n');
+        result = result.replace(/\\t/g, '  ');
+        result = result.replace(/\\n/g, '\n');
+        result = result.replace(/\\r/g, '\n');
 
         return result;
     }
@@ -34,9 +41,9 @@ export class Literal extends Expression {
             return value.valor;
         });
         let result = text.replace(/`/g, "");
-        result = result.replace(/\\t/g,'  ');
-        result = result.replace(/\\n/g,'\n');
-        result = result.replace(/\\r/g,'\n');
+        result = result.replace(/\\t/g, '  ');
+        result = result.replace(/\\n/g, '\n');
+        result = result.replace(/\\r/g, '\n');
         return result;
     }
 

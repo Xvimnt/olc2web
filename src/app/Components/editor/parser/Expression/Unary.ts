@@ -10,6 +10,9 @@ export enum UnaryOption {
 }
 
 export class Unary extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     constructor(private value: Expression, private type: UnaryOption, line: number, column: number) {
         super(line, column);

@@ -13,8 +13,15 @@ import { strict } from 'assert';
 import { Access } from '../Expression/Access';
 import { env } from 'process';
 import { Retorno } from '../Abstract/Retorno';
+import { _Console } from '../Util/Salida';
 
 export class Declaration extends Instruction {
+    
+    public translate(environment: Environment): String {
+        let result = this.value.translate(environment);
+        result += this.id + " = t" + (_Console.count - 1);
+        return result;
+    }
 
     public plot(count: number): string {
 

@@ -5,6 +5,9 @@ import { Error_ } from "../Error";
 
 
 export class Ternary extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Ternaria\"];";

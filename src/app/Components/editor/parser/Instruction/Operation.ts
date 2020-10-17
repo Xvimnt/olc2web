@@ -9,6 +9,9 @@ export enum OperationOption {
 }
 
 export class Operation extends Instruction {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     private getName() {
         switch (this.option) {

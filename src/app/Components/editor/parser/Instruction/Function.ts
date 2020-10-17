@@ -4,6 +4,9 @@ import { _Type } from '../Types/Type';
 import { Param } from '../Expression/Param';
 
 export class Function extends Instruction {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Funcion:" + this.id + "\"];";

@@ -9,6 +9,9 @@ import { Call } from '../Instruction/Call';
 import { _Struct } from '../Object/Struct';
 
 export class Access extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     constructor(private id: any, line: number, column: number) {
         super(line, column);

@@ -2,6 +2,7 @@ import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Error_ } from "../Error";
 import { Environment } from "../Symbol/Environment";
+import { _Console } from '../Util/Salida';
 
 export enum RelationalOption {
     EQUAL,
@@ -13,6 +14,31 @@ export enum RelationalOption {
 }
 
 export class Relational extends Expression {
+    public translate(environment: Environment): String {
+        let result = this.left.translate(environment);
+        result += "" + this.right.translate(environment);
+        result += "t" + _Console.count + " = t" + (_Console.count - 1) + this.getTypeSign() + "t" + (_Console.count - 2) + "\n";
+        _Console.count++;
+        return result;
+    }
+    private getTypeSign() {
+        switch (this.type) {
+            case RelationalOption.EQUAL:
+                return "=";
+            case RelationalOption.NOTEQUAL:
+                return "!=";
+            case RelationalOption.LESS:
+                return "<";
+            case RelationalOption.LESSOREQUAL:
+                return "<=";
+            case RelationalOption.GREATER:
+                return ">";
+            case RelationalOption.GREATEROREQUAL:
+                return ">=";
+            default:
+                return "Error";
+        }
+    }
     private getTypeName() {
         switch (this.type) {
             case RelationalOption.EQUAL:

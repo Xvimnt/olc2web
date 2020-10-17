@@ -4,6 +4,9 @@ import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
 
 export class For extends Instruction {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") For\"];";

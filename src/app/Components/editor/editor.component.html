@@ -9,9 +9,14 @@
                     Compilar
                 </button>
                 &nbsp;
-                <button type="button" class="btn btn-dark" style="background-color: rgb(8, 101, 104)">
+                <button (click)="translate()"  type="button" class="btn btn-dark" style="background-color: rgb(8, 101, 104)">
                     <fa-icon [icon]="faGlobe"></fa-icon>
                     Traducir
+                </button>
+                &nbsp;
+                <button (click)="translate()"  type="button" class="btn btn-dark" style="background-color: rgb(8, 101, 104)">
+                    <fa-icon [icon]="faGlobe"></fa-icon>
+                    Optimizar
                 </button>
                 &nbsp;
                 <div ngbDropdown class="d-inline-block">

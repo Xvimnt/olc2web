@@ -11,6 +11,9 @@ export enum LogicOption {
 }
 
 export class Logic extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
     private getTypeName() {
         switch (this.type) {
             case LogicOption.AND:

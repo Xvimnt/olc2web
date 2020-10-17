@@ -6,6 +6,9 @@ import { errores } from '../Errores';
 import { Error_ } from '../Error';
 
 export class While extends Instruction {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     public plot(count: number): string {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Switch\"];";

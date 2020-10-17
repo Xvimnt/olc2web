@@ -12,5 +12,5 @@ export abstract class Instruction {
 
     public abstract execute(environment : Environment) : any;
     public abstract plot(count: number) : string;
-
+    public abstract translate(environment: Environment) : String;
 }

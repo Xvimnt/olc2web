@@ -1,8 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 // Imports para el parser
-import { Instruction } from "./parser/Abstract/Instruction";
 import { Environment } from "./parser/Symbol/Environment";
-import { Error_ } from "./parser/Error";
 import { Function } from "./parser/Instruction/Function";
 import { _Console } from "./parser/Util/Salida";
 
@@ -51,10 +49,12 @@ export class EditorComponent {
   }
   // Metodos
   clean() {
-    this.ast = null;
+    this.ast = null; 1
     this.env = null;
     this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     _Console.salida = "";
+    _Console.count = 0;
+    _Console.labels = 0;
     errores.length = 0;
     this.flag = true;
   }
@@ -101,7 +101,29 @@ export class EditorComponent {
   }
 
   translate() {
-    
+    this.clean();
+    try {
+      this.ast = parser.parse(this.entrada.toString());
+      this.env = new Environment(null);
+
+      for (const instr of this.ast) {
+        this.salida += instr.translate(this.env);
+      }
+      if (errores.length == 0) {
+        // Muestra el resultado en la pagina
+        this.salida += _Console.salida;
+      } else {
+        if (errores.length != 0) {
+          errores.forEach(error => {
+            this.salida += "Error " + error.getTipo() + " (linea: " + error.getLinea() + ", columna: " + error.getColumna() + "): " + error.getDescripcion() + ".  \n";
+          });
+        }
+      }
+    }
+    catch (error) {
+      console.log(error);
+    }
+    this.flag = false;
   }
 
 
@@ -144,7 +166,7 @@ export class EditorComponent {
         background: 'black'
       })
     }
-    else if (this.env.variables.size == 0 && this.env.funciones.size == 0) {
+    else if (_Console.symbols.size == 0) {
       Swal.fire({
         title: 'Oops...',
         text: 'No se encontro ninguna variable o funcion guardada',

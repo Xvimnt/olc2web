@@ -4,6 +4,9 @@ import { Retorno } from "../Abstract/Retorno";
 import { _Type } from '../Types/Type';
 
 export class Param extends Expression {
+    public translate(environment: Environment): String {
+        throw new Error('Method not implemented.');
+    }
 
     constructor(public id: string, public type: _Type, line: number, column: number) {
         super(line, column);
