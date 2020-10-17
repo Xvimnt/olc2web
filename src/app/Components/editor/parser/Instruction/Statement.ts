@@ -4,7 +4,9 @@ import { errores } from "../Errores";
 
 export class Statement extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = "";
+        for (const instr of this.code) result += instr.translate(environment);
+        return result;
     }
 
     public plot(count: number): string {

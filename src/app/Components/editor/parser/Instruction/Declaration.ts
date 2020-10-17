@@ -19,7 +19,7 @@ export class Declaration extends Instruction {
     
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
-        result += this.id + " = t" + (_Console.count - 1);
+        result += this.id + " = t" + (_Console.count - 1) + "\n";
         return result;
     }
 

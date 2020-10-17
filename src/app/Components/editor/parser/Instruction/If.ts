@@ -2,11 +2,21 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
+import { _Console } from '../Util/Salida';
+import { env } from 'process';
 
 export class If extends Instruction {
     public translate(environment: Environment): String {
-        let result = "";
-        
+        let result = this.condition.translate(environment);
+        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + "\n";
+        _Console.labels++;
+        let l2 = _Console.labels;
+        result += "goto l" + _Console.labels + "\n";
+        result += "l" + (_Console.labels - 1) + ":\n"
+        _Console.labels++;
+        result += this.code.translate(environment) + "";
+        result += "l" + l2 + ":\n";
+        if (this.elsSt != null) result += this.elsSt.translate(environment) + "";
         return result;
     }
 

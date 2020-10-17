@@ -7,10 +7,13 @@ import { isArray, isNumber } from 'util';
 import { _Array } from '../Object/Array';
 import { Call } from '../Instruction/Call';
 import { _Struct } from '../Object/Struct';
+import { _Console } from '../Util/Salida';
 
 export class Access extends Expression {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = "t" + _Console.count + " = " + this.id + "\n";
+        _Console.count++;
+        return result;
     }
 
     constructor(private id: any, line: number, column: number) {
