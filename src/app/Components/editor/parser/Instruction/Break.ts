@@ -1,9 +1,11 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
+import { _Console } from '../Util/Salida';
 
 export class Break extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        // TODO arreglar break y return 
+        return "goto l" + (_Console.labels - 1) + "\n";
     }
 
     public plot(count: number): string {

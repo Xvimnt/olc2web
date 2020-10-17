@@ -78,7 +78,7 @@ export class Arithmetic extends Expression {
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
         result += "" + this.right.translate(environment);
-        result += "t" + _Console.count + " = t" + (_Console.count - 1) + this.getTypeSign() + "t" + (_Console.count - 2) + "\n";
+        result += "t" + _Console.count + " = t" + (_Console.count - 2) + this.getTypeSign() + "t" + (_Console.count - 1) + "\n";
         _Console.count++;
         return result;
     }

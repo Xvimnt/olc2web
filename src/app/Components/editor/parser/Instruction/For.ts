@@ -2,10 +2,28 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
+import { _Console } from '../Util/Salida';
+import { env } from 'process';
 
 export class For extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.declaration.translate(environment);
+        let alfa = _Console.labels;
+        _Console.labels++;
+        result += "l" + alfa + ":\n";
+        result += "" + this.condition.translate(environment);
+        let inicio = _Console.labels;
+        _Console.labels++;
+        result += "if(t" + _Console.count + ") goto l" + inicio + "\n";
+        let final = _Console.labels;
+        _Console.labels++;
+        result += "goto l" + final + "\n";
+        result += "l" + inicio + ":\n";
+        result += "" + this.code.translate(environment);
+        result += "" + this.operation.translate(environment);
+        result += "goto l" + alfa + "\n";
+        result += "l" + final + ":\n";
+        return result;
     }
 
     public plot(count: number): string {

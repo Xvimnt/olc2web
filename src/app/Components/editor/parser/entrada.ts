@@ -1,12 +1,3 @@
-if(5>4)
-{
-  if(32 < 4)
-  {
-    console.log(58 / 65);
-  }
-  else 
-  {
-    let b = 32;
-    console.log(b);
-  }
+for (let index = 0; index < 5; index++) {
+  console.log(index  * 2);
 }

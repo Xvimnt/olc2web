@@ -4,10 +4,25 @@ import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
 import { errores } from '../Errores';
 import { Error_ } from '../Error';
+import { _Console } from '../Util/Salida';
 
 export class While extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let alfa = _Console.labels;
+        _Console.labels++;
+        let result = "l" + alfa + ":\n";
+        result += this.condition.translate(environment);
+        let inicio = _Console.labels;
+        _Console.labels++;
+        let final = _Console.labels;
+        _Console.labels++;
+        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + "\n";
+        result += "goto l" + final + "\n";
+        result += "l" + inicio + ":\n";
+        result += this.code.translate(environment) + "";
+        result += "goto l" + alfa + "\n";
+        result += "l" + final + ":\n";
+        return result;
     }
 
     public plot(count: number): string {

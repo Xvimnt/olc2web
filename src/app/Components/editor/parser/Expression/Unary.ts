@@ -3,6 +3,7 @@ import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
+import { _Console } from '../Util/Salida';
 
 export enum UnaryOption {
     NEGATION,
@@ -11,7 +12,13 @@ export enum UnaryOption {
 
 export class Unary extends Expression {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.value.translate(environment);
+        if (this.type == UnaryOption.NEGATION)
+            result += "t" + _Console.count + " = !" + "t" + (_Console.count - 1) + "\n";
+        else
+            result += "t" + _Console.count  + " = 0 - " + "t" + (_Console.count - 1) + "\n";
+        _Console.count++;
+        return result;
     }
 
     constructor(private value: Expression, private type: UnaryOption, line: number, column: number) {
