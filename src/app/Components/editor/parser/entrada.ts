@@ -4,9 +4,6 @@ function prueba(num1: number) : number
   return result;
 }
 
-let num1 = 32;
-let result = 3 + 6 * num1;
-
 /*
   --------------------------
   0 - int num1 - par1

@@ -15,10 +15,19 @@ export class Declaration extends Instruction {
 
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
-        result += "t" + _Console.count + " = " + "p + " + environment.getP() + "\n";
-        environment.setP(environment.getP() + 1);
-        _Console.count++;
-        result += "pila[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+        if (environment.getAnterior() != null) {
+            result += "t" + _Console.count + " = " + "p + " + environment.getP() + "\n";
+            _Console.saveInStack(environment.getP(), this.id);
+            environment.setP(environment.getP() + 1);
+            _Console.count++;
+            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+        } else {
+            result += "t" + _Console.count + " = " + "h + " + environment.getH() + "\n";
+            _Console.heap[environment.getH()] = this.id;
+            environment.setH(environment.getH() + 1);
+            _Console.count++;
+            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+        }
         return result;
     }
 

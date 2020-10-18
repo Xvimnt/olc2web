@@ -18,6 +18,7 @@ export class Environment {
         this.funciones = new Map<string, Function>();
         this.apuntadores = new Map<string, number>();
         this.setP(0);
+        this.setH(0);
         this.setLastT(0);
         this.setLastL(0);
     }
@@ -74,6 +75,10 @@ export class Environment {
         return env;
     }
 
+    public getAnterior() : Environment  {
+        return this.anterior;
+    }
+
     public setLastT(count: number) {
         this.apuntadores.set("t", count);
     }
@@ -91,5 +96,11 @@ export class Environment {
     }
     public getP() {
         return this.apuntadores.get("p");
+    }
+    public setH(index: number) {
+        this.apuntadores.set("h", index);
+    }
+    public getH() {
+        return this.apuntadores.get("h");
     }
 }
