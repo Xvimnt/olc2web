@@ -11,10 +11,15 @@ export class Environment {
 
     public variables: Map<string, Symbol>;
     public funciones: Map<string, Function>;
+    public apuntadores: Map<string, number>;
 
     constructor(public anterior: Environment | null) {
         this.variables = new Map<string, Symbol>();
         this.funciones = new Map<string, Function>();
+        this.apuntadores = new Map<string, number>();
+        this.setP(0);
+        this.setLastT(0);
+        this.setLastL(0);
     }
 
     public guardar(id: string, valor: any, type: Type) {
@@ -67,5 +72,24 @@ export class Environment {
             env = env.anterior;
         }
         return env;
+    }
+
+    public setLastT(count: number) {
+        this.apuntadores.set("t", count);
+    }
+    public getLastT() {
+        return this.apuntadores.get("t");
+    }
+    public setLastL(count: number) {
+        this.apuntadores.set("l", count);
+    }
+    public getLastL() {
+        return this.apuntadores.get("l");
+    }
+    public setP(index: number) {
+        this.apuntadores.set("p", index);
+    }
+    public getP() {
+        return this.apuntadores.get("p");
     }
 }

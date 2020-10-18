@@ -11,8 +11,11 @@ import { _Console } from '../Util/Salida';
 
 export class Access extends Expression {
     public translate(environment: Environment): String {
-        let result = "t" + _Console.count + " = " + this.id + "\n";
-        _Console.count++;
+        let result = "";
+        if (_Console.pila.includes(this.id)) {
+            result += "t" + _Console.count + " = p" + (_Console.pila.indexOf(this.id) - environment.getP()) + "\n";
+            _Console.count++;
+        }
         return result;
     }
 

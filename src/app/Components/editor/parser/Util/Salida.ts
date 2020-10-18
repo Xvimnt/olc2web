@@ -3,5 +3,7 @@ class Console {
     public symbols = new Map();
     public count: number;
     public labels: number;
+    public pila: any[];
+    public heap: number[];
 }
 export const _Console = new Console();

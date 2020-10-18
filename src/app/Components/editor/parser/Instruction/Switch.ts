@@ -6,10 +6,24 @@ import { Break } from './Break';
 import { Continue } from './Continue';
 import { Error_ } from '../Error';
 import { errores } from '../Errores';
+import { _Console } from '../Util/Salida';
+import { Case } from './Case';
 
 export class Switch extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.condition.translate(environment);
+        environment.setLastT(_Console.count - 1);
+        environment.setLastL(_Console.labels + this.casos.length * 2);
+        this.casos.forEach(element => {
+            result += "" + element.translate(environment);
+        });
+
+        if (this.def != null) {
+            result += "" + this.def.translate(environment);
+        }
+        result += "l" + _Console.labels + ":\n";
+        _Console.labels++;
+        return result;
     }
 
     public plot(count: number): string {
@@ -23,27 +37,12 @@ export class Switch extends Instruction {
         return result;
     }
 
-    constructor(private condition: Expression, private casos: any, private def: any,
+    constructor(private condition: Expression, private casos: Case[], private def: Case,
         line: number, column: number) {
         super(line, column);
     }
 
     public execute(env: Environment) {
-        if (this.casos != null) {
-            const mainElement = this.condition.execute(env);
-            for (let caso of this.casos) {
-                const secondElement = caso['condicion'].execute(env);
-                if (mainElement.type != secondElement.type) errores.push(new Error_(this.line, this.column, 'Semantico', 'El case tiene que ser de el mismo tipo que el switch'));
-                if (mainElement.value == secondElement.value) {
-                    for (let instr of caso['instruccion']) {
-                        if (instr instanceof Return) return instr.execute(env);
-                        else if (instr instanceof Break) return;
-                        else if (instr instanceof Continue) break;
-                        else instr.execute(env);
-                    }
-                }
-            }
-            if (this.def != null) return this.def.execute(env);
-        }
+
     }
 }

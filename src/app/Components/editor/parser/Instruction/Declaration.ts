@@ -9,17 +9,16 @@ import { errores } from '../Errores';
 import { _Array } from '../Object/Array';
 import { ArrayType } from '../Types/Array';
 import { _Struct } from '../Object/Struct';
-import { strict } from 'assert';
-import { Access } from '../Expression/Access';
-import { env } from 'process';
-import { Retorno } from '../Abstract/Retorno';
 import { _Console } from '../Util/Salida';
 
 export class Declaration extends Instruction {
-    
+
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
-        result += this.id + " = t" + (_Console.count - 1) + "\n";
+        result += "t" + _Console.count + " = " + "p + " + environment.getP() + "\n";
+        environment.setP(environment.getP() + 1);
+        _Console.count++;
+        result += "pila[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
         return result;
     }
 
@@ -28,7 +27,7 @@ export class Declaration extends Instruction {
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Declaracion " + this.id + "\"];";
 
         // Hijo 1
-        if(this.method != null) {
+        if (this.method != null) {
             result += "node" + count + "1[label=\"(" + this.method.line + "," + this.method.column + ") Metodo\"];";
             result += "node" + count + " -> " + "node" + count + "1;";
         }

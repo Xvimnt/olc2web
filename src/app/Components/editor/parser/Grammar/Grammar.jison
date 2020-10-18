@@ -16,6 +16,7 @@
     const {Operation, OperationOption} = require('../Instruction/Operation');
     const {If} = require('../Instruction/If');
     const {Switch} = require('../Instruction/Switch');
+    const {Case} = require('../Instruction/Case');
     const {Print} = require('../Instruction/Print');
     const {Statement} = require('../Instruction/Statement');
     const {For} = require('../Instruction/For');
@@ -360,26 +361,25 @@ Cases
 ;
 
 CaseSt 
-    : 'CASE' Expr ':' Instructions
+    : 'CASE' Expr SwitchCode
     {
-        $$ = {condicion: $2, instruccion: $4};
-    }
-    | 'CASE' Expr ':'
-    {
-        $$ = {condicion: $2, instruccion: null};
+        $$ = new Case($2, $3, @1.first_line, @1.first_column);
     }
 ;
 
 DefaultSt
-    : 'DEFAULT' ':' Instructions {
-        $$ = new Statement($3, @1.first_line, @1.first_column);
-    }
-    | 'DEFAULT' ':' {
-        $$ = null;
+    : 'DEFAULT' SwitchCode {
+        $$ = new Case(null, $2, @1.first_line, @1.first_column);
     }
     | /* epsilon */
     {
         $$ = null;
+    }
+;
+
+SwitchCode
+    : ':' Instructions {
+        $$ = new Statement($2, @1.first_line, @1.first_column);
     }
 ;
 
