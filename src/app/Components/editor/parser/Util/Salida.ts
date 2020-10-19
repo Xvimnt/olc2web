@@ -4,6 +4,7 @@ class Console {
     public count: number;
     public labels: number;
     public stackPointer: number;
+    public heapPointer: number;
     public pila: any[];
     public heap: any[];
 

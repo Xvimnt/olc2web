@@ -1,12 +1,27 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
-import { Error_ } from "../Error";
+import { _Console } from '../Util/Salida';
 
 
 export class Ternary extends Expression {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.condition.translate(environment);
+        let condition = _Console.count - 1;
+        result += "if(t" + condition + ") goto l" + _Console.labels + "\n";
+        _Console.labels++;
+        result += "goto l" + _Console.labels + "\n";
+        _Console.labels++;
+        result += "l" + (_Console.labels - 2) + ":\n";
+        result += "" + this.isTrue.translate(environment);
+        _Console.count--;
+        result += "goto l" + (_Console.labels) + "\n";
+        result += "l" + (_Console.labels - 1) + ":\n";
+        result += "" + this.isFalse.translate(environment);
+        result += "l" + (_Console.labels) + ":\n";
+        _Console.labels++;
+
+        return result;
     }
 
     public plot(count: number): string {

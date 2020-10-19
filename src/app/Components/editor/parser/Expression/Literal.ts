@@ -1,5 +1,5 @@
 import { Expression } from "../Abstract/Expression";
-import { Retorno, Type, getTypeName } from "../Abstract/Retorno";
+import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
@@ -8,7 +8,23 @@ import { _Console } from '../Util/Salida';
 export class Literal extends Expression {
 
     public translate(environment: Environment): String {
-        let result = "t" + _Console.count + " = " + this.value + "\n";
+        let result = "";
+        if (this.type == 1) {
+            let nwStr: String = this.fixString(this.value);
+            for (let index = 0; index < nwStr.length; index++) {
+                result += "Heap[" + _Console.heapPointer + "] = " + nwStr.charCodeAt(index) + "\n";
+                _Console.heapPointer++;
+            }
+            result += "Heap[" + _Console.heapPointer + "] = -1\n";
+            result += "t" + _Console.count + " = " + (_Console.heapPointer - nwStr.length) + "\n";
+            _Console.heapPointer++;
+        }
+        else if (this.type == 2) {
+            result += "t" + _Console.count + " = " + ((this.value == 'true') ? 1 : 0) + "\n";
+        }
+        else {
+            result += "t" + _Console.count + " = " + this.value + "\n";
+        }
         _Console.count++;
         return result;
     }

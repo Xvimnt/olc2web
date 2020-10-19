@@ -56,6 +56,7 @@ export class EditorComponent {
     _Console.count = 0;
     _Console.labels = 0;
     _Console.stackPointer = 0;
+    _Console.heapPointer = 0;
     errores.length = 0;
     this.flag = true;
   }

@@ -26,7 +26,7 @@ export class Relational extends Expression {
     private getTypeSign() {
         switch (this.type) {
             case RelationalOption.EQUAL:
-                return " = ";
+                return " == ";
             case RelationalOption.NOTEQUAL:
                 return " != ";
             case RelationalOption.LESS:
