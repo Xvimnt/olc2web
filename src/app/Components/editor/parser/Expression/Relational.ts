@@ -16,25 +16,27 @@ export enum RelationalOption {
 export class Relational extends Expression {
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
+        let rigthT = _Console.count - 1;
         result += "" + this.right.translate(environment);
-        result += "t" + _Console.count + " = t" + (_Console.count - 2) + this.getTypeSign() + "t" + (_Console.count - 1) + "\n";
+        let leftT = _Console.count - 1;
+        result += "t" + _Console.count + " = t" + leftT + this.getTypeSign() + "t" + rigthT + "\n";
         _Console.count++;
         return result;
     }
     private getTypeSign() {
         switch (this.type) {
             case RelationalOption.EQUAL:
-                return "=";
+                return " = ";
             case RelationalOption.NOTEQUAL:
-                return "!=";
+                return " != ";
             case RelationalOption.LESS:
-                return "<";
+                return " < ";
             case RelationalOption.LESSOREQUAL:
-                return "<=";
+                return " <= ";
             case RelationalOption.GREATER:
-                return ">";
+                return " > ";
             case RelationalOption.GREATEROREQUAL:
-                return ">=";
+                return " >= ";
             default:
                 return "Error";
         }

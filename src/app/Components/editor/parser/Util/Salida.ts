@@ -3,6 +3,7 @@ class Console {
     public symbols = new Map();
     public count: number;
     public labels: number;
+    public stackPointer: number;
     public pila: any[];
     public heap: any[];
 

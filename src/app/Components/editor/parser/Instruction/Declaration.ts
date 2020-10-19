@@ -16,9 +16,9 @@ export class Declaration extends Instruction {
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
         if (environment.getAnterior() != null) {
-            result += "t" + _Console.count + " = " + "p + " + environment.getP() + "\n";
-            _Console.saveInStack(environment.getP(), this.id);
-            environment.setP(environment.getP() + 1);
+            result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
+            _Console.saveInStack(_Console.stackPointer, this.id);
+            _Console.stackPointer++;
             _Console.count++;
             result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
         } else {

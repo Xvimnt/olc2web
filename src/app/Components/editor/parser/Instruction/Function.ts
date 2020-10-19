@@ -10,10 +10,9 @@ export class Function extends Instruction {
         let newEnv = new Environment(environment);
         newEnv.setP(environment.getP());
         // Guardar parametros
-        let count = 0;
         this.parametros.forEach(element => {
-            _Console.pila[newEnv.getP() + count] = element.id;
-            count++;
+            _Console.pila[_Console.stackPointer] = element.id;
+            _Console.stackPointer++;
         });
 
         let result = "void " + this.id + "() {\n";

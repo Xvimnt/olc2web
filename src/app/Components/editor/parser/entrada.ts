@@ -6,7 +6,7 @@ function prueba(num1: number) : number
 
 /*
   --------------------------
-  0 - int num1 - par1
+  0 - int num1 - par1     
   1 - int result - local1
   2 - int - retorno
   --------------------------

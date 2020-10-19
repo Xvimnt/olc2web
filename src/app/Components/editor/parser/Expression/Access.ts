@@ -14,7 +14,7 @@ export class Access extends Expression {
         let result = "";
         if (environment.getAnterior() != null) {
             if (_Console.pila.includes(this.id)) {
-                result += "t" + _Console.count + " = p + " + (_Console.pila.indexOf(this.id) - environment.getP()) + "\n";
+                result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id) - environment.getP()) + "\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
                 _Console.count++;
