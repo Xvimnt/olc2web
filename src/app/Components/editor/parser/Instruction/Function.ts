@@ -6,18 +6,18 @@ import { _Console } from '../Util/Salida';
 
 export class Function extends Instruction {
     public translate(environment: Environment): String {
-        // Arreglar Stack
-        let newP = 0;
+        // Nuevo entorno
+        let newEnv = new Environment(environment);
+        newEnv.setP(environment.getP());
+        // Guardar parametros
+        let count = 0;
         this.parametros.forEach(element => {
-            _Console.pila[environment.getP() + newP] = element.id;
-            newP++;
+            _Console.pila[newEnv.getP() + count] = element.id;
+            count++;
         });
-        let tempP = environment.getP();
-        environment.setP(environment.getP() + newP);
 
         let result = "void " + this.id + "() {\n";
-        result += this.statment.translate(environment);
-        environment.setP(tempP);
+        result += this.statment.translate(newEnv);
         return result + "}\n";
 
     }

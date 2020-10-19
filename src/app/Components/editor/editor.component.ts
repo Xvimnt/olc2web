@@ -105,13 +105,23 @@ export class EditorComponent {
     try {
       this.ast = parser.parse(this.entrada.toString());
       this.env = new Environment(null);
-
+      this.salida = '';
       for (const instr of this.ast) {
         this.salida += instr.translate(this.env);
       }
       if (errores.length == 0) {
-        // Muestra el resultado en la pagina
-        this.salida += _Console.salida;
+        // Muestra el encabezado
+        let body = this.salida;
+        this.salida = '#include <stdio.h> \n\n';
+        this.salida += 'float Heap[16384];\n';
+        this.salida += 'float Stack[16384]; \n';
+        this.salida += 'float p; \n';
+        this.salida += 'float h; \n';
+        this.salida += 'float ';
+        for (let index = 0; index < _Console.count; index++) this.salida += "t" + index + ", ";
+        this.salida = this.salida.substring(0,this.salida.length - 2);
+        this.salida += ";\n\n";
+        this.salida += body;
       } else {
         if (errores.length != 0) {
           errores.forEach(error => {

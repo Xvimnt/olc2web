@@ -14,6 +14,7 @@ export class Environment {
     public apuntadores: Map<string, number>;
 
     constructor(public anterior: Environment | null) {
+        this.anterior = anterior;
         this.variables = new Map<string, Symbol>();
         this.funciones = new Map<string, Function>();
         this.apuntadores = new Map<string, number>();

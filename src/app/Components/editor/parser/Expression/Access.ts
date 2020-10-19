@@ -14,16 +14,18 @@ export class Access extends Expression {
         let result = "";
         if (environment.getAnterior() != null) {
             if (_Console.pila.includes(this.id)) {
-                result += "t" + _Console.count + " = p" + (_Console.pila.indexOf(this.id) - environment.getP()) + "\n";
+                result += "t" + _Console.count + " = p + " + (_Console.pila.indexOf(this.id) - environment.getP()) + "\n";
                 _Console.count++;
-            }
+                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
+                _Console.count++;
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         } else {
             if (_Console.heap.includes(this.id)) {
                 result += "t" + _Console.count + " = h + " + (_Console.heap.indexOf(this.id)) + "\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "]\n";
                 _Console.count++;
-            }
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
 
         return result;

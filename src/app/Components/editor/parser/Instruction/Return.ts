@@ -3,10 +3,15 @@ import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { env } from 'process';
 import { isString } from 'util';
+import { _Console } from '../Util/Salida';
 
 export class Return extends Instruction {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.value.translate(environment);
+        result += "t" + _Console.count + " = p + " + (environment.getP()) + "\n";
+        _Console.count++;
+        result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+        return result;
     }
 
     public plot(count: number): string {

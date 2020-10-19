@@ -39,21 +39,21 @@ export class Arithmetic extends Expression {
                 return "Error";
         }
     }
-
+    
     private getTypeSign() {
         switch (this.type) {
             case ArithmeticOption.PLUS:
-                return "+";
+                return " + ";
             case ArithmeticOption.MINUS:
-                return "-";
+                return " - ";
             case ArithmeticOption.TIMES:
-                return "*";
+                return " * ";
             case ArithmeticOption.DIV:
-                return "/";
+                return " / ";
             case ArithmeticOption.POWER:
-                return "**";
+                return " ** ";
             case ArithmeticOption.MOD:
-                return "%";
+                return " % ";
             default:
                 return "Error";
         }
@@ -78,7 +78,7 @@ export class Arithmetic extends Expression {
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
         result += "" + this.right.translate(environment);
-        result += "t" + _Console.count + " = t" + (_Console.count - 2) + " " + this.getTypeSign() + " t" + (_Console.count - 1) + "\n";
+        result += "t" + _Console.count + " = t" + (_Console.count - 1) + this.getTypeSign() + "t" + (_Console.count - 2) + "\n";
         _Console.count++;
         return result;
     }
