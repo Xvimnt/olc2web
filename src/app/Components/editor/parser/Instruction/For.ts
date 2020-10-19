@@ -3,7 +3,6 @@ import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { Type } from "../Abstract/Retorno";
 import { _Console } from '../Util/Salida';
-import { env } from 'process';
 
 export class For extends Instruction {
     public translate(environment: Environment): String {

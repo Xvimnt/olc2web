@@ -1,11 +1,8 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
-import { env } from "process";
 import { Error_ } from "../Error";
-import { Return } from '../Instruction/Return';
 import { errores } from '../Errores';
-import { isArray } from 'util';
 import { _Console } from '../Util/Salida';
 
 export enum ArithmeticOption {

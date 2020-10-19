@@ -12,7 +12,7 @@ import { DotService } from "../../services/dot.service"
 // Import para las alertas
 import Swal from 'sweetalert2'
 // Imports para los iconos
-import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser } from '@fortawesome/free-solid-svg-icons';
+import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { errores } from './parser/Errores';
 import { isString } from 'util';
 
@@ -36,6 +36,7 @@ export class EditorComponent {
   flag: boolean;
 
   // Iconos
+  faSpinner = faSpinner;
   faCoffee = faCoffee;
   faPencilRuler = faPencilRuler;
   faGlobe = faGlobe;

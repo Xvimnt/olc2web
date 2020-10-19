@@ -20,7 +20,8 @@
     const {Print} = require('../Instruction/Print');
     const {Statement} = require('../Instruction/Statement');
     const {For} = require('../Instruction/For');
-    const {Foreach} = require('../Instruction/Foreach');
+    const {ForIn} = require('../Instruction/ForIn');
+    const {ForOf} = require('../Instruction/ForOf');
     const {While} = require('../Instruction/While');
     const {DoWhile} = require('../Instruction/DoWhile');
     const {Declaration} = require('../Instruction/Declaration');
@@ -390,8 +391,11 @@ ForSt
     | 'FOR' '(' ID ';' Expr ';' Operation ')' Statement {
         $$ = new For($3, $5, $7, $9, @1.first_line, @1.first_column);
     }
-    | 'FOR' '(' ID 'IN' ID ')' Statement {
-        $$ = new Foreach($3, $5, $7, @1.first_line, @1.first_column);
+    | 'FOR' '(' Reserved ID 'IN' ID ')' Statement {
+        $$ = new ForIn($3, $4, $5, $8, @1.first_line, @1.first_column);
+    }
+    | 'FOR' '(' Reserved ID 'OF' ID ')' Statement {
+        $$ = new ForOf($3, $4, $5, $8, @1.first_line, @1.first_column);
     }
 ;
 

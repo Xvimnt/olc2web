@@ -3,6 +3,7 @@ import { Retorno, Type } from "../Abstract/Retorno";
 import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
+import { _Console } from '../Util/Salida';
 
 export enum LogicOption {
     AND,
@@ -11,9 +12,61 @@ export enum LogicOption {
 }
 
 export class Logic extends Expression {
+
+
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = "";
+        if (this.type == LogicOption.AND) {
+            result += this.left.translate(environment);
+            let rigthT = _Console.count - 1;
+            let nextLabel = _Console.labels;
+            _Console.labels++;
+            let falseLabel = _Console.labels;
+            _Console.labels++;
+            result += "if(t" + rigthT + ") goto l" + nextLabel + "\n";
+            result += "goto l" + falseLabel + "\n";
+            result += "l" + nextLabel + ":\n"
+            result += "" + this.right.translate(environment);
+            let leftT = _Console.count - 1;
+            let trueLabel = _Console.labels;
+            _Console.labels++;
+            result += "if(t" + leftT + ") goto l" + trueLabel + "\n";
+            result += "l" + falseLabel + ":\n"
+            result += "t" + _Console.count + " = " + "0\n";
+            let exitLabel = _Console.labels;
+            _Console.labels++;
+            result += "goto l" + exitLabel + "\n";
+            result += "l" + trueLabel + ":\n"
+            result += "t" + _Console.count + " = " + "1\n";
+            result += "l" + exitLabel + ":\n"
+            _Console.count++;
+        } else 
+        {
+            result += this.left.translate(environment);
+            let rigthT = _Console.count - 1;
+            let trueLabel = _Console.labels;
+            _Console.labels++;
+            result += "if(t" + rigthT + ") goto l" + trueLabel + "\n";
+            result += "" + this.right.translate(environment);
+            let leftT = _Console.count - 1;
+            result += "if(t" + leftT + ") goto l" + trueLabel + "\n";
+            let falseLabel = _Console.labels;
+            _Console.labels++;
+            result += "goto l" + falseLabel + "\n";
+            result += "l" + trueLabel + ":\n"
+            result += "t" + _Console.count + " = " + "1\n";
+            let exitLabel = _Console.labels;
+            _Console.labels++;
+            result += "goto l" + exitLabel + "\n";
+            result += "l" + falseLabel + ":\n"
+            result += "t" + _Console.count + " = " + "0\n";
+            result += "l" + exitLabel + ":\n";
+            _Console.count++;
+        }
+
+        return result;
     }
+
     private getTypeName() {
         switch (this.type) {
             case LogicOption.AND:

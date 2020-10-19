@@ -1,11 +1,14 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
-import { Type } from "../Abstract/Retorno";
+import { _Console } from '../Util/Salida';
 
-export class Foreach extends Instruction {
+export class ForIn extends Instruction {
+
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = this.element.translate(environment);
+        
+        return result;
     }
 
     public plot(count: number): string {
