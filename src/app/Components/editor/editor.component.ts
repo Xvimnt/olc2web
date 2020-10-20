@@ -124,7 +124,11 @@ export class EditorComponent {
         for (let index = 0; index < _Console.count; index++) this.salida += "t" + index + ", ";
         this.salida = this.salida.substring(0,this.salida.length - 2);
         this.salida += ";\n\n";
+        this.salida += "void main() {\n"
         this.salida += body;
+        this.salida += "\nreturn;\n"
+        this.salida += "}\n\n";
+        this.salida += _Console.salida;
       } else {
         if (errores.length != 0) {
           errores.forEach(error => {

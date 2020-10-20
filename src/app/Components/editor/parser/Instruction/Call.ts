@@ -13,11 +13,23 @@ import { ArrayType } from '../Types/Array';
 import { isArray, isString } from 'util';
 import { Validators } from '@angular/forms';
 import { _Struct } from '../Object/Struct';
+import { _Console } from '../Util/Salida';
 
 export class Call extends Instruction {
+
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = "";
+        this.expresiones.forEach(element => {
+            result += element.translate(environment);
+            result += "t" + _Console.count + " = p + " + _Console.stackPointer + "\n";
+            result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + "\n";
+            _Console.stackPointer++;
+            _Console.count++;
+        });
+        if (this.id instanceof Access) result += this.id.getID() + "();\n"
+        return result;
     }
+    
     public plot(count: number): string {
 
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\"];";
@@ -44,7 +56,7 @@ export class Call extends Instruction {
             const func = environment.getFuncion(this.id.getID());
             if (func != undefined) {
                 //console.log('antes de crear el newEnv', environment);
-                const newEnv =  new Environment(environment.getGlobal());
+                const newEnv = new Environment(environment.getGlobal());
                 //console.log('se crea', newEnv);
                 for (let i = 0; i < this.expresiones.length; i++) {
                     const param = func.parametros[i];
