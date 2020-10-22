@@ -14,6 +14,7 @@ import { isArray, isString } from 'util';
 import { Validators } from '@angular/forms';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
+import { env } from 'process';
 
 export class Call extends Instruction {
 
@@ -26,7 +27,9 @@ export class Call extends Instruction {
             _Console.stackPointer++;
             _Console.count++;
         });
+        environment.setP(_Console.stackPointer - 1);
         if (this.id instanceof Access) result += this.id.getID() + "();\n"
+        
         return result;
     }
     

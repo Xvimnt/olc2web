@@ -10,24 +10,59 @@ import { _Array } from '../Object/Array';
 import { ArrayType } from '../Types/Array';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
+import { environment } from 'src/environments/environment';
 
 export class Declaration extends Instruction {
 
+    private translateDimension(dim: Literal[] | Literal, environment: Environment): string {
+        let result = "";
+        if (dim instanceof Literal) {
+            result += dim.translate(environment);
+            result += "t" + _Console.count + " = h + " + _Console.heapPointer + "\n";
+            _Console.count++;
+            _Console.saveInHeap((_Console.heapPointer), dim.execute(environment).value);
+            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+            _Console.heapPointer++;
+        }
+        else {
+            for (let i in dim) {
+                result += this.translateDimension(dim[i], environment);
+            }
+        }
+        return result;
+    }
+
     public translate(environment: Environment): String {
-        let result = this.value.translate(environment);
-        if (environment.getAnterior() != null) {
+        let result = "";
+        if (this.type instanceof ArrayType) {
+            if (this.value != null) {
+                let _heapInitial = _Console.heapPointer;
+                _Console.heapPointer++;
+                for (let i in this.value) {
+                    result += this.translateDimension(this.value[i], environment);
+                }
+                _Console.saveInStack(_Console.stackPointer, this.id);
+                let initTerminal = _Console.count;
+                _Console.count++;
+                result += "t" + initTerminal + " = h + " + _heapInitial + "\n";
+                _Console.saveInHeap(_heapInitial, (_Console.heapPointer - _heapInitial - 1));
+                result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + "\n";
+                result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
+                _Console.stackPointer++;
+                _Console.count++;
+                result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + "\n";
+            }
+        }
+        else {
+            result += this.value.translate(environment);
             result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
             _Console.saveInStack(_Console.stackPointer, this.id);
             _Console.stackPointer++;
             _Console.count++;
             result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
-        } else {
-            result += "t" + _Console.count + " = " + "h + " + environment.getH() + "\n";
-            _Console.heap[environment.getH()] = this.id;
-            environment.setH(environment.getH() + 1);
-            _Console.count++;
-            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+
         }
+        _Console.showSystem();
         return result;
     }
 
@@ -71,10 +106,8 @@ export class Declaration extends Instruction {
                 for (let i in this.value) {
                     valores[i.toString()] = this.value[i].execute(environment);
                 }
-                if (this.type instanceof ArrayType) {
-                    let arrObject = new _Array(this.type.dimensions, valores, this.type.type);
-                    if (this.validacionRecursiva()) environment.guardar(this.id, arrObject, 4);
-                }
+                let arrObject = new _Array(this.type.dimensions, valores, this.type.type);
+                if (this.validacionRecursiva()) environment.guardar(this.id, arrObject, 4);
             } else {
                 if (this.method.execute(environment).value == 'const') errores.push(new Error_(this.line, this.column, 'Semantico', 'Constante no puede ser vacia'));
                 let arrObject = new _Array(this.type.dimensions, new Array(), this.type.type);

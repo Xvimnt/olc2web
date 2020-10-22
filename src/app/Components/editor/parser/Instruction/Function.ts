@@ -12,12 +12,13 @@ export class Function extends Instruction {
         newEnv.setLastL(_Console.labels);
         _Console.labels++;
         // Guardar parametros
-        _Console.stackPointer = 1;
         this.parametros.forEach(element => {
             _Console.pila[_Console.stackPointer] = element.id;
             _Console.stackPointer++;
         });
         let result = "void " + this.id + "() {\n";
+        result += "p = p + " + newEnv.getP() + "\n";
+        _Console.stackPointer = 1;
         result += this.statment.translate(newEnv);
         result += "\nl" + newEnv.getLastL() + ":\n";
         result += "return; \n"
