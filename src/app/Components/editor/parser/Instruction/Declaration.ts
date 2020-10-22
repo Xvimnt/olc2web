@@ -41,7 +41,8 @@ export class Declaration extends Instruction {
                 for (let i in this.value) {
                     result += this.translateDimension(this.value[i], environment);
                 }
-                _Console.saveInStack(_Console.stackPointer, this.id);
+                _Console.saveInPila(_Console.stackPointer, this.id);
+                _Console.saveInStack(_Console.stackPointer, _heapInitial);
                 let initTerminal = _Console.count;
                 _Console.count++;
                 result += "t" + initTerminal + " = h + " + _heapInitial + "\n";
@@ -56,13 +57,12 @@ export class Declaration extends Instruction {
         else {
             result += this.value.translate(environment);
             result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
-            _Console.saveInStack(_Console.stackPointer, this.id);
+            _Console.saveInPila(_Console.stackPointer, this.id);
             _Console.stackPointer++;
             _Console.count++;
             result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
 
         }
-        _Console.showSystem();
         return result;
     }
 

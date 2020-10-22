@@ -86,6 +86,8 @@ template [`]([^`])*[`]
 "}"                     return '}'
 "["                     return '['
 "]"                     return ']'
+"in"                    return 'IN'
+"of"                    return 'OF'
 "if"                    return 'IF'
 "else"                  return 'ELSE'
 "switch"                return 'SWITCH'
@@ -134,10 +136,6 @@ Init
     {
         return $1;
     } 
-    | error EOF 
-    {
-        errores.push(new Error_( @1.first_line, @1.first_column, 'Sintactico', 'Valor no esperado: "' + yytext + '"'));
-    }
 ;
 
 Instructions
@@ -392,10 +390,10 @@ ForSt
         $$ = new For($3, $5, $7, $9, @1.first_line, @1.first_column);
     }
     | 'FOR' '(' Reserved ID 'IN' ID ')' Statement {
-        $$ = new ForIn($3, $4, $5, $8, @1.first_line, @1.first_column);
+        $$ = new ForIn($3, $4, $6, $8, @1.first_line, @1.first_column);
     }
     | 'FOR' '(' Reserved ID 'OF' ID ')' Statement {
-        $$ = new ForOf($3, $4, $5, $8, @1.first_line, @1.first_column);
+        $$ = new ForOf($3, $4, $6, $8, @1.first_line, @1.first_column);
     }
 ;
 

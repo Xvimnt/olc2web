@@ -12,22 +12,24 @@ import { _Console } from '../Util/Salida';
 export class Access extends Expression {
     public translate(environment: Environment): String {
         let result = "";
-        if (environment.getAnterior() != null) {
+        if (this.id instanceof Array) {
+            if (_Console.pila.includes(this.id[0])) {
+                result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id[0]) - environment.getP()) + "\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "]\n";
+
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+        }
+        else {
             if (_Console.pila.includes(this.id)) {
                 result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id) - environment.getP()) + "\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
                 _Console.count++;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
-        } else {
-            if (_Console.heap.includes(this.id)) {
-                result += "t" + _Console.count + " = h + " + (_Console.heap.indexOf(this.id)) + "\n";
-                _Console.count++;
-                result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "]\n";
-                _Console.count++;
-            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
-
         return result;
     }
 

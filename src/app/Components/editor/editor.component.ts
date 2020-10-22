@@ -129,6 +129,8 @@ export class EditorComponent {
         this.salida += "\nreturn;\n"
         this.salida += "}\n\n";
         this.salida += _Console.salida;
+        _Console.showSystem();
+
       } else {
         if (errores.length != 0) {
           errores.forEach(error => {
