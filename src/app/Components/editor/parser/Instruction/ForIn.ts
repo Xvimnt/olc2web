@@ -19,7 +19,7 @@ export class ForIn extends Instruction {
             _Console.count++;
             let sizeT = _Console.count;
             _Console.count++;
-            result += "t" + startT + " = p + " + arrStart + "\n";
+            result += "t" + startT + " = h + " + arrStart + "\n";
             result += "t" + sizeT + " = Heap[t" + startT + "]\n";
 
             let iteratorT = _Console.count;
@@ -42,7 +42,7 @@ export class ForIn extends Instruction {
             result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + "\n";
             let inicio = _Console.labels;
             _Console.labels++;
-            result += "t" + (_Console.count) + " = t" + iteratorT + " < t" + sizeT + "\n";
+            result += "t" + (_Console.count) + " = t" + iteratorT + " <= t" + sizeT + "\n";
             result += "if(t" + _Console.count + ") goto l" + inicio + "\n";
             _Console.count++
             let final = _Console.labels;
