@@ -22,8 +22,8 @@ export class Call extends Instruction {
         let result = "";
         this.expresiones.forEach(element => {
             result += element.translate(environment);
-            result += "t" + _Console.count + " = p + " + _Console.stackPointer + "\n";
-            result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + "\n";
+            result += "t" + _Console.count + " = p + " + _Console.stackPointer + ";\n";
+            result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + ";\n";
             _Console.stackPointer++;
             _Console.count++;
         });

@@ -18,10 +18,10 @@ export class Declaration extends Instruction {
         let result = "";
         if (dim instanceof Literal) {
             result += dim.translate(environment);
-            result += "t" + _Console.count + " = h + " + _Console.heapPointer + "\n";
+            result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
             _Console.count++;
             _Console.saveInHeap((_Console.heapPointer), dim.execute(environment).value);
-            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             _Console.heapPointer++;
         }
         else {
@@ -45,22 +45,23 @@ export class Declaration extends Instruction {
                 _Console.saveInStack(_Console.stackPointer, _heapInitial);
                 let initTerminal = _Console.count;
                 _Console.count++;
-                result += "t" + initTerminal + " = h + " + _heapInitial + "\n";
+                result += "t" + initTerminal + " = h + " + _heapInitial + ";\n";
                 _Console.saveInHeap(_heapInitial, (_Console.heapPointer - _heapInitial - 1));
-                result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + "\n";
-                result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
+                result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + ";\n";
+                result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
                 _Console.stackPointer++;
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + "\n";
+                result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
             }
         }
         else {
             result += this.value.translate(environment);
-            result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + "\n";
+            result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
             _Console.saveInPila(_Console.stackPointer, this.id);
+            _Console.saveInStack(_Console.stackPointer, this.value.execute(environment).value);
             _Console.stackPointer++;
             _Console.count++;
-            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + "\n";
+            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
 
         }
         return result;

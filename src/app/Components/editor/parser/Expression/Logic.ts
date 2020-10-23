@@ -23,19 +23,19 @@ export class Logic extends Expression {
             _Console.labels++;
             let falseLabel = _Console.labels;
             _Console.labels++;
-            result += "if(t" + rigthT + ") goto l" + nextLabel + "\n";
-            result += "goto l" + falseLabel + "\n";
+            result += "if(t" + rigthT + ") goto l" + nextLabel + ";\n";
+            result += "goto l" + falseLabel + ";\n";
             result += "l" + nextLabel + ":\n"
             result += "" + this.right.translate(environment);
             let leftT = _Console.count - 1;
             let trueLabel = _Console.labels;
             _Console.labels++;
-            result += "if(t" + leftT + ") goto l" + trueLabel + "\n";
+            result += "if(t" + leftT + ") goto l" + trueLabel + ";\n";
             result += "l" + falseLabel + ":\n"
             result += "t" + _Console.count + " = " + "0\n";
             let exitLabel = _Console.labels;
             _Console.labels++;
-            result += "goto l" + exitLabel + "\n";
+            result += "goto l" + exitLabel + ";\n";
             result += "l" + trueLabel + ":\n"
             result += "t" + _Console.count + " = " + "1\n";
             result += "l" + exitLabel + ":\n"
@@ -46,18 +46,18 @@ export class Logic extends Expression {
             let rigthT = _Console.count - 1;
             let trueLabel = _Console.labels;
             _Console.labels++;
-            result += "if(t" + rigthT + ") goto l" + trueLabel + "\n";
+            result += "if(t" + rigthT + ") goto l" + trueLabel + ";\n";
             result += "" + this.right.translate(environment);
             let leftT = _Console.count - 1;
-            result += "if(t" + leftT + ") goto l" + trueLabel + "\n";
+            result += "if(t" + leftT + ") goto l" + trueLabel + ";\n";
             let falseLabel = _Console.labels;
             _Console.labels++;
-            result += "goto l" + falseLabel + "\n";
+            result += "goto l" + falseLabel + ";\n";
             result += "l" + trueLabel + ":\n"
             result += "t" + _Console.count + " = " + "1\n";
             let exitLabel = _Console.labels;
             _Console.labels++;
-            result += "goto l" + exitLabel + "\n";
+            result += "goto l" + exitLabel + ";\n";
             result += "l" + falseLabel + ":\n"
             result += "t" + _Console.count + " = " + "0\n";
             result += "l" + exitLabel + ":\n";

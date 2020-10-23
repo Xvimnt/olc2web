@@ -8,10 +8,10 @@ import { env } from 'process';
 export class If extends Instruction {
     public translate(environment: Environment): String {
         let result = this.condition.translate(environment);
-        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + "\n";
+        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
         _Console.labels++;
         let l2 = _Console.labels;
-        result += "goto l" + _Console.labels + "\n";
+        result += "goto l" + _Console.labels + ";\n";
         result += "l" + (_Console.labels - 1) + ":\n"
         _Console.labels++;
         result += this.code.translate(environment) + "";

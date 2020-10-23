@@ -15,7 +15,7 @@ export class Operation extends Instruction {
         let result = "";
         if(this.option = OperationOption.DECREMENT ) result += "t" + _Console.count + " = " + this.id + " + 1\n";
         else result += "t" + _Console.count + " = " + this.id + " - 1\n";
-        result += this.id + " = t" + _Console.count + "\n";
+        result += this.id + " = t" + _Console.count + ";\n";
         _Console.count++;
         return result;
     }

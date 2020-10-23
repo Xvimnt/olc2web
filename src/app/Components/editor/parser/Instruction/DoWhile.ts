@@ -11,7 +11,7 @@ export class DoWhile extends Instruction {
         let result = "l" + inicio + ":\n";
         result += this.code.translate(environment);
         result += this.condition.translate(environment);
-        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + "\n";
+        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + ";\n";
         return result;
     }
 

@@ -8,8 +8,8 @@ import { _Console } from '../Util/Salida';
 export class Return extends Instruction {
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
-        result += "Stack[p] = t" + (_Console.count - 1) + "\n";
-        result += "goto l" + environment.getLastL() + "\n";
+        result += "Stack[p] = t" + (_Console.count - 1) + ";\n";
+        result += "goto l" + environment.getLastL() + ";\n";
         return result;
     }
 

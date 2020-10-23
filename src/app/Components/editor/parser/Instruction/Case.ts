@@ -16,8 +16,8 @@ export class Case extends Instruction {
             let final = _Console.labels;
             _Console.labels++;
 
-            result += "if( t" + (_Console.count - 1) + " == t" + environment.getLastT() + ") goto l" + inicio + "\n";
-            result += "goto l" + final + "\n";
+            result += "if( t" + (_Console.count - 1) + " == t" + environment.getLastT() + ") goto l" + inicio + ";\n";
+            result += "goto l" + final + ";\n";
 
             result += "l" + inicio + ":\n";
 

@@ -14,9 +14,9 @@ export class Unary extends Expression {
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
         if (this.type == UnaryOption.NEGATION)
-            result += "t" + _Console.count + " = !" + "t" + (_Console.count - 1) + "\n";
+            result += "t" + _Console.count + " = !" + "t" + (_Console.count - 1) + ";\n";
         else
-            result += "t" + _Console.count  + " = 0 - " + "t" + (_Console.count - 1) + "\n";
+            result += "t" + _Console.count  + " = 0 - " + "t" + (_Console.count - 1) + ";\n";
         _Console.count++;
         return result;
     }

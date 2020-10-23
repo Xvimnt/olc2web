@@ -37,8 +37,8 @@ export class _Struct {
     public print() {
         let result = "{\n";
         for (let i in this.content) {
-            if (this.content[i].value instanceof _Struct) result += this.content[i].value.print() + "\n";
-            else result += "\t" + this.content[i].id + ": " + this.content[i].value + "\n";
+            if (this.content[i].value instanceof _Struct) result += this.content[i].value.print() + ";\n";
+            else result += "\t" + this.content[i].id + ": " + this.content[i].value + ";\n";
         }
         return result += "}";
     }

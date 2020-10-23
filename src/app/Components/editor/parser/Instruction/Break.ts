@@ -5,7 +5,7 @@ import { _Console } from '../Util/Salida';
 export class Break extends Instruction {
     public translate(environment: Environment): String {
         // TODO arreglar break y return 
-        return "goto l" + environment.getLastL() + "\n";
+        return "goto l" + environment.getLastL() + ";\n";
     }
 
     public plot(count: number): string {

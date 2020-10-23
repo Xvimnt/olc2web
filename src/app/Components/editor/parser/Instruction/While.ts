@@ -16,11 +16,11 @@ export class While extends Instruction {
         _Console.labels++;
         let final = _Console.labels;
         _Console.labels++;
-        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + "\n";
-        result += "goto l" + final + "\n";
+        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + ";\n";
+        result += "goto l" + final + ";\n";
         result += "l" + inicio + ":\n";
         result += this.code.translate(environment) + "";
-        result += "goto l" + alfa + "\n";
+        result += "goto l" + alfa + ";\n";
         result += "l" + final + ":\n";
         return result;
     }

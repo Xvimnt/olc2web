@@ -8,14 +8,14 @@ export class Ternary extends Expression {
     public translate(environment: Environment): String {
         let result = this.condition.translate(environment);
         let condition = _Console.count - 1;
-        result += "if(t" + condition + ") goto l" + _Console.labels + "\n";
+        result += "if(t" + condition + ") goto l" + _Console.labels + ";\n";
         _Console.labels++;
-        result += "goto l" + _Console.labels + "\n";
+        result += "goto l" + _Console.labels + ";\n";
         _Console.labels++;
         result += "l" + (_Console.labels - 2) + ":\n";
         result += "" + this.isTrue.translate(environment);
         _Console.count--;
-        result += "goto l" + (_Console.labels) + "\n";
+        result += "goto l" + (_Console.labels) + ";\n";
         result += "l" + (_Console.labels - 1) + ":\n";
         result += "" + this.isFalse.translate(environment);
         result += "l" + (_Console.labels) + ":\n";

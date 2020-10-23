@@ -19,7 +19,7 @@ export class ForIn extends Instruction {
             _Console.count++;
             let sizeT = _Console.count;
             _Console.count++;
-            result += "t" + startT + " = h + " + arrStart + "\n";
+            result += "t" + startT + " = h + " + arrStart + ";\n";
             result += "t" + sizeT + " = Heap[t" + startT + "]\n";
 
             let iteratorT = _Console.count;
@@ -29,8 +29,8 @@ export class ForIn extends Instruction {
             result += "t" + iteratorT + " = 0\n";
             let iteratorStackIndex =  _Console.count ;
             _Console.count ++;
-            result += "t" +iteratorStackIndex+ " = p + " + stackInd + "\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + "\n";
+            result += "t" +iteratorStackIndex+ " = p + " + stackInd + ";\n";
+            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             _Console.saveInPila(stackInd, this.id);
             _Console.saveInStack(stackInd, 0);
             let alfa = _Console.labels;
@@ -38,19 +38,19 @@ export class ForIn extends Instruction {
             result += "l" + alfa + ":\n";
             // Condicion y asignacion de i
             result += "t" + iteratorT + " = t" + iteratorT + " + 1\n";
-            result += "t" +iteratorStackIndex+ " = p + " + stackInd + "\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + "\n";
+            result += "t" +iteratorStackIndex+ " = p + " + stackInd + ";\n";
+            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let inicio = _Console.labels;
             _Console.labels++;
-            result += "t" + (_Console.count) + " = t" + iteratorT + " <= t" + sizeT + "\n";
-            result += "if(t" + _Console.count + ") goto l" + inicio + "\n";
+            result += "t" + (_Console.count) + " = t" + iteratorT + " <= t" + sizeT + ";\n";
+            result += "if(t" + _Console.count + ") goto l" + inicio + ";\n";
             _Console.count++
             let final = _Console.labels;
             _Console.labels++;
-            result += "goto l" + final + "\n";
+            result += "goto l" + final + ";\n";
             result += "l" + inicio + ":\n";
             result += "" + this.code.translate(environment);
-            result += "goto l" + alfa + "\n";
+            result += "goto l" + alfa + ";\n";
             result += "l" + final + ":\n";
         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         return result;

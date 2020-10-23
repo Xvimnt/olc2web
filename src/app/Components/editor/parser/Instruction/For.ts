@@ -13,14 +13,14 @@ export class For extends Instruction {
         result += "" + this.condition.translate(environment);
         let inicio = _Console.labels;
         _Console.labels++;
-        result += "if(t" + _Console.count + ") goto l" + inicio + "\n";
+        result += "if(t" + _Console.count + ") goto l" + inicio + ";\n";
         let final = _Console.labels;
         _Console.labels++;
-        result += "goto l" + final + "\n";
+        result += "goto l" + final + ";\n";
         result += "l" + inicio + ":\n";
         result += "" + this.code.translate(environment);
         result += "" + this.operation.translate(environment);
-        result += "goto l" + alfa + "\n";
+        result += "goto l" + alfa + ";\n";
         result += "l" + final + ":\n";
         return result;
     }

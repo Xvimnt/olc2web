@@ -17,7 +17,7 @@ export class Function extends Instruction {
             _Console.stackPointer++;
         });
         let result = "void " + this.id + "() {\n";
-        result += "p = p + " + newEnv.getP() + "\n";
+        result += "p = p + " + newEnv.getP() + ";\n";
         _Console.stackPointer = 1;
         result += this.statment.translate(newEnv);
         result += "\nl" + newEnv.getLastL() + ":\n";

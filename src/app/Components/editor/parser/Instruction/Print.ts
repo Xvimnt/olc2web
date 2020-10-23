@@ -11,7 +11,7 @@ export class Print extends Instruction {
         this.value.forEach(element => {
             result += element.translate(environment);
         });
-        result += 'printf("%c", t' + (_Console.count - 1) + ')\n';
+        result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
         return result;
     }
 
