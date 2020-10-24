@@ -51,7 +51,7 @@ export class EditorComponent {
   }
   // Metodos
   clean() {
-    this.ast = null; 1
+    this.ast = null;
     this.env = null;
     this.salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
     _Console.salida = "";
@@ -64,16 +64,61 @@ export class EditorComponent {
   }
 
   optimizar() {
-    this.ast = optimizer.parse(this.salida.toString());
     Swal.fire({
-      title: 'Cool!',
-      text: 'Su codigo intermedio se ha optimizado correctamente...',
-      icon: 'success',
-      confirmButtonText: 'Entendido',
+      title: 'En donde se encuentra el codigo a optimizar?',
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: `Entrada`,
+      denyButtonText: `Salida`,
       confirmButtonColor: 'rgb(8, 101, 104)',
-      background: 'black'
-    })
-
+      background: 'black',
+      icon: 'info'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        try {
+          this.ast = optimizer.parse(this.entrada.toString());
+          Swal.fire({
+            title: 'Cool!',
+            text: 'Su codigo intermedio se ha optimizado correctamente...',
+            icon: 'success',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: 'rgb(8, 101, 104)',
+            background: 'black'
+          });
+        } catch (e) {
+          console.log(e);
+          Swal.fire({
+            title: 'Error',
+            text: 'Ocurrieron errores en la optimizacion...',
+            icon: 'error',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: 'rgb(8, 101, 104)',
+            background: 'black'
+          });
+        }
+      } else if (result.isDenied) {
+        try {
+          this.ast = optimizer.parse(this.salida.toString());
+          Swal.fire({
+            title: 'Cool!',
+            text: 'Su codigo intermedio se ha optimizado correctamente...',
+            icon: 'success',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: 'rgb(8, 101, 104)',
+            background: 'black'
+          });
+        } catch (e) {
+          Swal.fire({
+            title: 'Error',
+            text: 'Ocurrieron errores en la optimizacion...',
+            icon: 'error',
+            confirmButtonText: 'Entendido',
+            confirmButtonColor: 'rgb(8, 101, 104)',
+            background: 'black'
+          });
+        }
+      }
+    });
   }
 
   ejecutar() {
@@ -129,7 +174,7 @@ export class EditorComponent {
         }
       }
       catch (e) {
-        
+
       }
       if (errores.length == 0) {
         // Muestra el encabezado
@@ -140,8 +185,8 @@ export class EditorComponent {
         this.salida += 'float p; \n';
         this.salida += 'float h; \n';
         this.salida += 'float ';
-        for (let index = 0; index < _Console.count; index++){
-          if(index > 0 && index % 8 == 0){
+        for (let index = 0; index < _Console.count; index++) {
+          if (index > 0 && index % 8 == 0) {
             this.salida = this.salida.substring(0, this.salida.length - 2);
             this.salida += ";\nfloat "
           }

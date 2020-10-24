@@ -76,7 +76,6 @@ template [`]([^`])*[`]
 "printf"                  return 'PRINT'
 
 ([a-zA-Z_])[a-zA-Z0-9_ñÑ.]*	return 'ID';
-(l)[0-9]+                   return 'LABEL'
 <<EOF>>		                return 'EOF'
 .                           errores.push(new Error_(yylloc.first_line, yylloc.first_column, 'Lexico','Valor inesperado ' + yytext));  
 
@@ -137,8 +136,8 @@ Statements
 
 Statement 
     : Assignation ';'
-    | 'GOTO' LABEL
-    | LABEL ':'
+    | 'GOTO' ID ';'
+    | ID ':'
     | PRINT '(' STRING ',' Expr ')' ';'
     | RETURN ';'
 ;
