@@ -18,6 +18,7 @@ import { isString } from 'util';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
+const optimizer = require('./parser/Grammar/OptGrammar');
 // cd src/app/parser/Grammar
 
 @Component({
@@ -60,6 +61,12 @@ export class EditorComponent {
     _Console.heapPointer = 0;
     errores.length = 0;
     this.flag = true;
+  }
+
+  optimizar()
+  {
+    this.ast = optimizer.parse(this.salida.toString());
+    
   }
 
   ejecutar() {

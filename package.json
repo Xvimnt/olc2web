@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "jison": "jison ./src/app/Components/editor/parser/Grammar/Grammar.jison && mv Grammar.js ./src/app/Components/editor/parser/Grammar/"
+    "jison": "jison ./src/app/Components/editor/parser/Grammar/Grammar.jison && mv Grammar.js ./src/app/Components/editor/parser/Grammar/",
+    "jison2": "jison ./src/app/Components/editor/parser/Grammar/OptGrammar.jison && mv OptGrammar.js ./src/app/Components/editor/parser/Grammar/"
   },
   "private": true,
   "dependencies": {
