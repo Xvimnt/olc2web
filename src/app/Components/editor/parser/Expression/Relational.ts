@@ -1,7 +1,8 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
-import { Error_ } from "../Error";
 import { Environment } from "../Symbol/Environment";
+import { Error_ } from "../Error";
+import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
 
 export enum RelationalOption {
@@ -79,22 +80,24 @@ export class Relational extends Expression {
 
         const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
         const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
-
-        switch (this.type) {
-            case RelationalOption.EQUAL:
-                return { value: (leftValue.value == rightValue.value), type: Type.BOOLEAN };
-            case RelationalOption.NOTEQUAL:
-                return { value: (leftValue.value != rightValue.value), type: Type.BOOLEAN };
-            case RelationalOption.GREATER:
-                return { value: (leftValue.value > rightValue.value), type: Type.BOOLEAN };
-            case RelationalOption.GREATEROREQUAL:
-                return { value: (leftValue.value >= rightValue.value), type: Type.BOOLEAN };
-            case RelationalOption.LESS:
-                return { value: (leftValue.value < rightValue.value), type: Type.BOOLEAN };
-            case RelationalOption.LESSOREQUAL:
-                return { value: (leftValue.value <= rightValue.value), type: Type.BOOLEAN };
-            default:
-                return { value: 0, type: Type.NUMBER }
+        if (leftValue == null || rightValue == null || leftValue == undefined || rightValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
+        else {
+            switch (this.type) {
+                case RelationalOption.EQUAL:
+                    return { value: (leftValue.value == rightValue.value), type: Type.BOOLEAN };
+                case RelationalOption.NOTEQUAL:
+                    return { value: (leftValue.value != rightValue.value), type: Type.BOOLEAN };
+                case RelationalOption.GREATER:
+                    return { value: (leftValue.value > rightValue.value), type: Type.BOOLEAN };
+                case RelationalOption.GREATEROREQUAL:
+                    return { value: (leftValue.value >= rightValue.value), type: Type.BOOLEAN };
+                case RelationalOption.LESS:
+                    return { value: (leftValue.value < rightValue.value), type: Type.BOOLEAN };
+                case RelationalOption.LESSOREQUAL:
+                    return { value: (leftValue.value <= rightValue.value), type: Type.BOOLEAN };
+                default:
+                    return { value: 0, type: Type.NUMBER }
+            }
         }
     }
 }

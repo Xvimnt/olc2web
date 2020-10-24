@@ -13,10 +13,23 @@ export class Operation extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "";
-        if(this.option = OperationOption.DECREMENT ) result += "t" + _Console.count + " = " + this.id + " + 1\n";
-        else result += "t" + _Console.count + " = " + this.id + " - 1\n";
-        result += this.id + " = t" + _Console.count + ";\n";
-        _Console.count++;
+        let stckIndex = _Console.pila.lastIndexOf(this.id);
+        if (stckIndex != -1) {
+            result += "t" + _Console.count + " = p + " + (stckIndex - environment.getP()) + ";\n";
+            _Console.count++;
+            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+            _Console.count++;
+            if (this.option == OperationOption.DECREMENT) {
+                result += "t" + _Console.count + " = t" + (_Console.count - 1) + " - 1;\n";
+                _Console.count++;
+                result += "Stack[t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
+            }
+            else{
+                result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 1;\n";
+                _Console.count++;
+                result += "Stack[t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
+            }
+        }
         return result;
     }
 

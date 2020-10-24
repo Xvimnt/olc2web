@@ -17,24 +17,14 @@ export class Assignation extends Instruction {
     public translate(environment: Environment): String {
         let result = "";
 
-        if (environment.getAnterior() != null) {
-            let index = _Console.pila.indexOf(this.id.id);
-            if (index != -1) {
-                result += this.value.translate(environment)
-                result += "t" + _Console.count + " = " + "p + " + index + ";\n";
-                _Console.count++;
-                result += "pila[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
-        }
-        else {
-            let index = _Console.heap.indexOf(this.id.id);
-            if (index != -1) {
-                result += this.value.translate(environment)
-                result += "t" + _Console.count + " = " + "h + " + index + ";\n";
-                _Console.count++;
-                result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
-        }
+        let index = _Console.pila.indexOf(this.id.id);
+        if (index != -1) {
+            result += this.value.translate(environment)
+            result += "t" + _Console.count + " = " + "p + " + index + ";\n";
+            _Console.count++;
+            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+        } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+
         return result;
     }
 

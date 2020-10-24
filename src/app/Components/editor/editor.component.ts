@@ -123,8 +123,13 @@ export class EditorComponent {
       this.ast = parser.parse(this.entrada.toString());
       this.env = new Environment(null);
       this.salida = '';
-      for (const instr of this.ast) {
-        this.salida += instr.translate(this.env);
+      try {
+        for (const instr of this.ast) {
+          this.salida += instr.translate(this.env);
+        }
+      }
+      catch (e) {
+        
       }
       if (errores.length == 0) {
         // Muestra el encabezado
@@ -135,7 +140,13 @@ export class EditorComponent {
         this.salida += 'float p; \n';
         this.salida += 'float h; \n';
         this.salida += 'float ';
-        for (let index = 0; index < _Console.count; index++) this.salida += "t" + index + ", ";
+        for (let index = 0; index < _Console.count; index++){
+          if(index > 0 && index % 8 == 0){
+            this.salida = this.salida.substring(0, this.salida.length - 2);
+            this.salida += ";\nfloat "
+          }
+          this.salida += "t" + index + ", ";
+        }
         this.salida = this.salida.substring(0, this.salida.length - 2);
         this.salida += ";\n\n";
         this.salida += "void main() {\n"
@@ -143,8 +154,6 @@ export class EditorComponent {
         this.salida += "\nreturn;\n"
         this.salida += "}\n\n";
         this.salida += _Console.salida;
-        _Console.showSystem();
-
       } else {
         if (errores.length != 0) {
           errores.forEach(error => {
@@ -157,6 +166,7 @@ export class EditorComponent {
       console.log(error);
     }
     this.flag = false;
+    _Console.showSystem();
   }
 
 

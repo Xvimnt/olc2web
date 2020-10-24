@@ -34,35 +34,37 @@ export class Declaration extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "";
-        if (this.type instanceof ArrayType) {
-            if (this.value != null) {
-                let _heapInitial = _Console.heapPointer;
-                _Console.heapPointer++;
-                for (let i in this.value) {
-                    result += this.translateDimension(this.value[i], environment);
+        if(this.value != null) 
+        {
+
+            if (this.type instanceof ArrayType) {
+                if (this.value != null) {
+                    let _heapInitial = _Console.heapPointer;
+                    _Console.heapPointer++;
+                    for (let i in this.value) {
+                        result += this.translateDimension(this.value[i], environment);
+                    }
+                    _Console.saveInPila(_Console.stackPointer, this.id);
+                    _Console.saveInStack(_Console.stackPointer, _heapInitial);
+                    let initTerminal = _Console.count;
+                    _Console.count++;
+                    result += "t" + initTerminal + " = h + " + _heapInitial + ";\n";
+                    _Console.saveInHeap(_heapInitial, (_Console.heapPointer - _heapInitial - 1));
+                    result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + ";\n";
+                    result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
+                    _Console.stackPointer++;
+                    _Console.count++;
+                    result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
                 }
-                _Console.saveInPila(_Console.stackPointer, this.id);
-                _Console.saveInStack(_Console.stackPointer, _heapInitial);
-                let initTerminal = _Console.count;
-                _Console.count++;
-                result += "t" + initTerminal + " = h + " + _heapInitial + ";\n";
-                _Console.saveInHeap(_heapInitial, (_Console.heapPointer - _heapInitial - 1));
-                result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + ";\n";
+            }
+            else {
+                result += this.value.translate(environment);
                 result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
+                _Console.saveInPila(_Console.stackPointer, this.id);
                 _Console.stackPointer++;
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
+                result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             }
-        }
-        else {
-            result += this.value.translate(environment);
-            result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
-            _Console.saveInPila(_Console.stackPointer, this.id);
-            _Console.saveInStack(_Console.stackPointer, this.value.execute(environment).value);
-            _Console.stackPointer++;
-            _Console.count++;
-            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-
         }
         return result;
     }
