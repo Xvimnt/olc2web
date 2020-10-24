@@ -63,10 +63,17 @@ export class EditorComponent {
     this.flag = true;
   }
 
-  optimizar()
-  {
+  optimizar() {
     this.ast = optimizer.parse(this.salida.toString());
-    
+    Swal.fire({
+      title: 'Cool!',
+      text: 'Su codigo intermedio se ha optimizado correctamente...',
+      icon: 'success',
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: 'rgb(8, 101, 104)',
+      background: 'black'
+    })
+
   }
 
   ejecutar() {
@@ -129,7 +136,7 @@ export class EditorComponent {
         this.salida += 'float h; \n';
         this.salida += 'float ';
         for (let index = 0; index < _Console.count; index++) this.salida += "t" + index + ", ";
-        this.salida = this.salida.substring(0,this.salida.length - 2);
+        this.salida = this.salida.substring(0, this.salida.length - 2);
         this.salida += ";\n\n";
         this.salida += "void main() {\n"
         this.salida += body;

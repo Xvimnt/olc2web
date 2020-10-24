@@ -15,7 +15,7 @@ export class Literal extends Expression {
                 result += "Heap[" + _Console.heapPointer + "] = " + nwStr.charCodeAt(index) + ";\n";
                 _Console.heapPointer++;
             }
-            result += "Heap[" + _Console.heapPointer + "] = -1;\n";
+            result += "Heap[" + _Console.heapPointer + "] = 36;\n";
             result += "t" + _Console.count + " = " + (_Console.heapPointer - nwStr.length) + ";\n";
             _Console.heapPointer++;
         }

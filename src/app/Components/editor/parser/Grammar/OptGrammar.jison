@@ -139,7 +139,8 @@ Statement
     : Assignation ';'
     | 'GOTO' LABEL
     | LABEL ':'
-    | PRINT '(' STRING ',' Expr ) ';'
+    | PRINT '(' STRING ',' Expr ')' ';'
+    | RETURN ';'
 ;
 
 Assignation
