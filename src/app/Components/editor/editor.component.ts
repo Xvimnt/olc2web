@@ -174,7 +174,7 @@ export class EditorComponent {
         }
       }
       catch (e) {
-
+        console.log(e);
       }
       if (errores.length == 0) {
         // Muestra el encabezado

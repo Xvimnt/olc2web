@@ -25,6 +25,7 @@
     const {While} = require('../Instruction/While');
     const {DoWhile} = require('../Instruction/DoWhile');
     const {Declaration} = require('../Instruction/Declaration');
+    const {TypeDeclaration} = require('../Instruction/TypeDeclaration');
     const {Assignation} = require('../Instruction/Assignation');
     const {Break} = require('../Instruction/Break');
     const {Continue} = require('../Instruction/Continue');
@@ -261,7 +262,7 @@ Declaration
         $$ = new Declaration($1, null, $2, $4, @1.first_line, @1.first_column);
     }
     | TTYPE ID '=' '{' Struct '}' {
-        $$ = new Declaration(null, $1, $2, $5, @1.first_line, @1.first_column);
+        $$ = new TypeDeclaration($2, $5, @1.first_line, @1.first_column);
     }
 ;
 

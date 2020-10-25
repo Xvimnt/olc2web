@@ -34,8 +34,7 @@ export class Declaration extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "";
-        if(this.value != null) 
-        {
+        if (this.value != null) {
 
             if (this.type instanceof ArrayType) {
                 if (this.value != null) {
@@ -58,9 +57,11 @@ export class Declaration extends Instruction {
                 }
             }
             else {
+                let hpIndex = _Console.heapPointer;
                 result += this.value.translate(environment);
                 result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
                 _Console.saveInPila(_Console.stackPointer, this.id);
+                if (hpIndex != _Console.heapPointer) _Console.saveInStack(_Console.stackPointer, hpIndex);
                 _Console.stackPointer++;
                 _Console.count++;
                 result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";

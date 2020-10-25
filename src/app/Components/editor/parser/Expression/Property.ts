@@ -8,11 +8,25 @@ import { Access } from './Access';
 import { _Array } from '../Object/Array';
 import { isArray } from 'util';
 import { _Struct } from '../Object/Struct';
+import { _Console } from '../Util/Salida';
 
 
 export class Property extends Expression {
     public translate(environment: Environment): String {
-        throw new Error('Method not implemented.');
+        let result = "";
+        switch (this.property) {
+            case "length":
+                if (_Console.pila.includes(this.id.id)) {
+                    result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id.id) - environment.getP()) + ";\n";
+                    _Console.count++;
+                    result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                    _Console.count++;
+                    result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "];\n";
+                    _Console.count++;
+                } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+                break;
+        }
+        return result;
     }
 
     constructor(public id: any, private property: string, line: number, column: number) {

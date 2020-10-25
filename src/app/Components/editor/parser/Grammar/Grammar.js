@@ -203,7 +203,7 @@ case 34:
 break;
 case 35:
 
-        this.$ = new Declaration(null, $$[$0-5], $$[$0-4], $$[$0-1], _$[$0-5].first_line, _$[$0-5].first_column);
+        this.$ = new TypeDeclaration($$[$0-4], $$[$0-1], _$[$0-5].first_line, _$[$0-5].first_column);
     
 break;
 case 36:
@@ -782,6 +782,7 @@ _handle_error:
     const {While} = require('../Instruction/While');
     const {DoWhile} = require('../Instruction/DoWhile');
     const {Declaration} = require('../Instruction/Declaration');
+    const {TypeDeclaration} = require('../Instruction/TypeDeclaration');
     const {Assignation} = require('../Instruction/Assignation');
     const {Break} = require('../Instruction/Break');
     const {Continue} = require('../Instruction/Continue');

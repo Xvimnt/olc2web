@@ -104,39 +104,30 @@ Init
 ;
 
 Includes
-    : '#' 'INCLUDE' '<' ID '>' {}
-    | Includes '#' 'INCLUDE' '<' ID '>' {}
+    : '#' 'INCLUDE' '<' ID '>' 
+    | Includes '#' 'INCLUDE' '<' ID '>' 
 ;
 
 Instructions
-    : Instructions Instruction{
+    : Instructions Method{
         $1.push($2);
         $$ = $1;
     }
-    | Instruction{
-        $$ = [$1];
-    }
+    | Method{ $$ = [$1]; }
 ;
-
-Instruction
-    : Method {
-        $$ = $1;
-    }
-;
-
 
 Method 
-    : 'VOID' ID '(' ')' '{' Statements '}'
+    : 'VOID' ID '(' ')' '{' Statements '}' { $$ = $6; }
 ;
 
 Statements
-    : Statements Statement
-    | Statement
+    : Statements Statement { $1.push($2); $$ = $1; }
+    | Statement { $$ = [$1] }
 ;
 
 Statement 
-    : Assignation ';'
-    | 'GOTO' ID ';'
+    : Assignation ';' { $$ = $1 }
+    | 'GOTO' ID ';' 
     | ID ':'
     | PRINT '(' STRING ',' Expr ')' ';'
     | RETURN ';'
