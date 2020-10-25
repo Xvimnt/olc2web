@@ -1,3 +1,5 @@
+import { NgIf } from '@angular/common';
+
 class Console {
     public salida = "";
     public symbols = new Map();
@@ -8,11 +10,13 @@ class Console {
     public pila: any[];
     public stack: any[];
     public heap: any[];
+    public printOption : number;
 
     constructor() {
         this.pila = new Array;
         this.stack = new Array;
         this.heap = new Array;
+        this.printOption = 0;
     }
     showSystem(){
         console.log('----------- Stack -----------');

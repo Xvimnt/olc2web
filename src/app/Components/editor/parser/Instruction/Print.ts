@@ -7,11 +7,33 @@ import { _Struct } from '../Object/Struct';
 
 export class Print extends Instruction {
     public translate(environment: Environment): String {
-        let result = "";
+        let result = "// Console.log\n";
         this.value.forEach(element => {
             result += element.translate(environment);
+            switch (_Console.printOption) {
+                case 0:
+                    result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
+                    break;
+                case 1:
+                    let pointer = _Console.count;
+                    result += "t" + pointer + " = t" + (_Console.count - 1) + ";\n";
+                    _Console.count++;
+                    result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                    _Console.count++;
+                    let sizePointer = _Console.count;
+                    result += "t" + sizePointer + " = t" + (_Console.count - 1) + " + t" + pointer + ";\n";
+                    _Console.count++;
+                    result += "l" + _Console.labels + ":\n";
+                    _Console.labels++;
+                    result += "t" + pointer + " = t" + pointer + " + 1;\n";
+                    result += "t" + _Console.count + " = Heap[t" + pointer + "];\n";
+                    _Console.count++;
+                    result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
+                    result += "t" + _Console.count + " = t" + pointer + " <= t" + sizePointer + ";\n";
+                    result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                    break;
+            }
         });
-        result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
         return result;
     }
 

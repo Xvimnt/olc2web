@@ -16,21 +16,32 @@ export class Access extends Expression {
             if (_Console.pila.includes(this.id[0])) {
                 result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id[0]) - environment.getP()) + ";\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
+                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "]\n";
-
+                result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "];\n";
+                _Console.printOption = 2;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         else {
             if (_Console.pila.includes(this.id)) {
-                result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id) - environment.getP()) + ";\n";
+                let stackIndex = _Console.pila.lastIndexOf(this.id);
+                result += "t" + _Console.count + " = p + " + (stackIndex - environment.getP()) + ";\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "]\n";
+                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                 _Console.count++;
+                if(_Console.stack[stackIndex] != -1) _Console.printOption = 1; // es string
+                else _Console.printOption = 0; // es numero
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         return result;
+    }
+
+    setPrintOption(id: string) {
+        let stackVar = _Console.stack[_Console.count - 1];
+        if (stackVar != -1) {
+            // es una string o array 
+            _Console.printOption = 1;
+        }
     }
 
     constructor(private id: any, line: number, column: number) {
