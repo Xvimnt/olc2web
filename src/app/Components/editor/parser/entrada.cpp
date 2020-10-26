@@ -1,2 +1,1 @@
-let a = "hell";
-console.log(a);
+let a: number[] = [5,8,8,9];

@@ -35,9 +35,9 @@ export class Declaration extends Instruction {
     public translate(environment: Environment): String {
         let result = "";
         if (this.value != null) {
-
             if (this.type instanceof ArrayType) {
                 if (this.value != null) {
+                    result += "// Inicializacion de Array\n";
                     let _heapInitial = _Console.heapPointer;
                     _Console.heapPointer++;
                     for (let i in this.value) {

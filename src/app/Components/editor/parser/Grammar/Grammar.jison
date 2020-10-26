@@ -26,6 +26,7 @@
     const {DoWhile} = require('../Instruction/DoWhile');
     const {Declaration} = require('../Instruction/Declaration');
     const {TypeDeclaration} = require('../Instruction/TypeDeclaration');
+    const {ArrayDeclaration} = require('../Instruction/ArrayDeclaration');
     const {Assignation} = require('../Instruction/Assignation');
     const {Break} = require('../Instruction/Break');
     const {Continue} = require('../Instruction/Continue');
@@ -80,6 +81,8 @@ template [`]([^`])*[`]
 "!"                   return '!'
 "="                   return '='
 "null"                return 'NULL'
+"new"                 return 'NEW'
+"Array"               return 'ARRAY'
 
 "("                     return '('
 ")"                     return ')' 
@@ -254,6 +257,9 @@ Declaration
     }
     | Reserved ID Type '=' Expr {
         $$ = new Declaration($1, $3, $2, $5, @1.first_line, @1.first_column);
+    }
+    | Reserved ID Type '=' 'NEW' 'ARRAY' '(' Expr ')' {
+        $$ = new ArrayDeclaration($1, $3, $2, $8, @1.first_line, @1.first_column);
     }
     | Reserved ID Type {
         $$ = new Declaration($1, $3, $2, null, @1.first_line, @1.first_column);
