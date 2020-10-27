@@ -7,7 +7,7 @@ import { _Struct } from '../Object/Struct';
 
 export class Print extends Instruction {
     public translate(environment: Environment): String {
-        let result = "// Console.log\n";
+        let result = "// Inicia Console.log\n";
         this.value.forEach(element => {
             result += element.translate(environment);
             switch (_Console.printOption) {
@@ -34,6 +34,7 @@ export class Print extends Instruction {
                     break;
             }
         });
+        result += "// Finaliza Console.log\n";
         return result;
     }
 

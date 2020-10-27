@@ -33,8 +33,10 @@ export class Call extends Instruction {
         else if (this.id instanceof Property) {
             let strIndex = _Console.pila.lastIndexOf(this.id.id.id);
             if (strIndex != -1) {
+                let originalIndex, sizeTemp, newStrInd, pointerTemp;
                 switch (this.id.getProperty()) {
                     case "charAt":
+                        result += "// Inicia CharAt\n";
                         // Obtener string
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
                         _Console.count++;
@@ -50,8 +52,87 @@ export class Call extends Instruction {
                         _Console.count++;
                         result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
-
-                        console.log('imprimiendo charAt');
+                        result += "// Finaliza CharAt\n";
+                        break;
+                    case "ToLowerCase":
+                        result += "// Inicia ToLowerCase\n";
+                        // Obtener string
+                        result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
+                        _Console.count++;
+                        originalIndex = _Console.count;
+                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        // obtiene el size del string
+                        sizeTemp = _Console.count;
+                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        // obtiene la nueva direccion para la string
+                        newStrInd = _Console.count;
+                        result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                        _Console.count++;
+                        result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                        _Console.heapPointer++;
+                        pointerTemp = _Console.count;
+                        _Console.count++;
+                        result += "t" + pointerTemp + " = 0;\n";
+                        result += "l" + _Console.labels + ":\n";
+                        _Console.labels++;
+                        result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
+                        result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
+                        result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 32;\n";
+                        _Console.count++;
+                        result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                        result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
+                        _Console.count++;
+                        result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                        result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
+                        _Console.printOption = 1;
+                        result += "// Finaliza ToLowerCase\n";
+                        break;
+                    case "ToUpperCase":
+                        result += "// Inicia ToUpperCase\n";
+                        // Obtener string
+                        result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
+                        _Console.count++;
+                        originalIndex = _Console.count;
+                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        // obtiene el size del string
+                        sizeTemp = _Console.count;
+                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        // obtiene la nueva direccion para la string
+                        newStrInd = _Console.count;
+                        result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                        _Console.count++;
+                        result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                        _Console.heapPointer++;
+                        pointerTemp = _Console.count;
+                        _Console.count++;
+                        result += "t" + pointerTemp + " = 0;\n";
+                        result += "l" + _Console.labels + ":\n";
+                        _Console.labels++;
+                        result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
+                        result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
+                        result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " - 32;\n";
+                        _Console.count++;
+                        result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                        result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
+                        _Console.count++;
+                        result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                        result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
+                        _Console.printOption = 1;
+                        result += "// Finaliza ToUpperCase\n";
                         break;
                     default:
                         errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));

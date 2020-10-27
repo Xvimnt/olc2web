@@ -33,7 +33,7 @@ export class Declaration extends Instruction {
     }
 
     public translate(environment: Environment): String {
-        let result = "";
+        let result = "// Inicia Declaracion\n";
         if (this.value != null) {
             if (this.type instanceof ArrayType) {
                 if (this.value != null) {
@@ -67,6 +67,7 @@ export class Declaration extends Instruction {
                 result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             }
         }
+        result += "// Finaliza Declaracion\n";
         return result;
     }
 
