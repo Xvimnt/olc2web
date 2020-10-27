@@ -24,15 +24,46 @@ export class Call extends Instruction {
             result += element.translate(environment);
             result += "t" + _Console.count + " = p + " + _Console.stackPointer + ";\n";
             result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + ";\n";
+            _Console.saveInStack(_Console.stackPointer, element.execute(environment).value);
             _Console.stackPointer++;
             _Console.count++;
         });
         environment.setP(_Console.stackPointer - 1);
         if (this.id instanceof Access) result += this.id.getID() + "();\n"
-        
+        else if (this.id instanceof Property) {
+            let strIndex = _Console.pila.lastIndexOf(this.id.id.id);
+            if (strIndex != -1) {
+                switch (this.id.getProperty()) {
+                    case "charAt":
+                        // Obtener string
+                        result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = p + " + (_Console.stackPointer - 1) + ";\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + t" + (_Console.count - 3) + ";\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 1;\n";
+                        _Console.count++;
+                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        _Console.count++;
+
+                        console.log('imprimiendo charAt');
+                        break;
+                    default:
+                        errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+                        break
+
+                }
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+        }
+
         return result;
     }
-    
+
     public plot(count: number): string {
 
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\"];";

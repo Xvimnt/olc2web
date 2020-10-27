@@ -1,1 +1,2 @@
-let a: number[] = [5,8,8,9];
+let str:string = "hello";
+console.log(str.charAt(1));

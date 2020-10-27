@@ -20,7 +20,7 @@ export class Literal extends Expression {
                 result += "Heap[" + _Console.heapPointer + "] = " + nwStr.charCodeAt(index) + ";\n";
                 _Console.heapPointer++;
             }
-            result += "t" + _Console.count + " = " + (_Console.heapPointer - nwStr.length - 1) + ";\n";
+            result += "t" + _Console.count + " = h + " + (_Console.heapPointer - nwStr.length - 1) + ";\n";
         }
         else if (this.type == 2) {
             result += "t" + _Console.count + " = " + ((this.value == 'true') ? 1 : 0) + ";\n";

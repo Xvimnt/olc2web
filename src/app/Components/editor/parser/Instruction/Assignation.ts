@@ -17,7 +17,7 @@ export class Assignation extends Instruction {
     public translate(environment: Environment): String {
         let result = "";
 
-        let index = _Console.pila.indexOf(this.id.id);
+        let index = _Console.pila.lastIndexOf(this.id.id);
         if (index != -1) {
             result += this.value.translate(environment)
             result += "t" + _Console.count + " = " + "p + " + index + ";\n";
