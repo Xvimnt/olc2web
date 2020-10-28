@@ -15,6 +15,7 @@ import { Validators } from '@angular/forms';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 import { env } from 'process';
+import { Literal } from '../Expression/Literal';
 
 export class Call extends Instruction {
 
@@ -24,7 +25,7 @@ export class Call extends Instruction {
             result += element.translate(environment);
             result += "t" + _Console.count + " = p + " + _Console.stackPointer + ";\n";
             result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + ";\n";
-            _Console.saveInStack(_Console.stackPointer, element.execute(environment).value);
+            if (element instanceof Literal) _Console.saveInStack(_Console.stackPointer, element.execute(environment).value);
             _Console.stackPointer++;
             _Console.count++;
         });
@@ -133,6 +134,79 @@ export class Call extends Instruction {
                         result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
                         _Console.printOption = 1;
                         result += "// Finaliza ToUpperCase\n";
+                        break;
+                    case "concat":
+                        let strIndex2 = _Console.pila.lastIndexOf(this.expresiones[0].id);
+                        if (strIndex2 != -1) {
+                            result += "// Inicia concat\n";
+                            // Obtener string
+                            result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
+                            _Console.count++;
+                            originalIndex = _Console.count;
+                            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                            _Console.count++;
+                            // obtiene el size del string
+                            sizeTemp = _Console.count;
+                            result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                            _Console.count++;
+                            // Obtener string2
+                            result += "t" + _Console.count + " = p + " + (strIndex2) + ";\n";
+                            _Console.count++;
+                            let originalIndex2 = _Console.count;
+                            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                            _Console.count++;
+                            // obtiene el size del string2
+                            let sizeTemp2 = _Console.count;
+                            result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                            _Console.count++;
+                            // Suma los size
+                            let newSizeTemp = _Console.count;
+                            result += "t" + _Console.count + " = t" + sizeTemp + " + t" + sizeTemp2 + ";\n";
+                            _Console.count++;
+                            // obtiene la nueva direccion para la string
+                            newStrInd = _Console.count;
+                            result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                            _Console.count++;
+                            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                            _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                            _Console.heapPointer++;
+                            // Copia la primer string
+                            pointerTemp = _Console.count;
+                            _Console.count++;
+                            result += "t" + pointerTemp + " = 0;\n";
+                            result += "l" + _Console.labels + ":\n";
+                            _Console.labels++;
+                            result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
+                            result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
+                            result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                            _Console.count++;
+                            result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                            result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                            _Console.count++;
+                            result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
+                            _Console.count++;
+                            result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                            // Copia la segunda string
+                            pointerTemp = _Console.count;
+                            _Console.count++;
+                            result += "t" + pointerTemp + " = 0;\n";
+                            result += "l" + _Console.labels + ":\n";
+                            _Console.labels++;
+                            result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
+                            result += "t" + originalIndex2 + " = t" + originalIndex2 + " + 1;\n";
+                            result += "t" + _Console.count + " = Heap[t" + originalIndex2 + "];\n";
+                            _Console.count++;
+                            result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                            result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                            _Console.count++;
+                            result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp2 + ";\n";
+                            _Console.count++;
+                            result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                            result += "t" + _Console.count + " = t" + newStrInd + " - t" + newSizeTemp + ";\n";
+                            _Console.count++;
+                            _Console.printOption = 1;
+                            result += "// Finaliza concat\n";
+                        } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
                         break;
                     default:
                         errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));

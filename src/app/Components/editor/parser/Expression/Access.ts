@@ -5,7 +5,6 @@ import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { isArray, isNumber } from 'util';
 import { _Array } from '../Object/Array';
-import { Call } from '../Instruction/Call';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 
@@ -34,14 +33,6 @@ export class Access extends Expression {
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         return result;
-    }
-
-    setPrintOption(id: string) {
-        let stackVar = _Console.stack[_Console.count - 1];
-        if (stackVar != -1) {
-            // es una string o array 
-            _Console.printOption = 1;
-        }
     }
 
     constructor(private id: any, line: number, column: number) {

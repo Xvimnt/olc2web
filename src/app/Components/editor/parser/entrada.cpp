@@ -1,2 +1,3 @@
 let str:string = "hello";
-console.log(str.ToLowerCase());
+let str2:string = " world";
+console.log(str.concat(str2));
