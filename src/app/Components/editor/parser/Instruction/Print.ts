@@ -32,6 +32,9 @@ export class Print extends Instruction {
                     result += "t" + _Console.count + " = t" + pointer + " <= t" + sizePointer + ";\n";
                     result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
                     break;
+                case 9:
+                    result += 'printf("%f",(float) t' + (_Console.count - 1) + ');\n';
+                    break;
             }
         });
         result += "// Finaliza Console.log\n";

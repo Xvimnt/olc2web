@@ -17,7 +17,7 @@ export class Symbol {
 
     private getTypeName() {
         switch (this.type) {
-            case 0: return "Numero";
+            case 0: return "Entero";
             case 1: return "String";
             case 2: return "Booleano";
             case 3: return "Null";
@@ -26,6 +26,7 @@ export class Symbol {
             case 6: return "Template";
             case 7: return "Type";
             case 8: return "Funcion";
+            case 9: return "Float";
             default: return this.type;
         }
     }

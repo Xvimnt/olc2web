@@ -64,6 +64,7 @@ export class Declaration extends Instruction {
                 try {
                     let ret = this.value.execute(environment);
                     let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
+                    if (ret.type == 0 && String(ret.value).includes('.')) ret.type = 9;
                     _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, ret.type, ambito));
                     _Console.saveInPila(_Console.stackPointer, ret.value);
                 } catch (e) {

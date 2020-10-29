@@ -1,3 +1,3 @@
-let a = 30;
-a = 54; 
+let a = 30.3;
+a = 54.4; 
 console.log(a);
