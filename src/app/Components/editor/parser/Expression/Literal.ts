@@ -29,6 +29,7 @@ export class Literal extends Expression {
             result += "t" + _Console.count + " = " + this.value + ";\n";
         }
         _Console.count++;
+        _Console.printOption = this.type;
         return result;
     }
 

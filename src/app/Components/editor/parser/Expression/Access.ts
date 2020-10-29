@@ -29,9 +29,7 @@ export class Access extends Expression {
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                 _Console.count++;
-                let heapInd = _Console.stack[stackIndex];
-                if (heapInd != undefined && heapInd != -1) _Console.printOption = 1; // es string
-                else _Console.printOption = 0; // es numero
+                _Console.printOption = smb.type;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         return result;
