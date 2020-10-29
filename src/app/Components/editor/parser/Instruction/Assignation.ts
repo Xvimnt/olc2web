@@ -15,17 +15,16 @@ import { _Console } from '../Util/Salida';
 export class Assignation extends Instruction {
 
     public translate(environment: Environment): String {
-        let result = "";
-
-        let index = _Console.pila.lastIndexOf(this.id.id);
-        if (index != -1) {
+        let result = "// Inicia asignacion\n";
+        let smb = _Console.symbols.get(this.id.id);
+        if (smb != undefined) {
             result += this.value.translate(environment)
-            result += "t" + _Console.count + " = " + "p + " + index + ";\n";
+            result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
             _Console.count++;
             result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
 
-        return result;
+        return result + "// Finaliza asignacion\n";
     }
 
     public plot(count: number): string {

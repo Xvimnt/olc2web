@@ -12,7 +12,7 @@ export class Print extends Instruction {
             result += element.translate(environment);
             switch (_Console.printOption) {
                 case 0:
-                    result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
+                    result += 'printf("%d",(int) t' + (_Console.count - 1) + ');\n';
                     break;
                 case 1:
                     let pointer = _Console.count;

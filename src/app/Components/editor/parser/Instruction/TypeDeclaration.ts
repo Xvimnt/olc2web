@@ -6,18 +6,20 @@ import { errores } from '../Errores';
 import { _Array } from '../Object/Array';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
+import { Symbol } from "../Symbol/Symbol";
 
 export class TypeDeclaration extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "";
         this.content.forEach(element => {
-            _Console.saveInHeap(_Console.heapPointer,element.id);
+            _Console.saveInHeap(_Console.heapPointer, element.id);
+            _Console.symbols.set(element.id, new Symbol(-1, element.id, element.type.name, 'Local'));
             result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
             _Console.count++;
-            _Console.heapPointer++; 
-            result += "Heap[t" + (_Console.count - 1) + "];\n" ;
-            _Console.saveInHeap(_Console.heapPointer,element.type.name);
+            _Console.heapPointer++;
+            result += "Heap[t" + (_Console.count - 1) + "];\n";
+            _Console.saveInHeap(_Console.heapPointer, element.type.name);
             console.log('agregando', element);
         });
         return result;

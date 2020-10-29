@@ -29,6 +29,8 @@ class Console {
         console.log(this.stackPointer);
         console.log('----------- Heap Pointer -----------');
         console.log(this.heapPointer);
+        console.log('----------- Tabla de Simbolos -----------');
+        console.log(this.symbols);
     }
     saveInHeap(index: number, id: any) {
         this.heap[index] = id;

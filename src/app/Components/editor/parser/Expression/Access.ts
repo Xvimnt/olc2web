@@ -22,13 +22,15 @@ export class Access extends Expression {
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         else {
-            if (_Console.pila.includes(this.id)) {
-                let stackIndex = _Console.pila.lastIndexOf(this.id);
+            let smb = _Console.symbols.get(this.id);
+            if (smb != undefined) {
+                let stackIndex = smb.valor;
                 result += "t" + _Console.count + " = p + " + (stackIndex - environment.getP()) + ";\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                 _Console.count++;
-                if(_Console.stack[stackIndex] != -1) _Console.printOption = 1; // es string
+                let heapInd = _Console.stack[stackIndex];
+                if (heapInd != undefined && heapInd != -1) _Console.printOption = 1; // es string
                 else _Console.printOption = 0; // es numero
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }

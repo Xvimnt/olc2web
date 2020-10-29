@@ -11,6 +11,7 @@ import { ArrayType } from '../Types/Array';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 import { environment } from 'src/environments/environment';
+import { Symbol } from '../Symbol/Symbol';
 
 export class Declaration extends Instruction {
 
@@ -60,7 +61,14 @@ export class Declaration extends Instruction {
                 let hpIndex = _Console.heapPointer;
                 result += this.value.translate(environment);
                 result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
-                _Console.saveInPila(_Console.stackPointer, this.id);
+                try {
+                    let ret = this.value.execute(environment);
+                    let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
+                    _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, ret.type, ambito));
+                    _Console.saveInPila(_Console.stackPointer, ret.value);
+                } catch (e) {
+                    console.log(e);
+                }
                 if (hpIndex != _Console.heapPointer) _Console.saveInStack(_Console.stackPointer, hpIndex);
                 _Console.stackPointer++;
                 _Console.count++;
