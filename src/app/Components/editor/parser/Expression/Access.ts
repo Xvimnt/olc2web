@@ -7,6 +7,7 @@ import { isArray, isNumber } from 'util';
 import { _Array } from '../Object/Array';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
+import { Literal } from './Literal';
 
 export class Access extends Expression {
     public translate(environment: Environment): String {
@@ -14,12 +15,20 @@ export class Access extends Expression {
         if (this.id instanceof Array) {
             let smb = _Console.symbols.get(this.id[0]);
             if (smb != undefined) {
+                let initalIndex = _Console.count;
                 result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                result += "t" + _Console.count + " = " + "t" + (_Console.count) + " + 1;\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "];\n";
-                _Console.printOption = 2;
+                for (let dim in this.id) {
+                    if (dim != '0') {
+                        result += this.id[dim][0].translate(environment);
+                        result += "t" + initalIndex + " = t" + initalIndex + " + t" + (_Console.count - 1) + ";\n";
+                   }
+                }
+                result += "t" + _Console.count + " = Heap[t" + initalIndex + "];\n";
+                _Console.count++;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         else {

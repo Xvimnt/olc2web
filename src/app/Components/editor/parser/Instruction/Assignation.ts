@@ -16,13 +16,36 @@ export class Assignation extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "// Inicia asignacion\n";
-        let smb = _Console.symbols.get(this.id.id);
-        if (smb != undefined) {
-            result += this.value.translate(environment)
-            result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
-            _Console.count++;
-            result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-        } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+        let ID = this.id.id;
+        if (ID instanceof Array) {
+            let smb = _Console.symbols.get(ID[0]);
+            if (smb != undefined) {
+                result += this.value.translate(environment)
+                let resTemp = _Console.count - 1;
+                result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
+                _Console.count++;
+                let initalIndex = _Console.count;
+                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                result += "t" + _Console.count + " = " + "t" + (_Console.count) + " + 1;\n";
+                _Console.count++;
+                for (let dim in ID) {
+                    if (dim != '0') {
+                        result += ID[dim][0].translate(environment);
+                        result += "t" + initalIndex + " = t" + initalIndex + " + t" + (_Console.count - 1) + ";\n";
+                    }
+                }
+                result += "Heap[t" + initalIndex + "] = t" + resTemp + ";\n";
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+        }
+        else {
+            let smb = _Console.symbols.get(ID);
+            if (smb != undefined) {
+                result += this.value.translate(environment)
+                result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
+                _Console.count++;
+                result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+            } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+        }
 
         return result + "// Finaliza asignacion\n";
     }
