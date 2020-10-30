@@ -22,7 +22,7 @@ export class Declaration extends Instruction {
             result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
             _Console.count++;
             _Console.saveInHeap((_Console.heapPointer), dim.execute(environment).value);
-            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+            result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             _Console.heapPointer++;
         }
         else {
@@ -51,11 +51,11 @@ export class Declaration extends Instruction {
                     _Console.count++;
                     result += "t" + initTerminal + " = h + " + _heapInitial + ";\n";
                     _Console.saveInHeap(_heapInitial, (_Console.heapPointer - _heapInitial - 1));
-                    result += "Heap[t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + ";\n";
+                    result += "Heap[(int)t" + initTerminal + "] = " + (_Console.heapPointer - _heapInitial - 1) + ";\n";
                     result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
                     _Console.stackPointer++;
                     _Console.count++;
-                    result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
+                    result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
                 }
             }
             else {
@@ -73,7 +73,7 @@ export class Declaration extends Instruction {
                 if (hpIndex != _Console.heapPointer) _Console.saveInStack(_Console.stackPointer, hpIndex);
                 _Console.stackPointer++;
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             }
         }
         result += "// Finaliza Declaracion\n";

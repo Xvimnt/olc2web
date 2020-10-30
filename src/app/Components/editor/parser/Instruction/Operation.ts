@@ -17,17 +17,17 @@ export class Operation extends Instruction {
         if (smb != undefined) {
             result += "t" + _Console.count + " = p + " + (smb.valor) + ";\n";
             _Console.count++;
-            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+            result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
             _Console.count++;
             if (this.option == OperationOption.DECREMENT) {
                 result += "t" + _Console.count + " = t" + (_Console.count - 1) + " - 1;\n";
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
+                result += "Stack[(int)t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
             }
             else{
                 result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 1;\n";
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
+                result += "Stack[(int)t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
             }
         }
         return result + "// Finaliza " + this.getName() + "\n";

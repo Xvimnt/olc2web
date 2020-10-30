@@ -20,9 +20,9 @@ export class Property extends Expression {
                 if (smb != undefined) {
                     result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                     _Console.count++;
-                    result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                    result += "t" + _Console.count + " = " + "Stack[(int)t" + (_Console.count - 1) + "];\n";
                     _Console.count++;
-                    result += "t" + _Console.count + " = " + "Heap[t" + (_Console.count - 1) + "];\n";
+                    result += "t" + _Console.count + " = " + "Heap[(int)t" + (_Console.count - 1) + "];\n";
                     _Console.count++;
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
                 break;

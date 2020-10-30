@@ -18,7 +18,7 @@ export class Print extends Instruction {
                     let pointer = _Console.count;
                     result += "t" + pointer + " = t" + (_Console.count - 1) + ";\n";
                     _Console.count++;
-                    result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                    result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                     _Console.count++;
                     let sizePointer = _Console.count;
                     result += "t" + sizePointer + " = t" + (_Console.count - 1) + " + t" + pointer + ";\n";
@@ -26,7 +26,7 @@ export class Print extends Instruction {
                     result += "l" + _Console.labels + ":\n";
                     _Console.labels++;
                     result += "t" + pointer + " = t" + pointer + " + 1;\n";
-                    result += "t" + _Console.count + " = Heap[t" + pointer + "];\n";
+                    result += "t" + _Console.count + " = Heap[(int)t" + pointer + "];\n";
                     _Console.count++;
                     result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
                     result += "t" + _Console.count + " = t" + pointer + " <= t" + sizePointer + ";\n";

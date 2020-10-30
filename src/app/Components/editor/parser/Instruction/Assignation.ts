@@ -25,7 +25,7 @@ export class Assignation extends Instruction {
                 result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
                 _Console.count++;
                 let initalIndex = _Console.count;
-                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                result += "t" + _Console.count + " = " + "Stack[(int)t" + (_Console.count - 1) + "];\n";
                 result += "t" + _Console.count + " = " + "t" + (_Console.count) + " + 1;\n";
                 _Console.count++;
                 for (let dim in ID) {
@@ -34,7 +34,7 @@ export class Assignation extends Instruction {
                         result += "t" + initalIndex + " = t" + initalIndex + " + t" + (_Console.count - 1) + ";\n";
                     }
                 }
-                result += "Heap[t" + initalIndex + "] = t" + resTemp + ";\n";
+                result += "Heap[(int)t" + initalIndex + "] = t" + resTemp + ";\n";
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         else {
@@ -43,7 +43,7 @@ export class Assignation extends Instruction {
                 result += this.value.translate(environment)
                 result += "t" + _Console.count + " = " + "p + " + smb.valor + ";\n";
                 _Console.count++;
-                result += "Stack[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
 

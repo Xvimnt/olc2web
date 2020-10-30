@@ -25,15 +25,15 @@ export class ArrayDeclaration extends Instruction {
         result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
         _Console.count++;
         let pointerTemp = _Console.count;
-        result += "Heap[t" + (_Console.count - 1) + "] = t" + lengthTemp + ";\n";
+        result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + lengthTemp + ";\n";
         result += "t" + _Console.count + " = 0;\n";
         _Console.count++;
         result += "l" + _Console.labels + ":\n";
         result += "t" + heapTemp + " = t" + heapTemp + " + 1;\n";
         result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
         _Console.saveInHeap((_Console.heapPointer), 0);
-        if (dimNumber > 1) result += "Heap[t" + heapTemp + "] = -1;\n";
-        else result += "Heap[t" + heapTemp + "] = 0;\n";
+        if (dimNumber > 1) result += "Heap[(int)t" + heapTemp + "] = -1;\n";
+        else result += "Heap[(int)t" + heapTemp + "] = 0;\n";
 
         result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + lengthTemp + ";\n";
         result += "if(t" + _Console.count + ") goto l" + _Console.labels + ";\n";
@@ -56,7 +56,7 @@ export class ArrayDeclaration extends Instruction {
         result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
         _Console.stackPointer++;
         _Console.count++;
-        result += "Stack[t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
+        result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + initTerminal + ";\n";
 
         return result;
     }

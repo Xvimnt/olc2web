@@ -15,11 +15,11 @@ export class ForOf extends Instruction {
             result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
             _Console.count++;
             let startT = _Console.count;
-            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+            result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
             _Console.count++;
             let sizeT = _Console.count;
             _Console.count++;
-            result += "t" + sizeT + " = Heap[t" + startT + "];\n";
+            result += "t" + sizeT + " = Heap[(int)t" + startT + "];\n";
             let iteratorT = _Console.count;
             _Console.count++;
             let stackInd = _Console.stackPointer;
@@ -28,7 +28,7 @@ export class ForOf extends Instruction {
             let iteratorStackIndex = _Console.count;
             _Console.count++;
             result += "t" + iteratorStackIndex + " = p + " + stackInd + ";\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
+            result += "Stack[(int)t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
             _Console.symbols.set(this.id, new Symbol(stackInd, this.id, 0, ambito));
             _Console.saveInStack(stackInd, 0);
@@ -39,8 +39,8 @@ export class ForOf extends Instruction {
             result += "t" + iteratorT + " = t" + iteratorT + " + 1;\n";
             result += "t" + _Console.count + " = t" + startT + " + t" + iteratorT + ";\n";
             _Console.count++;
-            result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + _Console.count + ";\n";
+            result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
+            result += "Stack[(int)t" + iteratorStackIndex + "] = t" + _Console.count + ";\n";
             _Console.count++;
             let inicio = _Console.labels;
             _Console.labels++;

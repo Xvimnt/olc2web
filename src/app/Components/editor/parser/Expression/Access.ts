@@ -15,10 +15,10 @@ export class Access extends Expression {
         if (this.id instanceof Array) {
             let smb = _Console.symbols.get(this.id[0]);
             if (smb != undefined) {
-                let initalIndex = _Console.count;
                 result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                let initalIndex = _Console.count;
+                result += "t" + _Console.count + " = " + "Stack[(int)t" + (_Console.count - 1) + "];\n";
                 result += "t" + _Console.count + " = " + "t" + (_Console.count) + " + 1;\n";
                 _Console.count++;
                 for (let dim in this.id) {
@@ -27,7 +27,7 @@ export class Access extends Expression {
                         result += "t" + initalIndex + " = t" + initalIndex + " + t" + (_Console.count - 1) + ";\n";
                    }
                 }
-                result += "t" + _Console.count + " = Heap[t" + initalIndex + "];\n";
+                result += "t" + _Console.count + " = Heap[(int)t" + initalIndex + "];\n";
                 _Console.count++;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
@@ -37,7 +37,7 @@ export class Access extends Expression {
                 let stackIndex = smb.valor;
                 result += "t" + _Console.count + " = p + " + (stackIndex - environment.getP()) + ";\n";
                 _Console.count++;
-                result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
+                result += "t" + _Console.count + " = " + "Stack[(int)t" + (_Console.count - 1) + "];\n";
                 _Console.count++;
                 _Console.printOption = smb.type;
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));

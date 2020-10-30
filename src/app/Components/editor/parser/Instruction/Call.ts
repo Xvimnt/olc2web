@@ -25,7 +25,7 @@ export class Call extends Instruction {
         this.expresiones.forEach(element => {
             result += element.translate(environment);
             result += "t" + _Console.count + " = p + " + _Console.stackPointer + ";\n";
-            result += "Stack[t" + _Console.count + "] = t" + (_Console.count - 1) + ";\n";
+            result += "Stack[(int)t" + _Console.count + "] = t" + (_Console.count - 1) + ";\n";
             if (element instanceof Literal) _Console.saveInStack(_Console.stackPointer, element.execute(environment).value);
             _Console.stackPointer++;
             _Console.count++;
@@ -44,17 +44,17 @@ export class Call extends Instruction {
                         // Obtener string
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
                         _Console.count++;
-                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = p + " + (_Console.stackPointer - 1) + ";\n";
                         _Console.count++;
-                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + t" + (_Console.count - 3) + ";\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 1;\n";
                         _Console.count++;
-                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         result += "// Finaliza CharAt\n";
                         _Console.printOption = 10;
@@ -66,17 +66,17 @@ export class Call extends Instruction {
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
                         _Console.count++;
                         originalIndex = _Console.count;
-                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         // obtiene el size del string
                         sizeTemp = _Console.count;
-                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         // obtiene la nueva direccion para la string
                         newStrInd = _Console.count;
                         result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                         _Console.count++;
-                        result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                        result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
                         _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                         _Console.heapPointer++;
                         pointerTemp = _Console.count;
@@ -86,12 +86,12 @@ export class Call extends Instruction {
                         _Console.labels++;
                         result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
                         result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
-                        result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                        result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 32;\n";
                         _Console.count++;
                         result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
-                        result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                        result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
                         _Console.count++;
@@ -106,17 +106,17 @@ export class Call extends Instruction {
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
                         _Console.count++;
                         originalIndex = _Console.count;
-                        result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         // obtiene el size del string
                         sizeTemp = _Console.count;
-                        result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                        result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         // obtiene la nueva direccion para la string
                         newStrInd = _Console.count;
                         result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                         _Console.count++;
-                        result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                        result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
                         _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                         _Console.heapPointer++;
                         pointerTemp = _Console.count;
@@ -126,12 +126,12 @@ export class Call extends Instruction {
                         _Console.labels++;
                         result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
                         result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
-                        result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                        result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + (_Console.count - 1) + " - 32;\n";
                         _Console.count++;
                         result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
-                        result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                        result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
                         _Console.count++;
                         result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
                         _Console.count++;
@@ -149,21 +149,21 @@ export class Call extends Instruction {
                             result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
                             _Console.count++;
                             originalIndex = _Console.count;
-                            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                            result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                             _Console.count++;
                             // obtiene el size del string
                             sizeTemp = _Console.count;
-                            result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                            result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                             _Console.count++;
                             // Obtener string2
                             result += "t" + _Console.count + " = p + " + (strIndex2) + ";\n";
                             _Console.count++;
                             let originalIndex2 = _Console.count;
-                            result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
+                            result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
                             _Console.count++;
                             // obtiene el size del string2
                             let sizeTemp2 = _Console.count;
-                            result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
+                            result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
                             _Console.count++;
                             // Suma los size
                             let newSizeTemp = _Console.count;
@@ -173,7 +173,7 @@ export class Call extends Instruction {
                             newStrInd = _Console.count;
                             result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                             _Console.count++;
-                            result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                            result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
                             _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                             _Console.heapPointer++;
                             // Copia la primer string
@@ -184,10 +184,10 @@ export class Call extends Instruction {
                             _Console.labels++;
                             result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
                             result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
-                            result += "t" + _Console.count + " = Heap[t" + originalIndex + "];\n";
+                            result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
                             _Console.count++;
                             result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
-                            result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                            result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
                             _Console.count++;
                             result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
                             _Console.count++;
@@ -200,10 +200,10 @@ export class Call extends Instruction {
                             _Console.labels++;
                             result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
                             result += "t" + originalIndex2 + " = t" + originalIndex2 + " + 1;\n";
-                            result += "t" + _Console.count + " = Heap[t" + originalIndex2 + "];\n";
+                            result += "t" + _Console.count + " = Heap[(int)t" + originalIndex2 + "];\n";
                             _Console.count++;
                             result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
-                            result += "Heap[t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                            result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
                             _Console.count++;
                             result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp2 + ";\n";
                             _Console.count++;

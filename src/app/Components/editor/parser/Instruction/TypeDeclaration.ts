@@ -18,7 +18,7 @@ export class TypeDeclaration extends Instruction {
             result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
             _Console.count++;
             _Console.heapPointer++;
-            result += "Heap[t" + (_Console.count - 1) + "];\n";
+            result += "Heap[(int)t" + (_Console.count - 1) + "];\n";
             _Console.saveInHeap(_Console.heapPointer, element.type.name);
             console.log('agregando', element);
         });

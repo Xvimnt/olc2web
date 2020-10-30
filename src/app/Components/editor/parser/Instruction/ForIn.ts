@@ -16,10 +16,10 @@ export class ForIn extends Instruction {
             result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
             _Console.count++;
             let startT = _Console.count;
-            result += "t" + startT + " = Stack[t" + (_Console.count - 1) + "];\n";
+            result += "t" + startT + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
             _Console.count++;
             let sizeT = _Console.count;
-            result += "t" + sizeT + " = Heap[t" + startT + "];\n";
+            result += "t" + sizeT + " = Heap[(int)t" + startT + "];\n";
             _Console.count++;
             let iteratorT = _Console.count;
             _Console.count++;
@@ -29,7 +29,7 @@ export class ForIn extends Instruction {
             let iteratorStackIndex = _Console.count;
             _Console.count++;
             result += "t" + iteratorStackIndex + " = p + " + stackInd + ";\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
+            result += "Stack[(int)t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
             _Console.symbols.set(this.id, new Symbol(stackInd, this.id, 0, ambito));
             _Console.saveInStack(stackInd, 0);
@@ -39,7 +39,7 @@ export class ForIn extends Instruction {
             // Condicion y asignacion de i
             result += "t" + iteratorT + " = t" + iteratorT + " + 1;\n";
             result += "t" + iteratorStackIndex + " = p + " + stackInd + ";\n";
-            result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
+            result += "Stack[(int)t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let inicio = _Console.labels;
             _Console.labels++;
             result += "t" + (_Console.count) + " = t" + iteratorT + " < t" + sizeT + ";\n";
