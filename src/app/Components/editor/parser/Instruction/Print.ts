@@ -28,15 +28,16 @@ export class Print extends Instruction {
                     result += "t" + pointer + " = t" + pointer + " + 1;\n";
                     result += "t" + _Console.count + " = Heap[(int)t" + pointer + "];\n";
                     _Console.count++;
-                    result += 'printf("%c", t' + (_Console.count - 1) + ');\n';
+                    result += 'printf("%c",(char) t' + (_Console.count - 1) + ');\n';
                     result += "t" + _Console.count + " = t" + pointer + " <= t" + sizePointer + ";\n";
+                    _Console.count++;
                     result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
                     break;
                 case 9:
                     result += 'printf("%f",(float) t' + (_Console.count - 1) + ');\n';
                     break;
                 case 10:
-                    result += 'printf("%c",t' + (_Console.count - 1) + ');\n';
+                    result += 'printf("%c",(char)t' + (_Console.count - 1) + ');\n';
                     break;
             }
         });
