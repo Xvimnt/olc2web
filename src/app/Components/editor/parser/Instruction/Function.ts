@@ -20,12 +20,9 @@ export class Function extends Instruction {
             _Console.stackPointer++;
         });
         let result = "void " + this.id + "() {\n";
-        let addP = newEnv.getP();
-        result += "p = p + " + addP + ";\n";
         _Console.stackPointer = 1;
         result += this.statment.translate(newEnv);
         result += "\nl" + newEnv.getLastL() + ":\n";
-        result += "p = p - " + addP + ";\n";
         result += "return; \n"
         result += "}\n\n";
         // lo mando a salida para no meterlo en mi void

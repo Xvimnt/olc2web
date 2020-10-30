@@ -1,27 +1,23 @@
 import { Instruction } from "../Abstract/Instruction";
 import { Environment } from "../Symbol/Environment";
 import { Symbol } from "../Symbol/Symbol";
-import { Expression } from "../Abstract/Expression";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { Access } from '../Expression/Access';
 import { Property } from '../Expression/Property';
 import { _Array } from '../Object/Array';
 import { _Type } from '../Types/Type';
-import { error } from 'protractor';
 import { ArrayType } from '../Types/Array';
 import { isArray, isString } from 'util';
-import { Validators } from '@angular/forms';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
-import { env } from 'process';
 import { Literal } from '../Expression/Literal';
-import { strict } from 'assert';
 
 export class Call extends Instruction {
 
     public translate(environment: Environment): String {
-        let result = "";
+        let result = "// Inicia Llamada\n";
+        let iniciaP = _Console.stackPointer;
         this.expresiones.forEach(element => {
             result += element.translate(environment);
             result += "t" + _Console.count + " = p + " + _Console.stackPointer + ";\n";
@@ -30,7 +26,11 @@ export class Call extends Instruction {
             _Console.stackPointer++;
             _Console.count++;
         });
-        if (this.id instanceof Access) result += this.id.getID() + "();\n"
+        if (this.id instanceof Access) {
+            result += "p = p + " + iniciaP + ";\n";
+            result += this.id.getID() + "();\n"
+            result += "p = p - " + iniciaP + ";\n";
+        }
         else if (this.id instanceof Property) {
             let strId = this.id.id.id;
             let smb = _Console.symbols.get(strId);
@@ -221,13 +221,11 @@ export class Call extends Instruction {
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
 
-        return result;
+        return result + "// Finaliza Llamada\n";
     }
 
     public plot(count: number): string {
-
         let result = "node" + count + "[label=\"(" + this.line + "," + this.column + ") Llamada\"];";
-
         // Hijo 1
         result += "node" + count + "1[label=\"(" + this.line + "," + this.column + ") ID\"];";
         // Hijo 2
@@ -235,7 +233,6 @@ export class Call extends Instruction {
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";
-
         return result;
     }
 

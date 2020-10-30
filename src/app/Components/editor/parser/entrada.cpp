@@ -2,12 +2,12 @@ function a(par: number) {
     b(par);
 }
 
-function b(par:number) {
-    c(par);
+function b(par1:number) {
+    c(par1);
 }
 
-function c(par: number) {
-    console.log(par);
+function c(par2: number) {
+    console.log(par2);
 }
 
 a(100);
