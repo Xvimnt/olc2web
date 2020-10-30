@@ -2,7 +2,6 @@ import { Instruction } from "../Abstract/Instruction";
 import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { _Console } from "../Util/Salida";
-import { faOtter } from '@fortawesome/free-solid-svg-icons';
 import { _Struct } from '../Object/Struct';
 
 export class Print extends Instruction {

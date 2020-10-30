@@ -30,7 +30,6 @@ export class Call extends Instruction {
             _Console.stackPointer++;
             _Console.count++;
         });
-        environment.setP(_Console.stackPointer - 1);
         if (this.id instanceof Access) result += this.id.getID() + "();\n"
         else if (this.id instanceof Property) {
             let strId = this.id.id.id;

@@ -9,24 +9,28 @@ export class Function extends Instruction {
     public translate(environment: Environment): String {
         // Nuevo entorno
         let newEnv = new Environment(environment);
-        newEnv.setP(_Console.stackPointer);
+        let initialPointer = _Console.stackPointer;
+        newEnv.setP(initialPointer);
         newEnv.setLastL(_Console.labels);
         _Console.labels++;
         // Guardar parametros
         this.parametros.forEach(element => {
             _Console.symbols.set(element.id, new Symbol(_Console.stackPointer, element.id, element.type.execute().type, 'Local'));
+            newEnv.variables.set(element.id, new Symbol(_Console.stackPointer, element.id, element.type.execute().type, 'Local'));
             _Console.stackPointer++;
         });
         let result = "void " + this.id + "() {\n";
-        result += "p = p + " + newEnv.getP() + ";\n";
+        let addP = newEnv.getP();
+        result += "p = p + " + addP + ";\n";
         _Console.stackPointer = 1;
         result += this.statment.translate(newEnv);
         result += "\nl" + newEnv.getLastL() + ":\n";
+        result += "p = p - " + addP + ";\n";
         result += "return; \n"
         result += "}\n\n";
         // lo mando a salida para no meterlo en mi void
         _Console.salida += result;
-        _Console.stackPointer = newEnv.getP();
+        _Console.stackPointer = initialPointer;
         return "";
 
     }
