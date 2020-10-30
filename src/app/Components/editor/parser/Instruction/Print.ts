@@ -41,6 +41,7 @@ export class Print extends Instruction {
                     break;
             }
         });
+        result += "printf(\"\\n\");\n"
         result += "// Finaliza Console.log\n";
         return result;
     }
