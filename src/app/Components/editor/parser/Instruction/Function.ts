@@ -3,6 +3,7 @@ import { Environment } from "../Symbol/Environment";
 import { _Type } from '../Types/Type';
 import { Param } from '../Expression/Param';
 import { _Console } from '../Util/Salida';
+import { Symbol } from '../Symbol/Symbol';
 
 export class Function extends Instruction {
     public translate(environment: Environment): String {
@@ -13,7 +14,7 @@ export class Function extends Instruction {
         _Console.labels++;
         // Guardar parametros
         this.parametros.forEach(element => {
-            _Console.pila[_Console.stackPointer] = element.id;
+            _Console.symbols.set(element.id, new Symbol(_Console.stackPointer, element.id, element.type.execute().type, 'Local'));
             _Console.stackPointer++;
         });
         let result = "void " + this.id + "() {\n";
@@ -26,7 +27,7 @@ export class Function extends Instruction {
         // lo mando a salida para no meterlo en mi void
         _Console.salida += result;
         _Console.stackPointer = newEnv.getP();
-        return  "";
+        return "";
 
     }
 

@@ -16,8 +16,9 @@ export class Property extends Expression {
         let result = "";
         switch (this.property) {
             case "length":
-                if (_Console.pila.includes(this.id.id)) {
-                    result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id.id) - environment.getP()) + ";\n";
+                let smb = _Console.symbols.get(this.id.id);
+                if (smb != undefined) {
+                    result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                     _Console.count++;
                     result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                     _Console.count++;

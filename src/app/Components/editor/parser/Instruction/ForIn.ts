@@ -5,44 +5,44 @@ import { _Console } from '../Util/Salida';
 import { Literal } from '../Expression/Literal';
 import { errores } from '../Errores';
 import { Error_ } from '../Error';
+import { Symbol } from '../Symbol/Symbol';
 
 export class ForIn extends Instruction {
 
     public translate(environment: Environment): String {
-        let arrInd = _Console.pila.lastIndexOf(this.array);
-        let result = "";
-        if (arrInd != -1) {
-            let arrStart = _Console.stack[arrInd];
-            // let arrSize = _Console.heap[arrStart];
-
+        let result = "// Inicia ForIn\n";
+        let smb = _Console.symbols.get(this.array);
+        if (smb != undefined) {
+            result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
+            _Console.count++;
             let startT = _Console.count;
+            result += "t" + startT + " = Stack[t" + (_Console.count - 1) + "];\n";
             _Console.count++;
             let sizeT = _Console.count;
+            result += "t" + sizeT + " = Heap[t" + startT + "];\n";
             _Console.count++;
-            result += "t" + startT + " = h + " + arrStart + ";\n";
-            result += "t" + sizeT + " = Heap[t" + startT + "]\n";
-
             let iteratorT = _Console.count;
             _Console.count++;
             let stackInd = _Console.stackPointer;
             _Console.stackPointer++;
-            result += "t" + iteratorT + " = 0\n";
-            let iteratorStackIndex =  _Console.count ;
-            _Console.count ++;
-            result += "t" +iteratorStackIndex+ " = p + " + stackInd + ";\n";
+            result += "t" + iteratorT + " = -1;\n";
+            let iteratorStackIndex = _Console.count;
+            _Console.count++;
+            result += "t" + iteratorStackIndex + " = p + " + stackInd + ";\n";
             result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
-            _Console.saveInPila(stackInd, this.id);
+            let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
+            _Console.symbols.set(this.id, new Symbol(stackInd, this.id, 0, ambito));
             _Console.saveInStack(stackInd, 0);
             let alfa = _Console.labels;
             _Console.labels++;
             result += "l" + alfa + ":\n";
             // Condicion y asignacion de i
-            result += "t" + iteratorT + " = t" + iteratorT + " + 1\n";
-            result += "t" +iteratorStackIndex+ " = p + " + stackInd + ";\n";
+            result += "t" + iteratorT + " = t" + iteratorT + " + 1;\n";
+            result += "t" + iteratorStackIndex + " = p + " + stackInd + ";\n";
             result += "Stack[t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let inicio = _Console.labels;
             _Console.labels++;
-            result += "t" + (_Console.count) + " = t" + iteratorT + " <= t" + sizeT + ";\n";
+            result += "t" + (_Console.count) + " = t" + iteratorT + " < t" + sizeT + ";\n";
             result += "if(t" + _Console.count + ") goto l" + inicio + ";\n";
             _Console.count++
             let final = _Console.labels;

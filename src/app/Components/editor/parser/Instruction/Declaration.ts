@@ -35,6 +35,7 @@ export class Declaration extends Instruction {
 
     public translate(environment: Environment): String {
         let result = "// Inicia Declaracion\n";
+        let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
         if (this.value != null) {
             if (this.type instanceof ArrayType) {
                 if (this.value != null) {
@@ -44,7 +45,7 @@ export class Declaration extends Instruction {
                     for (let i in this.value) {
                         result += this.translateDimension(this.value[i], environment);
                     }
-                    _Console.saveInPila(_Console.stackPointer, this.id);
+                    _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, 4, ambito));
                     _Console.saveInStack(_Console.stackPointer, _heapInitial);
                     let initTerminal = _Console.count;
                     _Console.count++;
@@ -63,10 +64,9 @@ export class Declaration extends Instruction {
                 result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
                 try {
                     let ret = this.value.execute(environment);
-                    let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
                     if (ret.type == 0 && String(ret.value).includes('.')) ret.type = 9;
                     _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, ret.type, ambito));
-                    _Console.saveInPila(_Console.stackPointer, ret.value);
+                    _Console.saveInStack(_Console.stackPointer, ret.value);
                 } catch (e) {
                     console.log(e);
                 }

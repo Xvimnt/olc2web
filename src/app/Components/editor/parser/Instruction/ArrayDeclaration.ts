@@ -12,6 +12,7 @@ import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 import { environment } from 'src/environments/environment';
 import { env } from 'process';
+import { Symbol } from '../Symbol/Symbol';
 
 export class ArrayDeclaration extends Instruction {
 
@@ -45,7 +46,8 @@ export class ArrayDeclaration extends Instruction {
         let result = "// Inicializacion de Array\n";
         let _heapInitial = _Console.heapPointer;
         result += this.translateDimension(this.type.dimensions, this.value.execute(environment).value);
-        _Console.saveInPila(_Console.stackPointer, this.id);
+        let ambito = (environment.getAnterior() == null) ? "Global" : "Local";        
+        _Console.symbols.set(this.id,new Symbol(_Console.stackPointer,this.id,5,ambito))
         _Console.saveInStack(_Console.stackPointer, _heapInitial);
         let initTerminal = _Console.count;
         _Console.count++;

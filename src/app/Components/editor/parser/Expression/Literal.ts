@@ -4,7 +4,6 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
-import { Console } from 'console';
 
 export class Literal extends Expression {
 
@@ -21,6 +20,7 @@ export class Literal extends Expression {
                 _Console.heapPointer++;
             }
             result += "t" + _Console.count + " = h + " + (_Console.heapPointer - nwStr.length - 1) + ";\n";
+            _Console.printOption = this.type;
         }
         else if (this.type == 2) {
             result += "t" + _Console.count + " = " + ((this.value == 'true') ? 1 : 0) + ";\n";

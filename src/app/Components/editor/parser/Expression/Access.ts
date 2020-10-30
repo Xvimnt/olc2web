@@ -12,8 +12,9 @@ export class Access extends Expression {
     public translate(environment: Environment): String {
         let result = "";
         if (this.id instanceof Array) {
-            if (_Console.pila.includes(this.id[0])) {
-                result += "t" + _Console.count + " = p + " + (_Console.pila.lastIndexOf(this.id[0]) - environment.getP()) + ";\n";
+            let smb = _Console.symbols.get(this.id[0]);
+            if (smb != undefined) {
+                result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[t" + (_Console.count - 1) + "];\n";
                 _Console.count++;

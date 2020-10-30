@@ -35,6 +35,9 @@ export class Print extends Instruction {
                 case 9:
                     result += 'printf("%f",(float) t' + (_Console.count - 1) + ');\n';
                     break;
+                case 10:
+                    result += 'printf("%c",t' + (_Console.count - 1) + ');\n';
+                    break;
             }
         });
         result += "// Finaliza Console.log\n";

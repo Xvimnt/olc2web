@@ -12,10 +12,10 @@ export enum OperationOption {
 export class Operation extends Instruction {
 
     public translate(environment: Environment): String {
-        let result = "";
-        let stckIndex = _Console.pila.lastIndexOf(this.id);
-        if (stckIndex != -1) {
-            result += "t" + _Console.count + " = p + " + (stckIndex - environment.getP()) + ";\n";
+        let result = "// Inicia " + this.getName() + "\n";
+        let smb = _Console.symbols.get(this.id);
+        if (smb != undefined) {
+            result += "t" + _Console.count + " = p + " + (smb.valor) + ";\n";
             _Console.count++;
             result += "t" + _Console.count + " = Stack[t" + (_Console.count - 1) + "];\n";
             _Console.count++;
@@ -30,7 +30,7 @@ export class Operation extends Instruction {
                 result += "Stack[t" + (_Console.count - 3) + "] = t" + (_Console.count - 1) + ";\n";
             }
         }
-        return result;
+        return result + "// Finaliza " + this.getName() + "\n";
     }
 
     private getName() {

@@ -16,6 +16,7 @@ import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 import { env } from 'process';
 import { Literal } from '../Expression/Literal';
+import { strict } from 'assert';
 
 export class Call extends Instruction {
 
@@ -32,8 +33,10 @@ export class Call extends Instruction {
         environment.setP(_Console.stackPointer - 1);
         if (this.id instanceof Access) result += this.id.getID() + "();\n"
         else if (this.id instanceof Property) {
-            let strIndex = _Console.pila.lastIndexOf(this.id.id.id);
-            if (strIndex != -1) {
+            let strId = this.id.id.id;
+            let smb = _Console.symbols.get(strId);
+            if (smb != undefined) {
+                let strIndex = smb.valor;
                 let originalIndex, sizeTemp, newStrInd, pointerTemp;
                 switch (this.id.getProperty()) {
                     case "charAt":
@@ -54,8 +57,10 @@ export class Call extends Instruction {
                         result += "t" + _Console.count + " = Heap[t" + (_Console.count - 1) + "];\n";
                         _Console.count++;
                         result += "// Finaliza CharAt\n";
+                        _Console.printOption = 10;
                         break;
                     case "ToLowerCase":
+                        console.log('entra a lower');
                         result += "// Inicia ToLowerCase\n";
                         // Obtener string
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
@@ -72,7 +77,7 @@ export class Call extends Instruction {
                         result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                         _Console.count++;
                         result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                         _Console.heapPointer++;
                         pointerTemp = _Console.count;
                         _Console.count++;
@@ -112,7 +117,7 @@ export class Call extends Instruction {
                         result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                         _Console.count++;
                         result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                         _Console.heapPointer++;
                         pointerTemp = _Console.count;
                         _Console.count++;
@@ -136,8 +141,9 @@ export class Call extends Instruction {
                         result += "// Finaliza ToUpperCase\n";
                         break;
                     case "concat":
-                        let strIndex2 = _Console.pila.lastIndexOf(this.expresiones[0].id);
-                        if (strIndex2 != -1) {
+                        let smb2 = _Console.symbols.get(this.expresiones[0].id);
+                        if (smb2 != undefined) {
+                            let strIndex2 = smb2.valor;
                             result += "// Inicia concat\n";
                             // Obtener string
                             result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
@@ -168,7 +174,7 @@ export class Call extends Instruction {
                             result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
                             _Console.count++;
                             result += "Heap[t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-                            _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.pila[strIndex]]);
+                            _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                             _Console.heapPointer++;
                             // Copia la primer string
                             pointerTemp = _Console.count;
@@ -209,7 +215,7 @@ export class Call extends Instruction {
                         } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
                         break;
                     default:
-                        errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
+                        errores.push(new Error_(this.line, this.column, 'Semantico', 'Propiedad no exitente'));
                         break
 
                 }
