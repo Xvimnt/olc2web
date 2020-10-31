@@ -142,7 +142,7 @@ export class Declaration extends Instruction {
                     if (struct instanceof _Struct) {
                         // Validar que los indices esten correctos
                         // Primero se valida el numero de parametros
-                        if (struct.getContent().length != this.value.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos invalidos en type'));
+                        // if (struct.getContent().length != this.value.length) errores.push(new Error_(this.line, this.column, 'Semantico', 'Numero de atributos invalidos en type'));
                         // Luego se valida que cada parametro exista y sea del tipo correcto
                         for (let i in this.value) {
                             const att = struct.getAtribute(this.value[i].id);

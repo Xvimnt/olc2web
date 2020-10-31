@@ -14,7 +14,7 @@ import { _Console } from '../Util/Salida';
 export class Property extends Expression {
     public translate(environment: Environment): String {
         let result = "";
-        switch (this.property) {
+        switch (this.property.toLowerCase()) {
             case "length":
                 let smb = _Console.symbols.get(this.id.id);
                 if (smb != undefined) {
@@ -24,6 +24,7 @@ export class Property extends Expression {
                     _Console.count++;
                     result += "t" + _Console.count + " = " + "Heap[(int)t" + (_Console.count - 1) + "];\n";
                     _Console.count++;
+                    _Console.printOption = 0;
                 } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
                 break;
         }

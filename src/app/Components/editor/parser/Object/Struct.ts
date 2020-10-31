@@ -2,7 +2,7 @@ import { _Type } from '../Types/Type';
 
 export class _Struct {
 
-    constructor(private content: any[]) { }
+    constructor(private content: any) { }
 
     public getContent() {
         return this.content;

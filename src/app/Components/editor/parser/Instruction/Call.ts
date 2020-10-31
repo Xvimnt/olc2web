@@ -36,9 +36,9 @@ export class Call extends Instruction {
             let smb = _Console.symbols.get(strId);
             if (smb != undefined) {
                 let strIndex = smb.valor;
-                let originalIndex, sizeTemp, newStrInd, pointerTemp;
-                switch (this.id.getProperty()) {
-                    case "charAt":
+                let originalIndex, sizeTemp, newStrInd, pointerTemp,labelInicio,labelSalida,originTemp;
+                switch (this.id.getProperty().toLowerCase()) {
+                    case "charat":
                         result += "// Inicia CharAt\n";
                         // Obtener string
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
@@ -58,8 +58,7 @@ export class Call extends Instruction {
                         result += "// Finaliza CharAt\n";
                         _Console.printOption = 10;
                         break;
-                    case "ToLowerCase":
-                        console.log('entra a lower');
+                    case "tolowercase":
                         result += "// Inicia ToLowerCase\n";
                         // Obtener string
                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
@@ -79,64 +78,110 @@ export class Call extends Instruction {
                         _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
                         _Console.heapPointer++;
                         pointerTemp = _Console.count;
+                        result += "t" + pointerTemp + " = t" + newStrInd + " + t" + sizeTemp + ";\n";
                         _Console.count++;
-                        result += "t" + pointerTemp + " = 0;\n";
-                        result += "l" + _Console.labels + ":\n";
+                        labelInicio = _Console.labels;
+                        result += "l" + labelInicio + ":\n";
                         _Console.labels++;
-                        result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
                         result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
+                        originTemp = _Console.count;
                         result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
                         _Console.count++;
-                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " + 32;\n";
+                        // Ver si es letra
+                        result += "t" + _Console.count + " = t" + originTemp + " > 64;\n";
                         _Console.count++;
+                        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
+                        _Console.labels ++;
+                        labelSalida = _Console.labels;
+                        result += "goto l" + _Console.labels + ";\n";
+                        _Console.labels++;
+                        result += "l" + (_Console.labels - 2) +":\n";
+                        result += "t" + _Console.count + " = t" + (_Console.count - 2) + " < 91;\n";
+                        _Console.count++;
+                        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
+                        _Console.labels ++;
+                        result += "goto l" + labelSalida + ";\n";
+                        result += "l" + (_Console.labels - 1) +":\n";
+                        result += "t" + _Console.count + " = t" + originTemp + " + 32;\n";
+                        result += "goto l" + _Console.labels + ";\n";
+                        _Console.labels++;
+                        result += "l" + labelSalida +":\n";
+                        result += "t" + _Console.count + " = t" + originTemp + ";\n";
+                        _Console.count++;
+                        result += "l" + (_Console.labels  - 1) +":\n";
+                        // Guardar nueva string en heap
                         result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
                         result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
                         _Console.count++;
-                        result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
+                        result += "t" + _Console.count + " = t" + newStrInd + " <= t" + pointerTemp + ";\n";
                         _Console.count++;
-                        result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                        result += "if(t" + (_Console.count - 1) + ") goto l" + labelInicio + ";\n";
                         result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
+                        _Console.count++;
                         _Console.printOption = 1;
                         result += "// Finaliza ToLowerCase\n";
                         break;
-                    case "ToUpperCase":
+                    case "touppercase":
                         result += "// Inicia ToUpperCase\n";
-                        // Obtener string
-                        result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
-                        _Console.count++;
-                        originalIndex = _Console.count;
-                        result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
-                        _Console.count++;
-                        // obtiene el size del string
-                        sizeTemp = _Console.count;
-                        result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
-                        _Console.count++;
-                        // obtiene la nueva direccion para la string
-                        newStrInd = _Console.count;
-                        result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
-                        _Console.count++;
-                        result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
-                        _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
-                        _Console.heapPointer++;
-                        pointerTemp = _Console.count;
-                        _Console.count++;
-                        result += "t" + pointerTemp + " = 0;\n";
-                        result += "l" + _Console.labels + ":\n";
-                        _Console.labels++;
-                        result += "t" + pointerTemp + " = t" + pointerTemp + " + 1;\n";
-                        result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
-                        result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
-                        _Console.count++;
-                        result += "t" + _Console.count + " = t" + (_Console.count - 1) + " - 32;\n";
-                        _Console.count++;
-                        result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
-                        result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
-                        _Console.count++;
-                        result += "t" + _Console.count + " = t" + pointerTemp + " <= t" + sizeTemp + ";\n";
-                        _Console.count++;
-                        result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
-                        result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
-                        _Console.printOption = 1;
+                         // Obtener string
+                         result += "t" + _Console.count + " = p + " + (strIndex) + ";\n";
+                         _Console.count++;
+                         originalIndex = _Console.count;
+                         result += "t" + _Console.count + " = Stack[(int)t" + (_Console.count - 1) + "];\n";
+                         _Console.count++;
+                         // obtiene el size del string
+                         sizeTemp = _Console.count;
+                         result += "t" + _Console.count + " = Heap[(int)t" + (_Console.count - 1) + "];\n";
+                         _Console.count++;
+                         // obtiene la nueva direccion para la string
+                         newStrInd = _Console.count;
+                         result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                         _Console.count++;
+                         result += "Heap[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+                         _Console.saveInHeap(_Console.heapPointer, _Console.heap[_Console.stack[strIndex]]);
+                         _Console.heapPointer++;
+                         pointerTemp = _Console.count;
+                         result += "t" + pointerTemp + " = t" + newStrInd + " + t" + sizeTemp + ";\n";
+                         _Console.count++;
+                         labelInicio = _Console.labels;
+                         result += "l" + labelInicio + ":\n";
+                         _Console.labels++;
+                         result += "t" + originalIndex + " = t" + originalIndex + " + 1;\n";
+                         originTemp = _Console.count;
+                         result += "t" + _Console.count + " = Heap[(int)t" + originalIndex + "];\n";
+                         _Console.count++;
+                         // Ver si es letra
+                         result += "t" + _Console.count + " = t" + originTemp + " > 96;\n";
+                         _Console.count++;
+                         result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
+                         _Console.labels ++;
+                         labelSalida = _Console.labels;
+                         result += "goto l" + _Console.labels + ";\n";
+                         _Console.labels++;
+                         result += "l" + (_Console.labels - 2) +":\n";
+                         result += "t" + _Console.count + " = t" + (_Console.count - 2) + " < 123;\n";
+                         _Console.count++;
+                         result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
+                         _Console.labels ++;
+                         result += "goto l" + labelSalida + ";\n";
+                         result += "l" + (_Console.labels - 1) +":\n";
+                         result += "t" + _Console.count + " = t" + originTemp + " - 32;\n";
+                         result += "goto l" + _Console.labels + ";\n";
+                         _Console.labels++;
+                         result += "l" + labelSalida +":\n";
+                         result += "t" + _Console.count + " = t" + originTemp + ";\n";
+                         _Console.count++;
+                         result += "l" + (_Console.labels  - 1) +":\n";
+                         // Guardar nueva string en heap
+                         result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                         result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                         _Console.count++;
+                         result += "t" + _Console.count + " = t" + newStrInd + " <= t" + pointerTemp + ";\n";
+                         _Console.count++;
+                         result += "if(t" + (_Console.count - 1) + ") goto l" + labelInicio + ";\n";
+                         result += "t" + _Console.count + " = t" + newStrInd + " - t" + sizeTemp + ";\n";
+                         _Console.count++;
+                         _Console.printOption = 1;
                         result += "// Finaliza ToUpperCase\n";
                         break;
                     case "concat":
