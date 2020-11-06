@@ -89,6 +89,134 @@ export class Arithmetic extends Expression {
             result += "if(t" + expT + " > 0) goto l" + alpha + ";\n";
             result += "t" + _Console.count + " = t" + leftT + ";\n";
             _Console.count++;
+        } else if (this.type == ArithmeticOption.PLUS) {
+            const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
+            const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
+            if (leftValue == null || rightValue == null || leftValue == undefined || rightValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
+            else if (leftValue.type == 1 && rightValue.type == 1) {
+                result += "// Inicia Concatenacion\n";
+                // obtiene el size del string
+                let sizeTemp = _Console.count;
+                result += "t" + _Console.count + " = Heap[(int)t" + leftT + "];\n";
+                _Console.count++;
+                // obtiene el size del string2
+                let sizeTemp2 = _Console.count;
+                result += "t" + _Console.count + " = Heap[(int)t" + rigthT + "];\n";
+                _Console.count++;
+                // Suma los size
+                let newSizeTemp = _Console.count;
+                result += "t" + _Console.count + " = t" + sizeTemp + " + t" + sizeTemp2 + ";\n";
+                _Console.count++;
+                // obtiene la nueva direccion para la string
+                let newStrInd = _Console.count;
+                result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                _Console.count++;
+                let initialIndex = _Console.count;
+                result += "t" + initialIndex + " = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "Heap[(int)t" + newStrInd + "] = t" + newSizeTemp + ";\n";
+                _Console.heapPointer++;
+                // El fin de la primer string
+                let end = _Console.count;
+                result += "t" + end + " = t" + leftT + " + t" + sizeTemp + ";\n";
+                _Console.count++;
+                // Copia la primer string
+                result += "l" + _Console.labels + ":\n";
+                _Console.labels++;
+                result += "t" + leftT + " = t" + leftT + " + 1;\n";
+                result += "t" + _Console.count + " = Heap[(int)t" + leftT + "];\n";
+                _Console.count++;
+                result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = t" + leftT + " <= t" + end + ";\n";
+                _Console.count++;
+                result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                // El fin de la segunda string
+                let end2 = _Console.count;
+                result += "t" + end2 + " = t" + rigthT + " + t" + sizeTemp2 + ";\n";
+                _Console.count++;
+                // Copia la segunda string
+                result += "l" + _Console.labels + ":\n";
+                _Console.labels++;
+                result += "t" + rigthT + " = t" + rigthT + " + 1;\n";
+                result += "t" + _Console.count + " = Heap[(int)t" + rigthT + "];\n";
+                _Console.count++;
+                result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = t" + rigthT + " <= t" + end2 + ";\n";
+                _Console.count++;
+                result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                // Regresa el index de la nueva string
+                result += "t" + _Console.count + " = t" + initialIndex + ";\n";
+                _Console.count++;
+                result += "// Finaliza Concatenacion\n";
+            } else if (leftValue.type == 1) {
+
+            } else if (rightValue.type == 1) {
+                result += "// Inicia Concatenacion\n";
+                // obtiene el size del string
+                let sizeTemp = _Console.count;
+                result += "t" + _Console.count + " = Heap[(int)t" + leftT + "];\n";
+                _Console.count++;
+                // obtiene el size del string2
+                let sizeTemp2 = _Console.count;
+                result += "t" + _Console.count + " = Heap[(int)t" + rigthT + "];\n";
+                _Console.count++;
+                // Suma los size
+                let newSizeTemp = _Console.count;
+                result += "t" + _Console.count + " = t" + sizeTemp + " + t" + sizeTemp2 + ";\n";
+                _Console.count++;
+                // obtiene la nueva direccion para la string
+                let newStrInd = _Console.count;
+                result += "t" + newStrInd + " = h + " + _Console.heapPointer + ";\n";
+                _Console.count++;
+                let initialIndex = _Console.count;
+                result += "t" + initialIndex + " = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "Heap[(int)t" + newStrInd + "] = t" + newSizeTemp + ";\n";
+                _Console.heapPointer++;
+                // El fin de la primer string
+                let end = _Console.count;
+                result += "t" + end + " = t" + leftT + " + t" + sizeTemp + ";\n";
+                _Console.count++;
+                // Copia la primer string
+                result += "l" + _Console.labels + ":\n";
+                _Console.labels++;
+                result += "t" + leftT + " = t" + leftT + " + 1;\n";
+                result += "t" + _Console.count + " = Heap[(int)t" + leftT + "];\n";
+                _Console.count++;
+                result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = t" + leftT + " <= t" + end + ";\n";
+                _Console.count++;
+                result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                // El fin de la segunda string
+                let end2 = _Console.count;
+                result += "t" + end2 + " = t" + rigthT + " + t" + sizeTemp2 + ";\n";
+                _Console.count++;
+                // Copia la segunda string
+                result += "l" + _Console.labels + ":\n";
+                _Console.labels++;
+                result += "t" + rigthT + " = t" + rigthT + " + 1;\n";
+                result += "t" + _Console.count + " = Heap[(int)t" + rigthT + "];\n";
+                _Console.count++;
+                result += "t" + newStrInd + " = t" + newStrInd + " + 1;\n";
+                result += "Heap[(int)t" + newStrInd + "] = t" + (_Console.count - 1) + ";\n";
+                _Console.count++;
+                result += "t" + _Console.count + " = t" + rigthT + " <= t" + end2 + ";\n";
+                _Console.count++;
+                result += "if(t" + (_Console.count - 1) + ") goto l" + (_Console.labels - 1) + ";\n";
+                // Regresa el index de la nueva string
+                result += "t" + _Console.count + " = t" + initialIndex + ";\n";
+                _Console.count++;
+                result += "// Finaliza Concatenacion\n";
+            } else {
+                result += "t" + _Console.count + " = t" + leftT + this.getTypeSign() + "t" + rigthT + ";\n";
+                _Console.count++;
+            }
         }
         else {
             result += "t" + _Console.count + " = t" + leftT + this.getTypeSign() + "t" + rigthT + ";\n";
