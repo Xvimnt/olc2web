@@ -77,6 +77,7 @@ export class EditorComponent {
       if (result.isConfirmed) {
         try {
           this.ast = optimizer.parse(this.entrada.toString());
+
           Swal.fire({
             title: 'Cool!',
             text: 'Su codigo intermedio se ha optimizado correctamente...',
@@ -99,6 +100,15 @@ export class EditorComponent {
       } else if (result.isDenied) {
         try {
           this.ast = optimizer.parse(this.salida.toString());
+          try {
+            for (const instr of this.ast) {
+              console.log('optimizando',instr);
+              instr.optimize();
+            }
+          } catch (e) {
+            console.log(e);
+          }
+
           Swal.fire({
             title: 'Cool!',
             text: 'Su codigo intermedio se ha optimizado correctamente...',
@@ -108,6 +118,7 @@ export class EditorComponent {
             background: 'black'
           });
         } catch (e) {
+          console.log(e);
           Swal.fire({
             title: 'Error',
             text: 'Ocurrieron errores en la optimizacion...',

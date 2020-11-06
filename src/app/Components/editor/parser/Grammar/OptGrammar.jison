@@ -7,18 +7,8 @@
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
     // Instrucciones
-    const {Operation, OperationOption} = require('../Instruction/Operation');
-    const {Print} = require('../Instruction/Print');
-    const {Statement} = require('../Instruction/Statement');
-    const {Declaration} = require('../Instruction/Declaration');
-    const {Assignation} = require('../Instruction/Assignation');
-    const {Return} = require('../Instruction/Return');
-    const {Call} = require('../Instruction/Call');
-    const {Function} = require('../Instruction/Function');
-    const {_Array} = require('../Object/Array');
-    const { Error_ } = require('../Error');
-    const { errores } = require('../Errores');
-
+    const {Assignation} = require('../Optimizer/Assignation');
+    const {ArrayAssignation} = require('../Optimizer/ArrayAssignation');
 %}
 
 %lex
@@ -71,6 +61,8 @@ template [`]([^`])*[`]
 "return"                return 'RETURN'
 "include"               return 'INCLUDE'
 "float"                 return 'FLOAT'
+"int"                 return 'INT'
+"char"                 return 'CHAR'
 "void"                  return 'VOID'
 "goto"                  return 'GOTO'
 "printf"                  return 'PRINT'
@@ -130,12 +122,14 @@ Statement
     | 'GOTO' ID ';' 
     | ID ':'
     | PRINT '(' STRING ',' Expr ')' ';'
+    | PRINT '(' STRING ')' ';'
     | RETURN ';'
+    | 'IF' '(' Expr ')' 'GOTO' ID ';'
 ;
 
 Assignation
-    :  ID '=' Expr
-    | ID '[' F ']' '=' Expr
+    :  ID '=' Expr { $$ = new Assignation($1, $3, @1.first_line,@1.first_column) }
+    | ID '[' F ']' '=' Expr { $$ = new ArrayAssignation($1, $3, $6, @1.first_line,@1.first_column) }
 ;
 
 Declarations 
@@ -202,6 +196,10 @@ Expr
     {
         $$ = $1;
     }
+    | Cast F
+    {
+        $$ = $2;
+    }
 ;
 
 F   : DECIMAL
@@ -215,4 +213,18 @@ F   : DECIMAL
     | ID { 
         $$ = $1;
     }
+    | ID '[' ID ']'{ 
+        $$ = $1;
+    }
+    | ID '[' Cast ID ']'{ 
+        $$ = $1;
+    }
+;
+
+Cast : '(' NativeType ')'
+;
+
+NativeType : 'INT'
+             | 'FLOAT'
+             | 'CHAR'
 ;
