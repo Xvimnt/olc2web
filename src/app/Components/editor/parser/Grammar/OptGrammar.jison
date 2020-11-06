@@ -4,6 +4,7 @@
     const {Relational, RelationalOption} = require('../Expression/Relational');
     const {Logic, LogicOption} = require('../Expression/Logic');
     const {Unary, UnaryOption} = require('../Expression/Unary');
+    const {ArrayAccess} = require('../Expression/ArrayAccess');
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
     // Instrucciones
@@ -216,20 +217,20 @@ F   : DECIMAL
         $$ = new Literal($1, @1.first_line, @1.first_column, 0);
     }
     | ID { 
-        $$ = $1;
+        $$ = new Literal($1, @1.first_line, @1.first_column, 8);
     }
     | ID '[' ID ']'{ 
-        $$ = $1;
+        $$ = new ArrayAccess($1, null, $3, @1.first_line, @1.first_column);
     }
     | ID '[' Cast ID ']'{ 
-        $$ = $1;
+        $$ = new ArrayAccess($1, $3, $4, @1.first_line, @1.first_column);
     }
 ;
 
-Cast : '(' NativeType ')'
+Cast : '(' NativeType ')' {$$ = $2}
 ;
 
-NativeType : 'INT'
-             | 'FLOAT'
-             | 'CHAR'
+NativeType : 'INT' {$$ = 'int'}
+             | 'FLOAT'  {$$ = 'float'}
+             | 'CHAR'  {$$ = 'char'}
 ;

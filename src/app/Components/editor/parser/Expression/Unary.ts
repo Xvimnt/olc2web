@@ -4,6 +4,7 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export enum UnaryOption {
     NEGATION,
@@ -11,6 +12,9 @@ export enum UnaryOption {
 }
 
 export class Unary extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         let result = this.value.translate(environment);
         if (this.type == UnaryOption.NEGATION)

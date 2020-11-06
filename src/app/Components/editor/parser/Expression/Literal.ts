@@ -4,8 +4,14 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
+import { environment } from 'src/environments/environment';
 
 export class Literal extends Expression {
+    public build(): String {
+       let env = new Environment(null);
+       return this.execute(env).value;
+    }
 
     public translate(environment: Environment): String {
         let result = "";

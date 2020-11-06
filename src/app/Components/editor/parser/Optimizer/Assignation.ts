@@ -5,7 +5,7 @@ export class Assignation {
     constructor(public id: string, public expr: Expression, line: number, column: number) { }
     
     build(): string {
-        return this.id + " = " + this.expr + ";\n";
+        return this.id + " = " + this.expr.build() + ";\n";
     }
 
     regla1(env: _Optimizer) {

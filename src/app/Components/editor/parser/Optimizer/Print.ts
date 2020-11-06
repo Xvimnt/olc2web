@@ -6,7 +6,10 @@ export class Print {
     constructor(public content: string, public expression: Expression, line: number, column: number) { }
 
     build(): string {
-        return "printf(" + this.content + ");\n";
+        if (this.expression == null)
+            return "printf(" + this.content + ");\n";
+        else
+            return "printf(" + this.content + ", " + this.expression.build() + ");\n";
     }
 
     regla1(env: _Optimizer) {

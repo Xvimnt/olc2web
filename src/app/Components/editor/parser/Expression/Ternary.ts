@@ -1,10 +1,14 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type } from "../Abstract/Retorno";
+import { _Optimizer } from '../Optimizer/Optimizer';
 import { Environment } from "../Symbol/Environment";
 import { _Console } from '../Util/Salida';
 
 
 export class Ternary extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         let result = this.condition.translate(environment);
         let condition = _Console.count - 1;

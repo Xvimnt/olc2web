@@ -4,6 +4,7 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export enum ArithmeticOption {
     PLUS,
@@ -15,6 +16,9 @@ export enum ArithmeticOption {
 }
 
 export class Arithmetic extends Expression {
+    public build(): String {
+       return this.left.build() + this.getTypeSign() + this.right.build();
+    }
 
     constructor(private left: Expression, private right: Expression, private type: ArithmeticOption, line: number, column: number) {
         super(line, column);
@@ -71,6 +75,7 @@ export class Arithmetic extends Expression {
         result += "node" + count + " -> " + "node" + count + "2;";
         return result;
     }
+
 
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);

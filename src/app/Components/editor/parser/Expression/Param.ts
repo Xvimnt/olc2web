@@ -2,8 +2,12 @@ import { Expression } from "../Abstract/Expression";
 import { Environment } from "../Symbol/Environment";
 import { Retorno } from "../Abstract/Retorno";
 import { _Type } from '../Types/Type';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export class Param extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         throw new Error('Method not implemented.');
     }

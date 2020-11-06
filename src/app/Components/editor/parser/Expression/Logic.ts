@@ -4,6 +4,7 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export enum LogicOption {
     AND,
@@ -12,6 +13,9 @@ export enum LogicOption {
 }
 
 export class Logic extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
 
 
     public translate(environment: Environment): String {

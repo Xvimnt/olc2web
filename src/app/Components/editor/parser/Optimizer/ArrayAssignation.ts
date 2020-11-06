@@ -2,10 +2,10 @@ import { Expression } from "../Abstract/Expression";
 import { _Optimizer } from './Optimizer';
 export class ArrayAssignation {
 
-    constructor(public id: string, public index: string, public expr: Expression, line: number, column: number) { }
+    constructor(public id: string, public index: Expression, public expr: Expression, line: number, column: number) { }
 
     build(): string {
-        return this.id + "[" + this.index + "] = " + this.expr + ";\n";
+        return this.id + "[" + this.index.build() + "] = " + this.expr.build() + ";\n";
     }
 
     regla1(env: _Optimizer) {

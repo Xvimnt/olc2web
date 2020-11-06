@@ -200,18 +200,30 @@ case 37: case 38:
 break;
 case 39:
  
-        this.$ = $$[$0];
+        this.$ = new Literal($$[$0], _$[$0].first_line, _$[$0].first_column, 8);
     
 break;
 case 40:
  
-        this.$ = $$[$0-3];
+        this.$ = new ArrayAccess($$[$0-3], null, $$[$0-1], _$[$0-3].first_line, _$[$0-3].first_column);
     
 break;
 case 41:
  
-        this.$ = $$[$0-4];
+        this.$ = new ArrayAccess($$[$0-4], $$[$0-2], $$[$0-1], _$[$0-4].first_line, _$[$0-4].first_column);
     
+break;
+case 42:
+this.$ = $$[$0-1]
+break;
+case 43:
+this.$ = 'int'
+break;
+case 44:
+this.$ = 'float'
+break;
+case 45:
+this.$ = 'char'
 break;
 }
 },
@@ -368,6 +380,7 @@ parse: function parse(input) {
     const {Relational, RelationalOption} = require('../Expression/Relational');
     const {Logic, LogicOption} = require('../Expression/Logic');
     const {Unary, UnaryOption} = require('../Expression/Unary');
+    const {ArrayAccess} = require('../Expression/ArrayAccess');
     const {Access} = require('../Expression/Access');
     const {Literal} = require('../Expression/Literal');
     // Instrucciones

@@ -1,9 +1,13 @@
 import { Expression } from "../Abstract/Expression";
 import { Retorno, Type, getTypeName } from "../Abstract/Retorno";
+import { _Optimizer } from '../Optimizer/Optimizer';
 import { Environment } from '../Symbol/Environment';
 import { _Type } from './Type';
 
 export class ArrayType extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         throw new Error('Method not implemented.');
     }

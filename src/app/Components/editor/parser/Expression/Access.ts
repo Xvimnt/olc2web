@@ -8,8 +8,12 @@ import { _Array } from '../Object/Array';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
 import { Literal } from './Literal';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export class Access extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         let result = "";
         if (this.id instanceof Array) {

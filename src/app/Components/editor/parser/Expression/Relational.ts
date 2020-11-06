@@ -4,6 +4,7 @@ import { Environment } from "../Symbol/Environment";
 import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 export enum RelationalOption {
     EQUAL,
@@ -15,6 +16,9 @@ export enum RelationalOption {
 }
 
 export class Relational extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
         let rigthT = _Console.count - 1;

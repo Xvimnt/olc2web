@@ -9,9 +9,13 @@ import { _Array } from '../Object/Array';
 import { isArray } from 'util';
 import { _Struct } from '../Object/Struct';
 import { _Console } from '../Util/Salida';
+import { _Optimizer } from '../Optimizer/Optimizer';
 
 
 export class Property extends Expression {
+    public build(): String {
+        throw new Error('Method not implemented.');
+    }
     public translate(environment: Environment): String {
         let result = "";
         switch (this.property.toLowerCase()) {
