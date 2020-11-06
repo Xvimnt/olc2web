@@ -15,6 +15,7 @@ import Swal from 'sweetalert2'
 import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { errores } from './parser/Errores';
 import { isString } from 'util';
+import { _Optimizer } from './parser/Optimizer/Optimizer';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
@@ -63,6 +64,66 @@ export class EditorComponent {
     this.flag = true;
   }
 
+  cOutput(body: string) {
+    // Muestra el encabezado
+    this.salida = '#include <stdio.h> \n\n';
+    this.salida += 'float Heap[16384];\n';
+    this.salida += 'float Stack[16384]; \n';
+    this.salida += 'float p; \n';
+    this.salida += 'float h; \n';
+    this.salida += 'float ';
+    for (let index = 0; index < _Console.count; index++) {
+      if (index > 0 && index % 8 == 0) {
+        this.salida = this.salida.substring(0, this.salida.length - 2);
+        this.salida += ";\nfloat "
+      }
+      this.salida += "t" + index + ", ";
+    }
+    this.salida = this.salida.substring(0, this.salida.length - 2);
+    this.salida += ";\n\n";
+    this.salida += "void main() {\n"
+    this.salida += body;
+    this.salida += "\nreturn;\n"
+    this.salida += "}\n\n";
+    this.salida += _Console.salida;
+  }
+
+  executeOpt(entrada: string) {
+    try {
+      this.ast = optimizer.parse(entrada);
+      let env = new _Optimizer();
+      try {
+        for (const instr of this.ast[0]) {
+          instr.regla1(env);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+
+
+      Swal.fire({
+        title: 'Cool!',
+        text: 'Su codigo intermedio se ha optimizado correctamente...',
+        icon: 'success',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
+      }).then(() => {
+        this.cOutput(env.salida);
+      });
+    } catch (e) {
+      console.log(e);
+      Swal.fire({
+        title: 'Error',
+        text: 'Ocurrieron errores en la optimizacion...',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
+      });
+    }
+  }
+
   optimizar() {
     Swal.fire({
       title: 'En donde se encuentra el codigo a optimizar?',
@@ -74,61 +135,8 @@ export class EditorComponent {
       background: 'black',
       icon: 'info'
     }).then((result) => {
-      if (result.isConfirmed) {
-        try {
-          this.ast = optimizer.parse(this.entrada.toString());
-
-          Swal.fire({
-            title: 'Cool!',
-            text: 'Su codigo intermedio se ha optimizado correctamente...',
-            icon: 'success',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: 'rgb(8, 101, 104)',
-            background: 'black'
-          });
-        } catch (e) {
-          console.log(e);
-          Swal.fire({
-            title: 'Error',
-            text: 'Ocurrieron errores en la optimizacion...',
-            icon: 'error',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: 'rgb(8, 101, 104)',
-            background: 'black'
-          });
-        }
-      } else if (result.isDenied) {
-        try {
-          this.ast = optimizer.parse(this.salida.toString());
-          try {
-            for (const instr of this.ast) {
-              console.log('optimizando',instr);
-              instr.optimize();
-            }
-          } catch (e) {
-            console.log(e);
-          }
-
-          Swal.fire({
-            title: 'Cool!',
-            text: 'Su codigo intermedio se ha optimizado correctamente...',
-            icon: 'success',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: 'rgb(8, 101, 104)',
-            background: 'black'
-          });
-        } catch (e) {
-          console.log(e);
-          Swal.fire({
-            title: 'Error',
-            text: 'Ocurrieron errores en la optimizacion...',
-            icon: 'error',
-            confirmButtonText: 'Entendido',
-            confirmButtonColor: 'rgb(8, 101, 104)',
-            background: 'black'
-          });
-        }
-      }
+      if (result.isConfirmed) this.executeOpt(this.entrada.toString());
+      else if (result.isDenied) this.executeOpt(this.salida.toString());
     });
   }
 
@@ -188,28 +196,7 @@ export class EditorComponent {
         console.log(e);
       }
       if (errores.length == 0) {
-        // Muestra el encabezado
-        let body = this.salida;
-        this.salida = '#include <stdio.h> \n\n';
-        this.salida += 'float Heap[16384];\n';
-        this.salida += 'float Stack[16384]; \n';
-        this.salida += 'float p; \n';
-        this.salida += 'float h; \n';
-        this.salida += 'float ';
-        for (let index = 0; index < _Console.count; index++) {
-          if (index > 0 && index % 8 == 0) {
-            this.salida = this.salida.substring(0, this.salida.length - 2);
-            this.salida += ";\nfloat "
-          }
-          this.salida += "t" + index + ", ";
-        }
-        this.salida = this.salida.substring(0, this.salida.length - 2);
-        this.salida += ";\n\n";
-        this.salida += "void main() {\n"
-        this.salida += body;
-        this.salida += "\nreturn;\n"
-        this.salida += "}\n\n";
-        this.salida += _Console.salida;
+        this.cOutput(this.salida);
       } else {
         if (errores.length != 0) {
           errores.forEach(error => {

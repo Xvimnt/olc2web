@@ -110,7 +110,7 @@ case 9:
  this.$ = $$[$0-1] 
 break;
 case 10:
- this.$ = new Goto($$[$0-2], _$[$0-2].first_line, _$[$0-2].first_column) 
+ this.$ = new Goto($$[$0-1], _$[$0-2].first_line, _$[$0-2].first_column) 
 break;
 case 11:
  this.$ = new Label($$[$0-1], _$[$0-1].first_line, _$[$0-1].first_column) 

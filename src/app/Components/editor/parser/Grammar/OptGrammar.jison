@@ -124,7 +124,7 @@ Statements
 
 Statement 
     : Assignation ';' { $$ = $1 }
-    | 'GOTO' ID ';' { $$ = new Goto($1, @1.first_line, @1.first_column) }
+    | 'GOTO' ID ';' { $$ = new Goto($2, @1.first_line, @1.first_column) }
     | ID ':' { $$ = new Label($1, @1.first_line, @1.first_column) }
     | PRINT '(' STRING ',' Expr ')' ';' { $$ = new Print($3, $5, @1.first_line, @1.first_column) }
     | PRINT '(' STRING ')' ';' { $$ = new Print($3, null, @1.first_line, @1.first_column) }
