@@ -1,8 +1,31 @@
-
 import { Error_ } from "../Error";
-import { Environment } from '../Symbol/Environment';
+import { Rule } from '../Optimizer/Rule';
 
 export class Table {
+
+    public rules(rules: Array<Rule>) {
+        let result = '<table class="table">\n';
+        result += '<thead>\n<tr>\n<th scope="col">#</th>\n'
+        result += '<th scope="col">Linea</th>\n';
+        result += '<th scope="col">Tipo</th>\n';
+        result += '<th scope="col">Regla</th>\n';
+        result += '<th scope="col">Cod. Agregado</th>\n';
+        result += '<th scope="col">Cod. Eliminado</th>\n';
+        result += '</tr>\n';
+        result += '</thead>\n';
+        result += '<tbody>\n';
+
+        let count = 1;
+        rules.forEach(element => {
+            result += '<tr>\n';
+            result += '<th scope="row">' + count + '</th>\n';
+            result += element.htmlRow();
+            result += '</tr>\n';
+            count++;
+        });
+        result += '</tbody>\n';
+        return result += '</table>\n</div>';
+    }
 
     public symbols(simbolos: Map<any, any>) {
         let result = '<div class="table-wrapper-scroll-y my-custom-scrollbar">';

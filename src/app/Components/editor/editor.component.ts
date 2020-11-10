@@ -16,6 +16,7 @@ import { faCoffee, faPencilRuler, faGlobe, faFileAlt, faLanguage, faEraser, faSp
 import { errores } from './parser/Errores';
 import { isString } from 'util';
 import { _Optimizer } from './parser/Optimizer/Optimizer';
+import { Rule } from './parser/Optimizer/Rule';
 
 declare var require: any
 const parser = require('./parser/Grammar/Grammar');
@@ -34,6 +35,7 @@ export class EditorComponent {
   entrada = 'console.log("Hello World");';
   salida = '[Xvimnt201700831]MatrioshTS Output: \n\n';
   ast: any;
+  reglas: Array<Rule>;
   env: Environment;
   flag: boolean;
 
@@ -100,7 +102,7 @@ export class EditorComponent {
         console.log(e);
       }
 
-
+      this.reglas = env.reglas;
       Swal.fire({
         title: 'Cool!',
         text: 'Su codigo intermedio se ha optimizado correctamente...',
@@ -275,6 +277,39 @@ export class EditorComponent {
       Swal.fire({
         title: 'Tabla de Simbolos',
         html: new Table().symbols(_Console.symbols),
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black',
+        width: 800
+      })
+    }
+  }
+
+  optTable() {
+    if (this.reglas == undefined) {
+      Swal.fire({
+        title: 'Oops...',
+        text: 'No se ha analizado el codigo aun',
+        icon: 'error',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
+      })
+    }
+    else if (this.reglas.length == 0) {
+      Swal.fire({
+        title: 'Cool!',
+        text: 'No se encontraron optimizaciones en su codigo',
+        icon: 'success',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: 'rgb(8, 101, 104)',
+        background: 'black'
+      })
+    }
+    else {
+      Swal.fire({
+        title: 'Tabla de Reglas',
+        html: new Table().rules(this.reglas),
         confirmButtonText: 'Entendido',
         confirmButtonColor: 'rgb(8, 101, 104)',
         background: 'black',
