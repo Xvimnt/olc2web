@@ -81,7 +81,7 @@ export class EditorComponent {
       }
       this.salida += "t" + index + ", ";
     }
-    this.salida = this.salida.substring(0, this.salida.length - 2);
+    this.salida =(_Console.count != 0) ? this.salida.substring(0, this.salida.length - 2) : this.salida + "t0";
     this.salida += ";\n\n";
     this.salida += "void main() {\n"
     this.salida += body;
@@ -101,7 +101,30 @@ export class EditorComponent {
       } catch (e) {
         console.log(e);
       }
-
+      this.cOutput(env.salida);
+      this.ast = optimizer.parse(this.salida);
+      this.reglas = env.reglas;
+      env = new _Optimizer();
+      env.reglas = this.reglas;
+      try {
+        for (const instr of this.ast[0]) {
+          instr.regla2(env);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      this.cOutput(env.salida);
+      this.ast = optimizer.parse(this.salida);
+      this.reglas = env.reglas;
+      env = new _Optimizer();
+      env.reglas = this.reglas;
+      try {
+        for (const instr of this.ast[0]) {
+          instr.regla3(env);
+        }
+      } catch (e) {
+        console.log(e);
+      }
       this.reglas = env.reglas;
       Swal.fire({
         title: 'Cool!',

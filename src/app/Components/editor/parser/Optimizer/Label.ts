@@ -16,6 +16,12 @@ export class Label {
         env.temp = "";
         env.salida += this.label + ":\n";
     }
+    regla2(env: _Optimizer) {
+        env.salida += this.label + ":\n";
+    }
+    regla3(env: _Optimizer) {
+        env.salida += this.label + ":\n";
+    }
     optimize(env: _Optimizer) {
 
     }

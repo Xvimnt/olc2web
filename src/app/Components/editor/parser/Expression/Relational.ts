@@ -16,9 +16,11 @@ export enum RelationalOption {
 }
 
 export class Relational extends Expression {
+    
     public build(): String {
-        throw new Error('Method not implemented.');
+        return this.left.build() + this.getTypeSign() + this.right.build();
     }
+
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
         let rigthT = _Console.count - 1;

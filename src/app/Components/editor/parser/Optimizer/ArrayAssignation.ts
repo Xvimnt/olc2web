@@ -11,7 +11,12 @@ export class ArrayAssignation {
     regla1(env: _Optimizer) {
         env.temp += this.build();
     }
-    
+    regla2(env: _Optimizer) {
+        env.salida += this.build();
+    }
+    regla3(env: _Optimizer) {
+        env.salida += this.build();
+    }
     optimize(env: _Optimizer) {
         console.log('se esta optimizando');
     }
