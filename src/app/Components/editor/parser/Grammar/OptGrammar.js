@@ -733,87 +733,87 @@ case 5:return 26
 break;
 case 6:return 41
 break;
-case 7:return 24
+case 7:return 40
 break;
-case 8:return 22
+case 8:return 24
 break;
-case 9:return 27
+case 9:return 22
 break;
-case 10:return '.'
+case 10:return 27
 break;
-case 11:return 39
+case 11:return '.'
 break;
-case 12:return 38
+case 12:return 39
 break;
-case 13:return 42
+case 13:return 38
 break;
-case 14:return '?'
+case 14:return 42
 break;
-case 15:return 8
+case 15:return '?'
 break;
-case 16:return 43
+case 16:return 8
 break;
-case 17:return 44
+case 17:return 43
 break;
-case 18:return 10
+case 18:return 44
 break;
-case 19:return 12
+case 19:return 10
 break;
-case 20:return 45
+case 20:return 12
 break;
-case 21:return 46
+case 21:return 45
 break;
-case 22:return 'OR'
+case 22:return 46
 break;
-case 23:return '&&'
+case 23:return 'OR'
 break;
-case 24:return '!'
+case 24:return '&&'
 break;
-case 25:return 31
+case 25:return '!'
 break;
-case 26:return 'NULL'
+case 26:return 31
 break;
-case 27:return 15
+case 27:return 'NULL'
 break;
-case 28:return 16 
+case 28:return 15
 break;
-case 29:return 17
+case 29:return 16 
 break;
-case 30:return 19
+case 30:return 17
 break;
-case 31:return 32
+case 31:return 19
 break;
-case 32:return 34
+case 32:return 32
 break;
-case 33:return 30
+case 33:return 34
 break;
-case 34:return 'ELSE'
+case 34:return 30
 break;
-case 35:return 29
+case 35:return 'ELSE'
 break;
-case 36:return 9
+case 36:return 29
 break;
-case 37:return 36
+case 37:return 9
 break;
-case 38:return 51
+case 38:return 36
 break;
-case 39:return 52
+case 39:return 51
 break;
-case 40:return 14
+case 40:return 52
 break;
-case 41:return 23
+case 41:return 14
 break;
-case 42:return 25
+case 42:return 23
 break;
-case 43:return 11;
+case 43:return 25
 break;
-case 44:return 7
+case 44:return 11;
 break;
-case 45:errores.push(new Error_(yy_.yylloc.first_line, yy_.yylloc.first_column, 'Lexico','Valor inesperado ' + yy_.yytext));  
+case 45:return 7
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/,/^(?:([0-9]+(\.[0-9]+)?))/,/^(?:([0-9]+))/,/^(?:(([\"][^"]*[\"])))/,/^(?:\/)/,/^(?::)/,/^(?:;)/,/^(?:,)/,/^(?:\.)/,/^(?:-)/,/^(?:\+)/,/^(?:%)/,/^(?:\?)/,/^(?:#)/,/^(?:<=)/,/^(?:>=)/,/^(?:<)/,/^(?:>)/,/^(?:==)/,/^(?:!=)/,/^(?:\|\|)/,/^(?:&&)/,/^(?:!)/,/^(?:=)/,/^(?:null\b)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:\[)/,/^(?:\])/,/^(?:if\b)/,/^(?:else\b)/,/^(?:return\b)/,/^(?:include\b)/,/^(?:float\b)/,/^(?:int\b)/,/^(?:char\b)/,/^(?:void\b)/,/^(?:goto\b)/,/^(?:printf\b)/,/^(?:([a-zA-Z_])[a-zA-Z0-9_ñÑ.]*)/,/^(?:$)/,/^(?:.)/],
+rules: [/^(?:\s+)/,/^(?:\/\/.*)/,/^(?:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/])/,/^(?:([0-9]+(\.[0-9]+)?))/,/^(?:([0-9]+))/,/^(?:(([\"][^"]*[\"])))/,/^(?:\/)/,/^(?:\*)/,/^(?::)/,/^(?:;)/,/^(?:,)/,/^(?:\.)/,/^(?:-)/,/^(?:\+)/,/^(?:%)/,/^(?:\?)/,/^(?:#)/,/^(?:<=)/,/^(?:>=)/,/^(?:<)/,/^(?:>)/,/^(?:==)/,/^(?:!=)/,/^(?:\|\|)/,/^(?:&&)/,/^(?:!)/,/^(?:=)/,/^(?:null\b)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:\[)/,/^(?:\])/,/^(?:if\b)/,/^(?:else\b)/,/^(?:return\b)/,/^(?:include\b)/,/^(?:float\b)/,/^(?:int\b)/,/^(?:char\b)/,/^(?:void\b)/,/^(?:goto\b)/,/^(?:printf\b)/,/^(?:([a-zA-Z_])[a-zA-Z0-9_ñÑ.]*)/,/^(?:$)/],
 conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],"inclusive":true}}
 });
 return lexer;

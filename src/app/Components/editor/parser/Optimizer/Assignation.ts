@@ -1,4 +1,5 @@
 import { Expression } from "../Abstract/Expression";
+import { Arithmetic } from '../Expression/Arithmetic';
 import { _Optimizer } from './Optimizer';
 export class Assignation {
 
@@ -19,6 +20,12 @@ export class Assignation {
     }
     regla4(env: _Optimizer) {
         env.salida += this.build();
+    }
+    regla5(env: _Optimizer) {
+        env.temp = this.id;
+        if(this.expr instanceof Arithmetic) env.salida += this.expr.regla5(env);
+        else env.salida += this.build();
+        env.temp = "";
     }
     optimize(env: _Optimizer) {
         console.log('se esta optimizando');

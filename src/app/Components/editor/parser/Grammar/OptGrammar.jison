@@ -34,6 +34,7 @@ template [`]([^`])*[`]
 {string}                return 'STRING'
 
 "/"                     return '/'
+"*"                     return '*'
 ":"                     return ':'
 ";"                     return ';'
 ","                     return ','
@@ -75,7 +76,6 @@ template [`]([^`])*[`]
 
 ([a-zA-Z_])[a-zA-Z0-9_ñÑ.]*	return 'ID';
 <<EOF>>		                return 'EOF'
-.                           errores.push(new Error_(yylloc.first_line, yylloc.first_column, 'Lexico','Valor inesperado ' + yytext));  
 
 
 /lex

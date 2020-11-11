@@ -34,6 +34,9 @@ export class Goto {
     regla4(env: _Optimizer) {
         env.salida += "goto " + this.label + ";\n";
     }
+    regla5(env: _Optimizer) {
+        env.salida += "goto " + this.label + ";\n";
+    }
     optimize(env: _Optimizer) {
         // Regla 1
 

@@ -5,6 +5,7 @@ import { Error_ } from "../Error";
 import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
 import { _Optimizer } from '../Optimizer/Optimizer';
+import { Rule } from '../Optimizer/Rule';
 
 export enum ArithmeticOption {
     PLUS,
@@ -17,7 +18,31 @@ export enum ArithmeticOption {
 
 export class Arithmetic extends Expression {
     public build(): String {
-       return this.left.build() + this.getTypeSign() + this.right.build();
+        return this.left.build() + this.getTypeSign() + this.right.build();
+    }
+
+    public regla5(env: _Optimizer): String {
+        let r = this.right.build();
+        let l = this.left.build();
+        let result = env.temp + " = " + this.build().toString() + ";\n";
+        // Regla 6 Suma de 0
+        if (this.type == ArithmeticOption.PLUS && ((r == '0' && l == env.temp) || (l == '0' && r == env.temp)))
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 6", result, ""));
+
+        // Regla 7 Resta de 0
+        else if (this.type == ArithmeticOption.MINUS && ((r == '0' && l == env.temp)))
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 7", result, ""));
+
+        // Regla 8 Multiplicar por 1
+        else if (this.type == ArithmeticOption.TIMES && ((r == '1' && l == env.temp) || (l == '1' && r == env.temp)))
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 8", result, ""));
+
+        // Regla * Dividir por 1
+        else if (this.type == ArithmeticOption.DIV && ((r == '1' && l == env.temp)))
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 9", result, ""));
+
+        else return result;
+        return '';
     }
 
     constructor(private left: Expression, private right: Expression, private type: ArithmeticOption, line: number, column: number) {

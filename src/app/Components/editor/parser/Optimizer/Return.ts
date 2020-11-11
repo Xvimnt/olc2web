@@ -17,6 +17,9 @@ export class Return {
     regla4(env: _Optimizer) {
         env.temp = "";
     }
+    regla5(env: _Optimizer) {
+        env.temp = "";
+    }
     optimize(env: _Optimizer) {
 
     }

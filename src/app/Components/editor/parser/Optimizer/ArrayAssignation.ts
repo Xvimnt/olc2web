@@ -20,6 +20,9 @@ export class ArrayAssignation {
     regla4(env: _Optimizer) {
         env.salida += this.build();
     }
+    regla5(env: _Optimizer) {
+        env.salida += this.build();
+    }
     optimize(env: _Optimizer) {
         console.log('se esta optimizando');
     }
