@@ -37,10 +37,78 @@ export class Arithmetic extends Expression {
         else if (this.type == ArithmeticOption.TIMES && ((r == '1' && l == env.temp) || (l == '1' && r == env.temp)))
             env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 8", result, ""));
 
-        // Regla * Dividir por 1
+        // Regla 9 Dividir por 1
         else if (this.type == ArithmeticOption.DIV && ((r == '1' && l == env.temp)))
             env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 9", result, ""));
 
+        // Regla 10 Suma de 0 Asignacion
+        else if (this.type == ArithmeticOption.PLUS) {
+            if (r == '0' && l != '0') {
+                let newResult = env.temp + " = " + l + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 10", result, newResult));
+                return newResult;
+            }
+            else if (r != '0' && l == '0') {
+                let newResult = env.temp + " = " + r + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 10", result, newResult));
+                return newResult;
+            }
+        }
+
+        // Regla 11 resta de 0 Asignacion
+        else if (this.type == ArithmeticOption.MINUS && (r == '0' && l != '0')) {
+            let newResult = env.temp + " = " + l + ";\n";
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 11", result, newResult));
+            return newResult;
+        }
+
+         // Regla 12, 14 y 15 Multiplicacion por 1 Asignacion
+         else if (this.type == ArithmeticOption.TIMES) {
+            if (r == '0' && l != '0') {
+                let newResult = env.temp + " = 0;\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 15", result, newResult));
+                return newResult;
+            }
+            else if (r != '0' && l == '0') {
+                let newResult = env.temp + " = 0;\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 15", result, newResult));
+                return newResult;
+            }
+            if (r == '1' && l != '1') {
+                let newResult = env.temp + " = " + l + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 12", result, newResult));
+                return newResult;
+            }
+            else if (r != '1' && l == '1') {
+                let newResult = env.temp + " = " + r + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 12", result, newResult));
+                return newResult;
+            }
+            else if (r != '2' && l == '2') {
+                let newResult = env.temp + " = " + r + " + " + r + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 14", result, newResult));
+                return newResult;
+            }
+            else if (r == '2' && l != '2') {
+                let newResult = env.temp + " = " + l + " + " + l + ";\n";
+                env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 14", result, newResult));
+                return newResult;
+            }
+        }
+
+        // Regla 13 Division de 1 Asignacion
+        else if (this.type == ArithmeticOption.DIV && (r == '1' && l != '1')) {
+            let newResult = env.temp + " = " + l + ";\n";
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 13", result, newResult));
+            return newResult;
+        }
+
+         // Regla 16 Division de 0 Asignacion
+         else if (this.type == ArithmeticOption.DIV && (r == '0' && l != '0')) {
+            let newResult = env.temp + " = 0;\n";
+            env.reglas.push(new Rule(this.line, "Por Bloque", "Regla 16", result, newResult));
+            return newResult;
+        }
         else return result;
         return '';
     }
