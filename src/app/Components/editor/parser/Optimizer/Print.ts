@@ -21,7 +21,9 @@ export class Print {
     regla3(env: _Optimizer) {
         env.salida += this.build();
     }
-    
+    regla4(env: _Optimizer) {
+        env.salida += this.build();
+    }
     optimize(env: _Optimizer) {
 
     }

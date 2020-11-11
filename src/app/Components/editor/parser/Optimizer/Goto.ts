@@ -25,11 +25,14 @@ export class Goto {
     }
 
     regla3(env: _Optimizer) {
-        if (!env.flag) env.temp += "goto " + this.label + ";\n";
+        if (!env.flag) env.salida += "goto " + this.label + ";\n";
         else env.reglas.push(new Rule(this.line, "Mirilla", "Regla 3", "goto " + this.label + ";\n", ""))
 
         env.flag = false;
 
+    }
+    regla4(env: _Optimizer) {
+        env.salida += "goto " + this.label + ";\n";
     }
     optimize(env: _Optimizer) {
         // Regla 1
