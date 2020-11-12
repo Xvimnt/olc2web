@@ -188,6 +188,7 @@ export class Arithmetic extends Expression {
             result += "t" + _Console.count + " = t" + leftT + ";\n";
             _Console.count++;
         } else if (this.type == ArithmeticOption.PLUS) {
+            console.log('sumando', this.left, this.right);
             const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
             const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
             if (leftValue == null || rightValue == null || leftValue == undefined || rightValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));

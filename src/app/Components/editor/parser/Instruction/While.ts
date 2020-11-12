@@ -7,14 +7,17 @@ import { Error_ } from '../Error';
 import { _Console } from '../Util/Salida';
 
 export class While extends Instruction {
+
     public translate(environment: Environment): String {
+        let result = "// Inicia While\n";
         let alfa = _Console.labels;
         _Console.labels++;
-        let result = "l" + alfa + ":\n";
+        result += "l" + alfa + ":\n";
         result += this.condition.translate(environment);
         let inicio = _Console.labels;
         _Console.labels++;
         let final = _Console.labels;
+        environment.setLastL(final);
         _Console.labels++;
         result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + ";\n";
         result += "goto l" + final + ";\n";
@@ -22,7 +25,7 @@ export class While extends Instruction {
         result += this.code.translate(environment) + "";
         result += "goto l" + alfa + ";\n";
         result += "l" + final + ":\n";
-        return result;
+        return result + "// Finaliza While\n";;
     }
 
     public plot(count: number): string {
@@ -36,7 +39,7 @@ export class While extends Instruction {
         // Flechas
         result += "node" + count + " -> " + "node" + count + "1;";
         result += "node" + count + " -> " + "node" + count + "2;";
-        return result;
+        return result + "// Finaliza While\n";
     }
 
     constructor(private condition: Expression, private code: Instruction, line: number, column: number) {

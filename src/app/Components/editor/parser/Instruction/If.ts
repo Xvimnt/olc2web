@@ -9,15 +9,24 @@ export class If extends Instruction {
     public translate(environment: Environment): String {
         let result = "// Inicia If\n";
         result += this.condition.translate(environment);
-        result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
+        let lTrue = _Console.labels;
         _Console.labels++;
-        let l2 = _Console.labels;
-        result += "goto l" + _Console.labels + ";\n";
-        result += "l" + (_Console.labels - 1) + ":\n"
+
+        result += "if(t" + (_Console.count - 1) + ") goto l" + lTrue + ";\n";
+        let lFalse = _Console.labels;
         _Console.labels++;
+        result += "goto l" + lFalse + ";\n";
+
+        let salida = _Console.labels;
+        _Console.labels++;
+
+        result += "l" + lTrue + ":\n"
         result += this.code.translate(environment) + "";
-        result += "l" + l2 + ":\n";
+        result += "goto l" + salida + ";\n";
+
+        result += "l" + lFalse + ":\n";
         if (this.elsSt != null) result += this.elsSt.translate(environment) + "";
+        result += "l" + salida + ":\n";
         return result + "// Finaliza If\n";
     }
 

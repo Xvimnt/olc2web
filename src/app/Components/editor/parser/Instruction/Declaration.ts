@@ -66,6 +66,7 @@ export class Declaration extends Instruction {
                     let ret = this.value.execute(environment);
                     if (ret.type == 0 && String(ret.value).includes('.')) ret.type = 9;
                     _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, ret.type, ambito));
+                    environment.guardar(this.id, ret.value, ret.type);
                     _Console.saveInStack(_Console.stackPointer, ret.value);
                 } catch (e) {
                     console.log(e);
