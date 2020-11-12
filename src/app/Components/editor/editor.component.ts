@@ -238,7 +238,6 @@ export class EditorComponent {
       this.salida = '';
       try {
         for (const instr of this.ast) {
-          // console.log('traduciendo', instr);
           this.salida += instr.translate(this.env);
         }
       }
