@@ -36,12 +36,12 @@ export class Logic extends Expression {
             _Console.labels++;
             result += "if(t" + leftT + ") goto l" + trueLabel + ";\n";
             result += "l" + falseLabel + ":\n"
-            result += "t" + _Console.count + " = " + "0\n";
+            result += "t" + _Console.count + " = " + "0;\n";
             let exitLabel = _Console.labels;
             _Console.labels++;
             result += "goto l" + exitLabel + ";\n";
             result += "l" + trueLabel + ":\n"
-            result += "t" + _Console.count + " = " + "1\n";
+            result += "t" + _Console.count + " = " + "1;\n";
             result += "l" + exitLabel + ":\n"
             _Console.count++;
         } else 
@@ -58,12 +58,12 @@ export class Logic extends Expression {
             _Console.labels++;
             result += "goto l" + falseLabel + ";\n";
             result += "l" + trueLabel + ":\n"
-            result += "t" + _Console.count + " = " + "1\n";
+            result += "t" + _Console.count + " = " + "1;\n";
             let exitLabel = _Console.labels;
             _Console.labels++;
             result += "goto l" + exitLabel + ";\n";
             result += "l" + falseLabel + ":\n"
-            result += "t" + _Console.count + " = " + "0\n";
+            result += "t" + _Console.count + " = " + "0;\n";
             result += "l" + exitLabel + ":\n";
             _Console.count++;
         }

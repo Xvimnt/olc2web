@@ -6,7 +6,8 @@ import { _Console } from '../Util/Salida';
 
 export class For extends Instruction {
     public translate(environment: Environment): String {
-        let result = this.declaration.translate(environment);
+        let result = "// Inicia For\n";
+        result += this.declaration.translate(environment);
         let alfa = _Console.labels;
         _Console.labels++;
         result += "l" + alfa + ":\n";
@@ -22,7 +23,7 @@ export class For extends Instruction {
         result += "" + this.operation.translate(environment);
         result += "goto l" + alfa + ";\n";
         result += "l" + final + ":\n";
-        return result;
+        return result +  "// Finaliza For\n";;
     }
 
     public plot(count: number): string {

@@ -36,7 +36,7 @@ export class Access extends Expression {
             } else errores.push(new Error_(this.line, this.column, 'Semantico', 'Variable no exitente'));
         }
         else {
-            let smb = _Console.symbols.get(this.id);
+            let smb = environment.getVar(this.id);
             if (smb != undefined) {
                 let stackIndex = smb.valor;
                 result += "t" + _Console.count + " = p + " + (stackIndex - environment.getP()) + ";\n";

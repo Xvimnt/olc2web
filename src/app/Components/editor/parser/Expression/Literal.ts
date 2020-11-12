@@ -30,7 +30,6 @@ export class Literal extends Expression {
         else if (this.type == 2) {
             result += "t" + _Console.count + " = " + ((this.value == 'true') ? 1 : 0) + ";\n";
             _Console.printOption = this.type;
-
         }
         else if (this.type == 0){
             result += "t" + _Console.count + " = " + this.value + ";\n";

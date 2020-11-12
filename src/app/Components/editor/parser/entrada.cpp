@@ -1,12 +1,7 @@
-let index = 0;
-while (index >= 0) {
-    if (index == 0) {
-        index = index + 100;
-    } else if (index > 50) {
-        index = index / 2 - 25;
-    } else {
-        index = (index / 2) - 1;
+for (let i = 0; i < 10; i++) {
+    let output = '';
+    for (let k = 0; k <= i; k++) {
+        output = output + '* ';
     }
-
-    console.log(index);
+    console.log(output);
 }
