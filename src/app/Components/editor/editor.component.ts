@@ -81,7 +81,7 @@ export class EditorComponent {
       }
       this.salida += "t" + index + ", ";
     }
-    this.salida =(_Console.count != 0) ? this.salida.substring(0, this.salida.length - 2) : this.salida + "t0";
+    this.salida = (_Console.count != 0) ? this.salida.substring(0, this.salida.length - 2) : this.salida + "t0";
     this.salida += ";\n\n";
     this.salida += "void main() {\n"
     this.salida += body;
@@ -238,6 +238,7 @@ export class EditorComponent {
       this.salida = '';
       try {
         for (const instr of this.ast) {
+          // console.log('traduciendo', instr);
           this.salida += instr.translate(this.env);
         }
       }

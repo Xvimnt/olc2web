@@ -37,7 +37,7 @@ export class Declaration extends Instruction {
         let result = "// Inicia Declaracion\n";
         let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
         if (this.value != null) {
-            if (this.type instanceof ArrayType) {
+            if (this.type instanceof ArrayType || this.value instanceof Array) {
                 if (this.value != null) {
                     result += "// Inicializacion de Array\n";
                     let _heapInitial = _Console.heapPointer;

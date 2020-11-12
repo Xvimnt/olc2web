@@ -23,9 +23,9 @@ export class Relational extends Expression {
 
     public translate(environment: Environment): String {
         let result = this.left.translate(environment);
-        let rigthT = _Console.count - 1;
-        result += "" + this.right.translate(environment);
         let leftT = _Console.count - 1;
+        result += "" + this.right.translate(environment);
+        let rigthT = _Console.count - 1;
         result += "t" + _Console.count + " = t" + leftT + this.getTypeSign() + "t" + rigthT + ";\n";
         _Console.count++;
         return result;

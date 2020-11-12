@@ -7,7 +7,8 @@ import { env } from 'process';
 
 export class If extends Instruction {
     public translate(environment: Environment): String {
-        let result = this.condition.translate(environment);
+        let result = "// Inicia If\n";
+        result += this.condition.translate(environment);
         result += "if(t" + (_Console.count - 1) + ") goto l" + _Console.labels + ";\n";
         _Console.labels++;
         let l2 = _Console.labels;
@@ -17,7 +18,7 @@ export class If extends Instruction {
         result += this.code.translate(environment) + "";
         result += "l" + l2 + ":\n";
         if (this.elsSt != null) result += this.elsSt.translate(environment) + "";
-        return result;
+        return result + "// Finaliza If\n";
     }
 
     public plot(count: number): string {

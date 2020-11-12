@@ -1,32 +1,11 @@
-        #include <stdio.h> 
-
-        float Heap[16384];
-        float Stack[16384]; 
-        float p; 
-        float h; 
-        float t0, t1, t2, t3, t4, t5;
-
-        void main() {
-
-        t0 = 5;
-        t0 = t0 + 0;
-        t0 = t0 - 0;
-        t0 = 0 + t0;
-        t0 = 0 - t0;
-        t0 = 1 * t0;
-        t0 = t0 * 1;
-        t0 = t0 / 1;
-        t0 = 1 / t0;
-        t1 = t0 + 0;
-        t1 = 0 + t0;
-        t1 = t0 - 0;
-        t1 = t0 * 1;
-        t1 = t0 / 1;
-        t1 = t0 * 2;
-        t1 = 2 * t0;
-        t1 = 0 * t0;
-        t1 = t0 * 0;
-        t1 = t0 / 0;
-
-        return;
-        }
+let array = [32, 21, 7, 89, 56, 909, 109, 2];
+switch(array[1]) {
+        case 20:
+        break;
+        case 21:
+        console.log('sirve switch');
+        break;
+        default:
+        console.log('fail');
+        break;
+}
