@@ -46,6 +46,7 @@ export class Declaration extends Instruction {
                         result += this.translateDimension(this.value[i], environment);
                     }
                     _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, 4, ambito));
+                    environment.guardar(this.id, _Console.stackPointer, 4);
                     _Console.saveInStack(_Console.stackPointer, _heapInitial);
                     let initTerminal = _Console.count;
                     _Console.count++;

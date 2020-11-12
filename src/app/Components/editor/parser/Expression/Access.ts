@@ -17,7 +17,7 @@ export class Access extends Expression {
     public translate(environment: Environment): String {
         let result = "";
         if (this.id instanceof Array) {
-            let smb = _Console.symbols.get(this.id[0]);
+            let smb = environment.getVar(this.id[0]);
             if (smb != undefined) {
                 result += "t" + _Console.count + " = p + " + smb.valor + ";\n";
                 _Console.count++;
@@ -29,7 +29,7 @@ export class Access extends Expression {
                     if (dim != '0') {
                         result += this.id[dim][0].translate(environment);
                         result += "t" + initalIndex + " = t" + initalIndex + " + t" + (_Console.count - 1) + ";\n";
-                   }
+                    }
                 }
                 result += "t" + _Console.count + " = Heap[(int)t" + initalIndex + "];\n";
                 _Console.count++;
