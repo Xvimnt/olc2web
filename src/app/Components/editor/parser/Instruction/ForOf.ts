@@ -31,6 +31,7 @@ export class ForOf extends Instruction {
             result += "Stack[(int)t" + iteratorStackIndex + "] = t" + iteratorT + ";\n";
             let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
             _Console.symbols.set(this.id, new Symbol(stackInd, this.id, 0, ambito));
+            environment.guardar(this.id, stackInd, 0);
             _Console.saveInStack(stackInd, 0);
             let alfa = _Console.labels;
             _Console.labels++;
