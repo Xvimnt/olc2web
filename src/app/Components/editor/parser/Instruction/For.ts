@@ -14,7 +14,7 @@ export class For extends Instruction {
         result += "" + this.condition.translate(environment);
         let inicio = _Console.labels;
         _Console.labels++;
-        result += "if(t" + _Console.count + ") goto l" + inicio + ";\n";
+        result += "if(t" + (_Console.count - 1) + ") goto l" + inicio + ";\n";
         let final = _Console.labels;
         _Console.labels++;
         result += "goto l" + final + ";\n";
