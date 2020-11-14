@@ -20,8 +20,9 @@ export class Function extends Instruction {
             _Console.stackPointer++;
         });
         newEnv.setP(_Console.stackPointer);
-        let result = "void " + this.id + "() {\n";
         _Console.stackPointer = 1;
+        environment.guardarFuncion(this.id, this);
+        let result = "void " + this.id + "() {\n";
         result += this.statment.translate(newEnv);
         result += "\nl" + newEnv.getLastL() + ":\n";
         result += "return; \n"

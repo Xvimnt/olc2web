@@ -62,6 +62,7 @@ export class EditorComponent {
     _Console.labels = 0;
     _Console.stackPointer = 0;
     _Console.heapPointer = 0;
+    _Console.symbols = new Map();
     errores.length = 0;
     this.flag = true;
   }

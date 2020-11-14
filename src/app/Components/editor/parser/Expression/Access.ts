@@ -39,7 +39,7 @@ export class Access extends Expression {
             let smb = environment.getVar(this.id);
             if (smb != undefined) {
                 let stackIndex = smb.valor;
-                result += "t" + _Console.count + " = p + " + (stackIndex - environment.getP()) + ";\n";
+                result += "t" + _Console.count + " = p + " + (stackIndex) + ";\n";
                 _Console.count++;
                 result += "t" + _Console.count + " = " + "Stack[(int)t" + (_Console.count - 1) + "];\n";
                 _Console.count++;

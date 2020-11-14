@@ -60,21 +60,21 @@ export class Declaration extends Instruction {
                 }
             }
             else {
-                let hpIndex = _Console.heapPointer;
-                result += this.value.translate(environment);
-                result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
-                try {
-                    let retType = 0;
-                    if (this.value instanceof Literal) retType = this.value.type;
-                    _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, retType, ambito));
-                    environment.guardar(this.id, _Console.stackPointer, 0);
-                } catch (e) {
-                    console.log(e);
-                }
-                if (hpIndex != _Console.heapPointer) _Console.saveInStack(_Console.stackPointer, hpIndex);
+                // Reserva el espacio para la variable
+                let varTemp = _Console.count;
+                let varIndex = _Console.stackPointer  + environment.getP();
+                result += "t" + _Console.count + " = " + "p + " + varIndex + ";\n";
                 _Console.stackPointer++;
                 _Console.count++;
-                result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
+
+                result += this.value.translate(environment);
+                result += "Stack[(int)t" + varTemp + "] = t" + (_Console.count - 1) + ";\n";
+
+                let retType = 0;
+                if (this.value instanceof Literal) retType = this.value.type;
+                _Console.symbols.set(this.id, new Symbol(varIndex, this.id, retType, ambito));
+                environment.guardar(this.id, varIndex, retType);
+
             }
         }
         result += "// Finaliza Declaracion\n";
