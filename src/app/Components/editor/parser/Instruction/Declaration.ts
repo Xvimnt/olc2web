@@ -64,11 +64,10 @@ export class Declaration extends Instruction {
                 result += this.value.translate(environment);
                 result += "t" + _Console.count + " = " + "p + " + _Console.stackPointer + ";\n";
                 try {
-                    let ret = this.value.execute(environment);
-                    if (ret.type == 0 && String(ret.value).includes('.')) ret.type = 9;
-                    _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, ret.type, ambito));
-                    environment.guardar(this.id, _Console.stackPointer, ret.type);
-                    _Console.saveInStack(_Console.stackPointer, ret.value);
+                    let retType = 0;
+                    if (this.value instanceof Literal) retType = this.value.type;
+                    _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, retType, ambito));
+                    environment.guardar(this.id, _Console.stackPointer, 0);
                 } catch (e) {
                     console.log(e);
                 }

@@ -83,11 +83,11 @@ export class EditorComponent {
     }
     this.salida = (_Console.count != 0) ? this.salida.substring(0, this.salida.length - 2) : this.salida + "t0";
     this.salida += ";\n\n";
+    this.salida += _Console.salida;
     this.salida += "void main() {\n"
     this.salida += body;
     this.salida += "\nreturn;\n"
     this.salida += "}\n\n";
-    this.salida += _Console.salida;
   }
 
   executeOpt(entrada: string) {

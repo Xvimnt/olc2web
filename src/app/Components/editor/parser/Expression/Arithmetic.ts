@@ -6,6 +6,7 @@ import { errores } from '../Errores';
 import { _Console } from '../Util/Salida';
 import { _Optimizer } from '../Optimizer/Optimizer';
 import { Rule } from '../Optimizer/Rule';
+import { Literal } from './Literal';
 
 export enum ArithmeticOption {
     PLUS,
@@ -188,10 +189,9 @@ export class Arithmetic extends Expression {
             result += "t" + _Console.count + " = t" + leftT + ";\n";
             _Console.count++;
         } else if (this.type == ArithmeticOption.PLUS) {
-            const leftValue = (this.left == null) ? { value: null, type: 3 } : this.left.execute(environment);
-            const rightValue = (this.right == null) ? { value: null, type: 3 } : this.right.execute(environment);
-            if (leftValue == null || rightValue == null || leftValue == undefined || rightValue == undefined) errores.push(new Error_(this.line, this.column, 'Semantico', 'Operador no definido'));
-            else if (leftValue.type == 1 && rightValue.type == 1) {
+            const leftValue = (this.left instanceof Literal) ? this.left.type  : 0;
+            const rightValue = (this.right instanceof Literal) ? this.right.type  : 0;
+            if (leftValue == 1 && rightValue == 1) {
                 result += "// Inicia Concatenacion\n";
                 // obtiene el size del string
                 let sizeTemp = _Console.count;
@@ -250,9 +250,7 @@ export class Arithmetic extends Expression {
                 result += "t" + _Console.count + " = t" + initialIndex + ";\n";
                 _Console.count++;
                 result += "// Finaliza Concatenacion\n";
-            } else if (leftValue.type == 1) {
-
-            } else if (rightValue.type == 1) {
+            } else if (rightValue == 1) {
                 result += "// Inicia Concatenacion\n";
                 // obtiene el size del string
                 let sizeTemp = _Console.count;

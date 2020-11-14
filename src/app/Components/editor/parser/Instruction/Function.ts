@@ -19,6 +19,7 @@ export class Function extends Instruction {
             newEnv.variables.set(element.id, new Symbol(_Console.stackPointer, element.id, element.type.execute().type, 'Local'));
             _Console.stackPointer++;
         });
+        newEnv.setP(_Console.stackPointer);
         let result = "void " + this.id + "() {\n";
         _Console.stackPointer = 1;
         result += this.statment.translate(newEnv);

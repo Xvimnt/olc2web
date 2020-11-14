@@ -7,10 +7,13 @@ import { _Console } from '../Util/Salida';
 
 export class Return extends Instruction {
     public translate(environment: Environment): String {
-        let result = this.value.translate(environment);
-        result += "Stack[p] = t" + (_Console.count - 1) + ";\n";
+        let result = "// Inicia Return\n";
+        result += this.value.translate(environment);
+        result += "t" + _Console.count + " = p + " + environment.getP() + ";\n";
+        _Console.count++;
+        result += "Stack[(int)t" + (_Console.count - 1) + "] = t" + (_Console.count - 2) + ";\n";
         result += "goto l" + environment.getLastL() + ";\n";
-        return result;
+        return result += "// Finaliza Return\n";
     }
 
     public plot(count: number): string {

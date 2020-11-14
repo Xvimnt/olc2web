@@ -16,11 +16,9 @@ import { Symbol } from '../Symbol/Symbol';
 
 export class ArrayDeclaration extends Instruction {
 
-    private translateDimension(dimNumber: number, length: number): string {
-        let result = "";
-        let lengthTemp = _Console.count;
-        result += "t" + _Console.count + " = " + length + ";\n";
-        _Console.count++;
+    private translateDimension(dimNumber: number, value: Expression, environment: Environment): String {
+        let result = value.translate(environment);
+        let lengthTemp = _Console.count - 1;
         let heapTemp = _Console.count;
         result += "t" + _Console.count + " = h + " + _Console.heapPointer + ";\n";
         _Console.count++;
@@ -45,9 +43,10 @@ export class ArrayDeclaration extends Instruction {
     public translate(environment: Environment): String {
         let result = "// Inicializacion de Array\n";
         let _heapInitial = _Console.heapPointer;
-        result += this.translateDimension(this.type.dimensions, this.value.execute(environment).value);
-        let ambito = (environment.getAnterior() == null) ? "Global" : "Local";        
-        _Console.symbols.set(this.id,new Symbol(_Console.stackPointer,this.id,5,ambito))
+        result += this.translateDimension(this.type.dimensions, this.value, environment);
+        let ambito = (environment.getAnterior() == null) ? "Global" : "Local";
+        _Console.symbols.set(this.id, new Symbol(_Console.stackPointer, this.id, 5, ambito))
+        environment.guardar(this.id, _Console.stackPointer, 5);
         _Console.saveInStack(_Console.stackPointer, _heapInitial);
         let initTerminal = _Console.count;
         _Console.count++;
